@@ -72,7 +72,7 @@ export default function Login() {
           value={credentials.email}
           handleChange={handleChange}
           label="Email"
-          styles="my-4"
+          styles="mt-8"
         />
         <Input
           type="password"
@@ -81,6 +81,7 @@ export default function Login() {
           value={credentials.password}
           handleChange={handleChange}
           label="Password"
+          styles={"mt-8"}
         />
 
         <div className="already-account text-right mt-4">

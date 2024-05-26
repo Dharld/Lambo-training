@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 export default function Input({
-  type,
+  type = "text",
   name,
   label,
   value,
@@ -9,8 +9,15 @@ export default function Input({
   styles,
 }) {
   return (
-    <div className={`input ${styles}`}>
-      <label htmlFor="password">{label}</label>
+    <div
+      className={`group relative border border-slate-200 flex px-4 py-3 rounded-sm transition-all focus-within:border focus-within:border-sky-500 ${styles}`}
+    >
+      <label
+        className="absolute -left-0 -top-6 text-slate-900 font-semibold group-focus-within:text-sky-500"
+        htmlFor="password"
+      >
+        {label}
+      </label>
       <input
         type={type}
         name={name}
@@ -18,6 +25,7 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        className="bg-transparent border-none outline-none flex-1 font-normal"
       />
     </div>
   );
