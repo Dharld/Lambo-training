@@ -36,7 +36,8 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addMatcher(
-        (action) => action.type.endsWith("/pending"),
+        (action) =>
+          action.type.startsWith("auth") && action.type.endsWith("/pending"),
         (state) => {
           state.loading = true;
           state.error = null;
@@ -44,7 +45,8 @@ const authSlice = createSlice({
       )
       .addMatcher(
         // Handle rejected actions for all async thunk actions
-        (action) => action.type.endsWith("/rejected"),
+        (action) =>
+          action.type.startsWith("auth") && action.type.endsWith("/rejected"),
         (state, action) => {
           state.loading = false; // Set loading to false for rejected actions
           state.error = action.error; // Set error message from action payload
