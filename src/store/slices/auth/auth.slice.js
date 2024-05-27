@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "./auth.actions";
+import { login, logout } from "./auth.actions";
 import User from "../../../models/user";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -22,6 +22,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.user = null;
+        localStorage.removeItem("user");
+      })
       .addCase(login.fulfilled, (state, action) => {
         const loggedUser = new User({
           id: action.payload.user_id,
@@ -35,6 +41,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
+
       .addMatcher(
         (action) =>
           action.type.startsWith("auth") && action.type.endsWith("/pending"),
@@ -54,7 +61,5 @@ const authSlice = createSlice({
       );
   },
 });
-
-export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

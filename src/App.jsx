@@ -65,17 +65,17 @@ function App() {
       }
     );
 
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
     if (!user) {
       navigate("/login");
     } else {
-      navigate("/home");
+      if (user.role == "Super Admin") {
+        navigate("/super-admin");
+      }
     }
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, [user, navigate]);
 
   return <Outlet />;

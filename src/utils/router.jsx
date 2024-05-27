@@ -5,16 +5,13 @@ import App from "../App.jsx";
 import Home from "../pages/home/Home.jsx";
 import SuperAdmin from "../pages/super-admin/SuperAdmin.jsx";
 import AddAdmin from "../pages/super-admin/components/AddAdmin/AddAdmin.jsx";
+import DeleteAdmin from "../pages/super-admin/components/DeleteAdmin/DeleteAdmin.jsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "/home",
-        element: <Home />,
-      },
       {
         path: "super-admin",
         element: <SuperAdmin />,
@@ -24,6 +21,10 @@ export const router = createBrowserRouter([
             element: <AddAdmin />,
           },
         ],
+      },
+      {
+        path: "/delete-admin/:id",
+        element: <DeleteAdmin />,
       },
       {
         path: "/signup",

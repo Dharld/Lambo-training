@@ -95,4 +95,14 @@ async function login(email, password) {
   return userData[0];
 }
 
-export default { addSupervisor, addAdmin, login };
+async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("We have an error logging out: ", error);
+    throw new Error("There's an error within the system.");
+  }
+  localStorage.removeItem("user");
+  localStorage.removeItem("supabase.auth.token");
+  console.log("User logged out successfully");
+}
+export default { addSupervisor, addAdmin, login, logout };

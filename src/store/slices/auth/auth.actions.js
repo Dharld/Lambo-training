@@ -11,3 +11,14 @@ export const login = createAsyncThunk("auth/login", async ({ credentials }) => {
     throw error;
   }
 });
+
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await authService.logout();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
