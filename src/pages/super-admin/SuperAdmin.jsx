@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Searchbar from "../../components/searchbar/Searchbar";
 import EmptyState from "./components/EmptyState/EmptyState";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../store/slices/user/user.actions";
 import { useToast } from "../../hooks/toast.hook";
@@ -15,6 +15,7 @@ export default function SuperAdmin() {
   const [users, setUsers] = useState([]);
   const { showError, showSuccess } = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllUsers()).then((res) => {
@@ -26,6 +27,9 @@ export default function SuperAdmin() {
     });
   }, [dispatch, showError]);
 
+  const addAdmin = () => {
+    navigate("add-admin");
+  };
   return (
     <div className="w-[100vw] h-full flex">
       <Sidebar />
@@ -58,7 +62,10 @@ export default function SuperAdmin() {
             <div>
               <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
                 <h2 className="text-lg font-bold text-gray-800">All Users</h2>
-                <button className="bg-sky-400 text-white px-4 py-2 rounded-md">
+                <button
+                  className="bg-sky-400 text-white px-4 py-2 rounded-md"
+                  onClick={addAdmin}
+                >
                   Add User
                 </button>
               </div>

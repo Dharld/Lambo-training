@@ -25,7 +25,9 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      if (user.role === "Super Admin") {
+        navigate("/super-admin");
+      }
     }
   }, [user, navigate]);
 
@@ -52,7 +54,6 @@ export default function Login() {
       }
       showSuccess("You are successfully logged in!");
       setCredentials(INITIAL_STATE);
-      navigate("/home");
     });
   };
 
