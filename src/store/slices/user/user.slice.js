@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addSupervisor, deleteUser, getAllUsers } from "./user.actions"; // Adjust the import path based on your project structure
+import {
+  addSupervisor,
+  deleteUser,
+  editUser,
+  getAllUsers,
+} from "./user.actions"; // Adjust the import path based on your project structure
 
 const userSlice = createSlice({
   name: "user",
@@ -13,6 +18,16 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.users = state.users.map((user) => {
+          if (user.id === action.payload.id) {
+            return action.payload;
+          }
+          return user;
+        });
+      })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
@@ -25,9 +40,10 @@ const userSlice = createSlice({
         state.error = null;
         state.users = action.payload;
       })
-      .addCase(addSupervisor.fulfilled, (state) => {
+      .addCase(addSupervisor.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.users.push(action.payload);
       })
       .addMatcher(
         (action) =>

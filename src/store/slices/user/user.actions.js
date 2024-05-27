@@ -7,8 +7,8 @@ export const addSupervisor = createAsyncThunk(
   "user/addSupervisor",
   async ({ name, email, password }, { rejectWithValue }) => {
     try {
-      await authService.addSupervisor(name, email, password);
-      return { name, email }; // Return necessary supervisor info
+      const res = await authService.addSupervisor(name, email, password);
+      return { user_id: res, name, email, role_name: "Admin" }; // Return necessary supervisor info
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -33,6 +33,18 @@ export const deleteUser = createAsyncThunk(
     try {
       await userService.deleteUser(id);
       return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const editUser = createAsyncThunk(
+  "user/editUser",
+  async ({ id, name, email }, { rejectWithValue }) => {
+    try {
+      const user = await userService.editUser(id, name, email);
+      return user;
     } catch (error) {
       return rejectWithValue(error.message);
     }
