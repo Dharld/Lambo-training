@@ -20,9 +20,12 @@ const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <Overlay onClose={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+    <Overlay isVisible={isOpen} onClose={onClose}>
+      <div className="relative" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="absolute right-2 top-2 bg-transparent text-sky-400 rounded-full border border-sky-400 hover:bg-sky-400 hover:text-white transition-colors w-[40px] h-[40px]hover:"
+          onClick={onClose}
+        >
           &times;
         </button>
         {children}

@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types */
-export default function Button({ loading, children, handleClick }) {
+export default function Button({
+  loading,
+  children,
+  handleClick,
+  styles,
+  isDisabled,
+}) {
   return (
     <button
       type="submit"
-      className="w-full mt-10 flex justify-center items-center"
+      className={`w-full flex justify-center items-center ${styles}`}
       onClick={handleClick}
+      disabled={isDisabled}
     >
       {loading ? (
         <div className="spinner spinner-extra-small"></div>

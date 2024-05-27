@@ -4,18 +4,27 @@ import Searchbar from "../../components/searchbar/Searchbar";
 import EmptyState from "./components/EmptyState/EmptyState";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../store/slices/user/user.actions";
+import { getAllUsers, deleteUser } from "../../store/slices/user/user.actions";
 import { useToast } from "../../hooks/toast.hook";
 import Spinner from "../../components/Spinner/Spinner";
 import Table from "../../components/Table/Table";
+import Modal from "../../components/Modal/Modal";
+import Button from "../../components/Button/Button";
 
 export default function SuperAdmin() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const loadingUsers = useSelector((state) => state.user.loading);
   const user = useSelector((state) => state.auth.user);
   const [users, setUsers] = useState([]);
+  const [idUserToDelete, setIdUserToDelete] = useState(null);
+
   const { showError, showSuccess } = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     dispatch(getAllUsers()).then((res) => {
@@ -30,6 +39,33 @@ export default function SuperAdmin() {
   const addAdmin = () => {
     navigate("add-admin");
   };
+
+  const deleteAdmin = (id) => {
+    setIsModalOpen(true);
+    setIdUserToDelete(id);
+  };
+
+  const cancelDeletion = () => {
+    setIdUserToDelete(null);
+    closeModal();
+  };
+  const confirmDeletion = () => {
+    if (!idUserToDelete) return;
+    dispatch(deleteUser({ id: idUserToDelete })).then((res) => {
+      if (res.error && res.error.message) {
+        showError(res.payload);
+        setIdUserToDelete(null);
+        closeModal();
+        return;
+      }
+      setUsers(users.filter((u) => u.user_id != idUserToDelete));
+      setIdUserToDelete(null);
+      closeModal();
+      showSuccess("User deleted");
+      navigate(-1);
+    });
+  };
+
   return (
     <div className="w-[100vw] h-full flex">
       <Sidebar />
@@ -70,7 +106,7 @@ export default function SuperAdmin() {
                 </button>
               </div>
               <div className="p-4">
-                <Table data={users} />
+                <Table data={users} onDelete={deleteAdmin} />
               </div>
             </div>
           ) : (
@@ -79,6 +115,33 @@ export default function SuperAdmin() {
         </div>
       </main>
       <Outlet />
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="w-[400px] h-[220px] bg-white rounded-md flex flex-col  px-8 justify-center">
+          <h2 className="text-3xl font-bold text-gray-800 text-center">
+            Are you sure?
+          </h2>
+          <p className="text-base text-slate-500 text-center mt-2">
+            You won't be able to retrieve those records Are you sure
+          </p>
+          <div className="flex mt-4 gap-1">
+            <Button
+              handleClick={cancelDeletion}
+              styles=""
+              isDisabled={loadingUsers}
+            >
+              Cancel
+            </Button>
+            <Button
+              handleClick={confirmDeletion}
+              styles="bg-transparent border border-sky-500 text-sky-400 hover:bg-sky-400 hover:text-white"
+              isDisabled={loadingUsers}
+              loading={loadingUsers}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

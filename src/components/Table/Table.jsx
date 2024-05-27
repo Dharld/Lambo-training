@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
-export default function Table({ data }) {
+export default function Table({ data, onDelete }) {
+  const deleteUser = async (id) => {
+    await onDelete(id);
+  };
+
   return (
     <table className="mt-6 mx-auto max-w-[1000px] w-full bg-white rounded-md shadow-sm">
       <thead className="px-4">
@@ -16,7 +20,7 @@ export default function Table({ data }) {
       </thead>
       <tbody>
         {data.map((user) => (
-          <tr key={user.id} className="border-b border-b-slate-100">
+          <tr key={user.user_id} className="border-b border-b-slate-100">
             <td className="px-2 pl-8 py-2 text-sm text-gray-800">
               {user.name}
             </td>
@@ -38,7 +42,10 @@ export default function Table({ data }) {
                   <path d="M9,12c3.309,0,6-2.691,6-6S12.309,0,9,0,3,2.691,3,6s2.691,6,6,6Zm0-10c2.206,0,4,1.794,4,4s-1.794,4-4,4-4-1.794-4-4,1.794-4,4-4Zm14.122,9.879c-1.134-1.134-3.11-1.134-4.243,0l-7.879,7.878v4.243h4.243l7.878-7.878c.567-.567,.879-1.32,.879-2.122s-.312-1.555-.878-2.121Zm-1.415,2.828l-7.292,7.293h-1.415v-1.415l7.293-7.292c.377-.378,1.036-.378,1.414,0,.189,.188,.293,.439,.293,.707s-.104,.518-.293,.707Zm-9.778,1.293H5c-1.654,0-3,1.346-3,3v5H0v-5c0-2.757,2.243-5,5-5H13c.289,0,.568,.038,.844,.085l-1.915,1.915Z" />
                 </svg>
               </div>
-              <div className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer">
+              <div
+                className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer"
+                onClick={() => deleteUser(user.user_id)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   id="Layer_1"

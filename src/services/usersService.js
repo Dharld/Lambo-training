@@ -23,4 +23,15 @@ async function getAllUsers() {
   return data;
 }
 
-export default { getAllUsers };
+async function deleteUser(id) {
+  const { error } = await supabase.rpc("delete_user", { user_id: id });
+
+  if (error) {
+    console.error("Error deleting user: ", error.message);
+    throw new Error("Error deleting user");
+  }
+
+  console.log("User with id " + id + " deleted successfully.");
+}
+
+export default { getAllUsers, deleteUser };

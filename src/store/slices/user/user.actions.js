@@ -26,3 +26,15 @@ export const getAllUsers = createAsyncThunk(
     }
   }
 );
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      await userService.deleteUser(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
