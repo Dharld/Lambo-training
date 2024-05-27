@@ -93,7 +93,9 @@ export default function Login() {
             </Link>
           </p>
         </div>
-        <Button loading={loading}>Login</Button>
+        <Button loading={loading} styles="mt-10">
+          Login
+        </Button>
       </div>
     </form>
   );

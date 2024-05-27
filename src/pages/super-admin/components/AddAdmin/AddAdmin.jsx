@@ -96,7 +96,9 @@ export default function AddAdmin() {
             placeholder="Enter the supervisor's password"
             styles={"mt-8"}
           />
-          <Button loading={loading}>Add new supervisor</Button>
+          <Button loading={loading} styles="mt-10">
+            Add new supervisor
+          </Button>
         </form>
       </Overlay>
     </div>

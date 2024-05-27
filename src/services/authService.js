@@ -19,7 +19,7 @@ async function addSupervisor(name, email, password) {
     return;
   }
 
-  const { error: rpcError } = await supabase.rpc("add_admin", {
+  const { data, error: rpcError } = await supabase.rpc("add_admin", {
     name,
     email,
     password,
@@ -31,6 +31,7 @@ async function addSupervisor(name, email, password) {
   }
 
   console.log("Supervisor created and role assigned successfully");
+  return data;
 }
 
 async function addAdmin(name, email, password) {

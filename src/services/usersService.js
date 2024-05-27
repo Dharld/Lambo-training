@@ -34,4 +34,19 @@ async function deleteUser(id) {
   console.log("User with id " + id + " deleted successfully.");
 }
 
-export default { getAllUsers, deleteUser };
+async function editUser(id, name, email) {
+  const { error } = await supabase.rpc("edit_user", {
+    p_user_id: id,
+    p_name: name,
+    p_email: email,
+  });
+
+  if (error) {
+    console.error("Error editing user: ", error.message);
+    throw new Error("Error editing user");
+  }
+
+  console.log("User with id " + id + " edited successfully.");
+}
+
+export default { getAllUsers, deleteUser, editUser };
