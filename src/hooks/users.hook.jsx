@@ -37,6 +37,7 @@ export const useUsers = () => {
   };
 
   const openModal = (action) => {
+    console.log(action);
     const { type, payload } = action;
     if (type === "delete") {
       setisModalOpen(true);
