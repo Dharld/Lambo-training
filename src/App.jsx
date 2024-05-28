@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import "./App.scss";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import supabase from "./utils/connectSupabase";
 
 function App() {

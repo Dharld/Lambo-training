@@ -3,19 +3,22 @@ import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useUsers } from "../../hooks/users.hook";
 import UserTable from "./components/UserTable/UserTable";
-import DeleteModal from "./components/DeleteModal/DeleteModal";
+import ActionModal from "./components/ActionModal/ActionModal";
 import Header from "./components/Header/Header";
+import { useState } from "react";
 
 export default function SuperAdmin() {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const [type, setType] = useState("delete");
+
   const {
     users,
     loadingUsers,
-    isDeleteModalOpen,
-    deleteAdmin,
-    cancelDeletion,
-    confirmDeletion,
+    isModalOpen,
+    openModal,
+    cancelAction,
+    confirmAction,
     closeModal,
   } = useUsers();
 
@@ -32,15 +35,18 @@ export default function SuperAdmin() {
           users={users}
           loadingUsers={loadingUsers}
           addAdmin={addAdmin}
-          deleteAdmin={deleteAdmin}
+          openModal={(type) => {
+            setType(type);
+            openModal();
+          }}
         />
       </main>
       <Outlet />
-      <DeleteModal
-        isModalOpen={isDeleteModalOpen}
+      <ActionModal
+        isModalOpen={isModalOpen}
         closeModal={closeModal}
-        cancelDeletion={cancelDeletion}
-        confirmDeletion={confirmDeletion}
+        cancelAction={cancelAction}
+        confirmAction={confirmAction}
         loadingUsers={loadingUsers}
       />
     </div>

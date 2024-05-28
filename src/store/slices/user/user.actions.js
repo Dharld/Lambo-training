@@ -39,11 +39,11 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
-export const editUser = createAsyncThunk(
-  "user/editUser",
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
   async ({ id, name, email }, { rejectWithValue }) => {
     try {
-      const user = await userService.editUser(id, name, email);
+      const user = await userService.updateUser(id, name, email);
       return user;
     } catch (error) {
       return rejectWithValue(error.message);
