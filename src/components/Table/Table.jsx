@@ -2,11 +2,16 @@
 export default function Table({ data, openModal }) {
 
   const editUser = async (id) => {
-    await openModal({ type: "edit", payload: { id } });
+    const action = {
+      type: "edit",
+      payload: { id },
+    };
+    await openModal(action);
   };
 
   const deleteUser = async (id) => {
-    await openModal({ type: "delete", payload: { id } });
+    const action = { type: "delete", payload: { id } };
+    await openModal(action);
   };
 
   return (
