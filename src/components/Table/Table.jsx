@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
-export default function Table({ data, onDelete }) {
+export default function Table({ data, openModal }) {
+
+  const editUser = async (id) => {
+    await openModal({ type: "edit", payload: { id } });
+  };
+
   const deleteUser = async (id) => {
-    await onDelete(id);
+    await openModal({ type: "delete", payload: { id } });
   };
 
   return (
@@ -29,7 +34,7 @@ export default function Table({ data, onDelete }) {
               {user.role_name}
             </td>
             <td className="px-2 py-2 text-sm text-gray-800 flex">
-              <div className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer">
+              <div className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer" onClick={() => editUser(user.user_id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   id="Layer_1"

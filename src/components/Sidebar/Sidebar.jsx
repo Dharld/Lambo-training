@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useToast } from "./../../hooks/toast.hook";
-import { useNavigate } from "react-router-dom";
 import { logout as logoutAction } from "../../store/slices/auth/auth.actions";
 import "./Sidebar.scss";
 
@@ -8,10 +7,10 @@ import "./Sidebar.scss";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { showSuccess, showError } = useToast();
 
   const logout = () => {
+    console.log("Here");
     dispatch(logoutAction()).then((res) => {
       if (res.error && res.error.message) {
         showError(res.error.message);
@@ -98,7 +97,10 @@ export default function Sidebar() {
             </i>
             <span className="-md:hidden">Settings</span>
           </li>
-          <li className="flex gap-2 text-gray-400 font-semibold px-4 py-4 rounded text-color">
+          <li
+            className="flex gap-2 text-gray-400 font-semibold px-4 py-4 rounded text-color"
+            onClick={logout}
+          >
             <i>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,9 +115,7 @@ export default function Sidebar() {
                 <path d="M10.476,21a1,1,0,0,1-1,1H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H9.476a1,1,0,0,1,1,1V8.333h2V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V21a3,3,0,0,0,3,3H9.476a3,3,0,0,0,3-3V15.667h-2Z" />
               </svg>
             </i>
-            <span className="-md:hidden" onClick={logout}>
-              Logout
-            </span>
+            <span className="-md:hidden">Logout</span>
           </li>
         </ul>
       </nav>

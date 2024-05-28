@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addSupervisor,
   deleteUser,
-  editUser,
+  updateUser,
   getAllUsers,
 } from "./user.actions"; // Adjust the import path based on your project structure
 
@@ -18,7 +18,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(editUser.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.users = state.users.map((user) => {
@@ -29,10 +29,11 @@ const userSlice = createSlice({
         });
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.loading = false;
         state.error = null;
         state.users = state.users.filter(
-          (user) => user.id !== action.payload.id
+          (user) => user.user_id !== action.payload
         );
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
