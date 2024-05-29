@@ -9,8 +9,7 @@ import {
 
 export const useUsers = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
-  const [idUserToDelete, setIdUserToDelete] = useState(null);
-  const [idUserToUpdate, setIdUserToUpdate] = useState(null);
+  const [user, setUser] = useState(null);
   const loadingUsers = useSelector((state) => state.user.loading);
   const users = useSelector((state) => state.user.users);
   const dispatch = useDispatch();
@@ -25,38 +24,20 @@ export const useUsers = () => {
     });
   }, [dispatch, showError]);
 
-  const closeModal = (action) => {
-    const { type } = action;
-    if (type === "delete") {
-      setisModalOpen(false);
-      setIdUserToDelete(null);
-    } else {
-      setisModalOpen(false);
-      setIdUserToUpdate(null);
-    }
+  const closeModal = () => {
+    setisModalOpen(false);
+    setUser(null);
   };
 
   const openModal = (action) => {
-    console.log(action);
-    const { type, payload } = action;
-    if (type === "delete") {
-      setisModalOpen(true);
-      setIdUserToDelete(payload.id);
-    } else {
-      setisModalOpen(true);
-      setIdUserToUpdate(payload.id);
-    }
+    const { payload } = action;
+    setisModalOpen(true);
+    setUser(payload.user);
   };
 
-  const cancelAction = (action) => {
-    const { type } = action;
-    if (type === "delete") {
-      setIdUserToDelete(null);
-      setisModalOpen(false);
-    } else {
-      setIdUserToUpdate(null);
-      setisModalOpen(false);
-    }
+  const cancelAction = () => {
+    setUser(false);
+    setisModalOpen(false);
   };
 
   const confirmAction = (action) => {
@@ -69,35 +50,39 @@ export const useUsers = () => {
   };
 
   const confirmDeletion = () => {
-    if (!idUserToDelete) return;
+    if (!user) return;
 
-    dispatch(deleteUser({ id: idUserToDelete })).then((res) => {
+    dispatch(deleteUser({ id: user.user_id })).then((res) => {
       if (res.error && res.error.message) {
         showError(res.payload);
-        setIdUserToDelete(null);
+        setUser(null);
         setisModalOpen(false);
         return;
       }
-      setIdUserToDelete(null);
+      setUser(null);
       setisModalOpen(false);
       showSuccess("User deleted");
     });
   };
 
   const confirmUpdate = () => {
-    if (!idUserToUpdate) return;
+    if (!user) return;
 
-    dispatch(updateUser({ id: idUserToUpdate })).then((res) => {
+    dispatch(updateUser({ id: user.user_id })).then((res) => {
       if (res.error && res.error.message) {
         showError(res.payload);
-        setIdUserToUpdate(null);
+        setUser(null);
         setisModalOpen(false);
         return;
       }
-      setIdUserToUpdate(null);
+      setUser(null);
       setisModalOpen(false);
       showSuccess("User updated");
     });
+  };
+
+  const getUser = () => {
+    return user;
   };
   return {
     users,
@@ -107,5 +92,6 @@ export const useUsers = () => {
     confirmAction,
     cancelAction,
     closeModal,
+    getUser,
   };
 };
