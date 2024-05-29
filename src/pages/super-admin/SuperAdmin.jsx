@@ -35,14 +35,15 @@ export default function SuperAdmin() {
           users={users}
           loadingUsers={loadingUsers}
           addAdmin={addAdmin}
-          openModal={(type) => {
-            setType(type);
-            openModal();
+          openModal={(action) => {
+            setType(action.type);
+            openModal(action);
           }}
         />
       </main>
       <Outlet />
       <ActionModal
+        type={type}
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         cancelAction={cancelAction}

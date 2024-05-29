@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 export default function Table({ data, openModal }) {
-  const editUser = async (id) => {
+  const editUser = async (user) => {
     const action = {
       type: "edit",
-      payload: { id },
+      payload: { user },
     };
-    console.log(action);
     openModal(action);
   };
 
-  const deleteUser = async (id) => {
-    const action = { type: "delete", payload: { id } };
+  const deleteUser = async (user) => {
+    const action = { type: "delete", payload: { user } };
     openModal(action);
   };
 
@@ -41,7 +40,7 @@ export default function Table({ data, openModal }) {
             <td className="px-2 py-2 text-sm text-gray-800 flex">
               <div
                 className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer"
-                onClick={() => editUser(user.user_id)}
+                onClick={() => editUser(user)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +56,7 @@ export default function Table({ data, openModal }) {
               </div>
               <div
                 className="border border-sky-400 grid place-items-center w-[40px] h-[40px] rounded-full mr-2 group hover:bg-sky-400 transition-colors cursor-pointer"
-                onClick={() => deleteUser(user.user_id)}
+                onClick={() => deleteUser(user)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -4,6 +4,7 @@ import Button from "../../../../components/Button/Button";
 import Modal from "../../../../components/Modal/Modal";
 import { useToast } from "../../../../hooks/toast.hook";
 import Input from "../../../../components/Input/Input";
+import { useUsers } from "../../../../hooks/users.hook";
 
 export default function ActionModal({
   isModalOpen,
@@ -46,7 +47,6 @@ export default function ActionModal({
     const [creds, setCreds] = useState({
       name: "",
       email: "",
-      password: "",
     });
 
     const { showError } = useToast();
@@ -88,15 +88,6 @@ export default function ActionModal({
             value={creds.email}
             handleChange={handleChange}
             placeholder="Enter the supervisor's email"
-            styles={"mt-8"}
-          />
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            value={creds.password}
-            handleChange={handleChange}
-            placeholder="Enter the supervisor's password"
             styles={"mt-8"}
           />
         </form>

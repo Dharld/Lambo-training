@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
-import Searchbar from "../../../../components/searchbar/Searchbar";
+// import Searchbar from "../../../../components/searchbar/Searchbar";
 
 export default function Header({ user }) {
   return (
     <header className="px-4 py-4  bg-white flex items-center ">
       <h1 className="text-2xl font-bold text-gray-800">Super Admin</h1>
       <div className="flex-1"></div>
-      <Searchbar />
-      <div className="bg-gray-100 py-4 px-4 rounded-full cursor-pointer hover:bg-sky-400 transition-colors text-slate-700 hover:text-white">
+      {/* <Searchbar /> */}
+      <div className="bg-gray-50 py-2 px-2 rounded-full cursor-pointer hover:bg-sky-400 transition-colors text-slate-700 hover:text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          width="24"
-          height="24"
+          width="16"
+          height="16"
           className="fill-current"
         >
           <g id="_01_align_center" data-name="01 align center">
