@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import EmptyState from "../EmptyState/EmptyState";
 import Button from "../../../../components/Button/Button";
 import Spinner from "../../../../components/Spinner/Spinner";
