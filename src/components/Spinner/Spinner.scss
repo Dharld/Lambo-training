@@ -1,0 +1,29 @@
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 400ms linear infinite;
+  @apply border-t-sky-500;
+
+  &.spinner-small {
+    width: 40px;
+    height: 40px;
+    border-width: 8px;
+  }
+
+  &.spinner-extra-small {
+    width: 16px;
+    height: 16px;
+    border-width: 4px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -25,7 +25,9 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      if (user.role === "Super Admin") {
+        navigate("/super-admin");
+      }
     }
   }, [user, navigate]);
 
@@ -52,7 +54,6 @@ export default function Login() {
       }
       showSuccess("You are successfully logged in!");
       setCredentials(INITIAL_STATE);
-      navigate("/home");
     });
   };
 
@@ -72,7 +73,7 @@ export default function Login() {
           value={credentials.email}
           handleChange={handleChange}
           label="Email"
-          styles="my-4"
+          styles="mt-8"
         />
         <Input
           type="password"
@@ -81,6 +82,7 @@ export default function Login() {
           value={credentials.password}
           handleChange={handleChange}
           label="Password"
+          styles={"mt-8"}
         />
 
         <div className="already-account text-right mt-4">
@@ -91,7 +93,9 @@ export default function Login() {
             </Link>
           </p>
         </div>
-        <Button loading={loading}>Login</Button>
+        <Button loading={loading} styles="mt-10">
+          Login
+        </Button>
       </div>
     </form>
   );
