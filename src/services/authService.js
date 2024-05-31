@@ -9,7 +9,7 @@ import supabase from "../utils/connectSupabase";
 // };
 
 async function addSupervisor(name, email, password) {
-  const { err } = await supabase.auth.signUp({
+  const { data, err } = await supabase.auth.signUp({
     email,
     password,
   });
@@ -19,7 +19,10 @@ async function addSupervisor(name, email, password) {
     return;
   }
 
-  const { data, error: rpcError } = await supabase.rpc("add_admin", {
+  const user_id = data.user.id;
+
+  const { error: rpcError } = await supabase.rpc("add_admin", {
+    user_id,
     name,
     email,
     password,

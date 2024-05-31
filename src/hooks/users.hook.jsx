@@ -81,9 +81,6 @@ export const useUsers = () => {
     });
   };
 
-  const getUser = () => {
-    return user;
-  };
   return {
     users,
     loadingUsers,
@@ -92,6 +89,5 @@ export const useUsers = () => {
     confirmAction,
     cancelAction,
     closeModal,
-    getUser,
   };
 };

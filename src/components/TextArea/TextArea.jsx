@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Input({
+export default function TextArea({
   type = "text",
   name,
   label,
@@ -18,13 +18,14 @@ export default function Input({
       >
         {label}
       </label>
-      <input
+      <textarea
         type={type}
         name={name}
         id={name}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        rows={4}
         className="bg-transparent border-none outline-none flex-1 font-normal"
       />
     </div>

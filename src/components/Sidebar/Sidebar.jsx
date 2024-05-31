@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useToast } from "./../../hooks/toast.hook";
 import { logout as logoutAction } from "../../store/slices/auth/auth.actions";
 import "./Sidebar.scss";
+import Logo from "../Logo/Logo";
 
 /* eslint-disable react/prop-types */
 
@@ -22,9 +23,7 @@ export default function Sidebar() {
 
   return (
     <div className="h-[100vh] w-full max-w-72 px-8 py-4 flex flex-col ">
-      <h1 className="h-12 w-12 text-white rounded-sm font-bold grid place-items-center bg-sky-500">
-        LT
-      </h1>
+      <Logo />
       <nav className="flex-1 flex flex-col mt-6 text-sky">
         <ul>
           <li className="flex gap-2 bg-sky-50 text-sky-500 font-semibold px-4 py-4 rounded text-color">

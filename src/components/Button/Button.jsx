@@ -5,18 +5,25 @@ export default function Button({
   handleClick,
   styles,
   isDisabled,
+  fit = false,
+  icon = null,
 }) {
   return (
     <button
       type="submit"
-      className={`w-full flex justify-center items-center ${styles}`}
+      className={`${
+        fit ? "w-fit" : "w-full"
+      } flex justify-center items-center disabled:bg-sky-400 ${styles}`}
       onClick={handleClick}
       disabled={isDisabled}
     >
       {loading ? (
         <div className="spinner spinner-extra-small"></div>
       ) : (
-        <div>{children}</div>
+        <div className="flex items-center">
+          <span>{children}</span>
+          {icon}
+        </div>
       )}
     </button>
   );
