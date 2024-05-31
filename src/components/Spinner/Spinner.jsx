@@ -1,5 +1,5 @@
 import "./Spinner.scss";
 
-export default function Spinner() {
-  return <div className="spinner"></div>;
+export default function Spinner({ styles }) {
+  return <div className={`spinner ${styles}`}></div>;
 }

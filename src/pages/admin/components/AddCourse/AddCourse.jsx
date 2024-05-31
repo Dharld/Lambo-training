@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useToast } from "../../../../hooks/toast.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { addCourse as addCourseAction } from "../../../../store/slices/course/course.actions";
+import { useNavigate } from "react-router-dom";
 
 const INITIAL_STATE = {
   imageUrl: "",
@@ -24,6 +25,7 @@ export default function AddCourse() {
   const loadingCourse = useSelector((state) => state.course.loading);
   const { showError, showSuccess } = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleNext = (newData) => {
     setFormData((prev) => ({ ...prev, ...newData }));
@@ -46,6 +48,7 @@ export default function AddCourse() {
         showError("Failed to add course");
         return;
       }
+      navigate("/admin");
       showSuccess("Course added successfully!");
     });
   };
@@ -82,7 +85,11 @@ export default function AddCourse() {
           onPrevious={handlePrevious}
         />
       )}
-      {activeTabIndex === 2 && <div>Course Content</div>}
+      {activeTabIndex === 2 && (
+        <div className="w-full text-center py-4">
+          Course Content Placeholder
+        </div>
+      )}
     </div>
   );
 }

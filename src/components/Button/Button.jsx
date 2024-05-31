@@ -13,7 +13,7 @@ export default function Button({
       type="submit"
       className={`${
         fit ? "w-fit" : "w-full"
-      } flex justify-center items-center disabled:bg-sky-400 ${styles}`}
+      } flex justify-center items-center disabled:bg-sky-00 ${styles}`}
       onClick={handleClick}
       disabled={isDisabled}
     >
