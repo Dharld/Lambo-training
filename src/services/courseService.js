@@ -35,7 +35,6 @@ async function getUserCourses() {
     console.error("Error fetching courses: ", error.message);
     throw new Error("Failed to fetch courses");
   }
-  console.log("Course fetched successfully:", data);
   return data;
 }
 

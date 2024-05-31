@@ -7,7 +7,7 @@ import Button from "../../../../components/Button/Button";
 
 export default function Home() {
   const courses = useSelector((state) => state.course.courses);
-  const { showError, showSuccess } = useToast();
+  const { showError } = useToast();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserCourses()).then((res) => {
@@ -15,12 +15,11 @@ export default function Home() {
         showError(res.error.message);
         return;
       }
-      console.log(res);
     });
   }, []);
   return (
     <div className="container mx-auto py-4 flex-1">
-      <div className="flex justify-between">
+      <div className="flex justify-between border-b border-b-slate-100 pb-4">
         <h1 className="text-slate-500 font-bold text-2xl">Home</h1>
         <div className="flex-1"></div>
         <Button fit={true} styles="cursor-pointer">
@@ -28,7 +27,7 @@ export default function Home() {
         </Button>
       </div>
       <div className="w-full h-full grid place-items-center">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-700 to-sky-100 opacity-5"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-slate-400 to-sky-100 opacity-5"></div>
         {courses.length === 0 ? (
           <EmptyState />
         ) : (
