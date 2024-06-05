@@ -7,6 +7,8 @@ import AddAdmin from "../pages/super-admin/components/AddAdmin/AddAdmin.jsx";
 import Admin from "../pages/admin/Admin.jsx";
 import AddCourse from "../pages/admin/components/AddCourse/AddCourse.jsx";
 import Home from "../pages/admin/components/Home/Home.jsx";
+import User from "../pages/user/User.jsx";
+import Checkout from "../pages/checkout/Checkout.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "checkout/:courseId",
+        element: <Checkout />,
+      },
+      {
+        path: "",
+        element: <User />,
       },
     ],
   },

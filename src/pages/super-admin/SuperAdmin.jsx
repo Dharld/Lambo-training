@@ -6,6 +6,8 @@ import UserTable from "./components/UserTable/UserTable";
 import ActionModal from "./components/ActionModal/ActionModal";
 import { useState } from "react";
 import Header from "../../components/Header/Header";
+import AdminSidebar from "../../components/AdminSidebar/AdminSidebar";
+import AdminHeader from "./components/AdminHeader/AdminHeader";
 
 export default function SuperAdmin() {
   const user = useSelector((state) => state.auth.user);
@@ -28,9 +30,9 @@ export default function SuperAdmin() {
 
   return (
     <div className="w-[100vw] h-full flex">
-      <Sidebar />
+      <AdminSidebar />
       <main className="flex-1 w-[100vw] h-[100vh]  flex flex-col">
-        <Header user={user} title="Super Admin" />
+        <AdminHeader user={user} />
         <UserTable
           users={users}
           loadingUsers={loadingUsers}

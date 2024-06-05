@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addCourse, getUserCourses } from "./course.actions";
+import { addCourse, getAllCourses, getUserCourses } from "./course.actions";
 
 const initialState = {
   courses: [],
@@ -13,6 +13,11 @@ const courseSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getAllCourses.fulfilled, (state, action) => {
+        state.courses = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
       .addCase(getUserCourses.fulfilled, (state, action) => {
         state.courses = action.payload;
         state.loading = false;

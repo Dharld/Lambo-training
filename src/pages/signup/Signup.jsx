@@ -1,165 +1,133 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "../../hooks/toast.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Signup.scss";
+import { signup } from "../../store/slices/auth/auth.actions";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
 
 const INITIAL_STATE = {
+  name: "",
   email: "",
   password: "",
   confirmPassword: "",
-  birthDate: "",
 };
 
 export default function Signup() {
   const [credentials, setCredentials] = useState(INITIAL_STATE);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imgPreview, setImgPreview] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+  const error = useSelector((state) => state.auth.error);
+  const loading = useSelector((state) => state.auth.loading);
 
   const { showError, showSuccess } = useToast();
 
-  const loading = useSelector((state) => state.auth.loading);
+  useEffect(() => {
+    if (user) {
+      if (user.role === "Super Admin") {
+        navigate("/super-admin");
+      } else if (user.role === "Admin") {
+        navigate("/admin");
+      } else if (user.role === "User") {
+        navigate("/");
+      }
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      showError(error.message);
+    }
+  }, [error, showError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-
-    // If you want to preview the image immediately after selecting it
-    const reader = new FileReader();
-    reader.onload = function () {
-      setImgPreview(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(credentials);
+    if (
+      !credentials.email ||
+      !credentials.password ||
+      !credentials.confirmPassword
+    ) {
+      showError("Email and password are required");
+      return;
+    }
 
-    const { password, confirmPassword } = credentials;
-    if (password !== confirmPassword) {
+    if (credentials.confirmPassword != credentials.password) {
       showError("Passwords do not match");
       return;
     }
 
-    dispatch(signup({ credentials, selectedFile }))
-      .then((res) => {
-        if (res.error) {
-          showError(res.error.message);
-          return;
-        }
-        showSuccess("Account created successfully");
-        setCredentials(INITIAL_STATE);
-        setSelectedFile(null);
-        setImgPreview(null);
-        navigate("/login");
-      })
-      .catch((err) => showError(err));
+    dispatch(signup({ credentials })).then((action) => {
+      if (action.error) {
+        return;
+      }
+      showSuccess("You are successfully signed up!");
+      setCredentials(INITIAL_STATE);
+    });
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-[100vh] w-full grid place-items-center overflow-auto px-2"
+      className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50"
     >
-      <div className="wrapper max-w-[500px] w-full mx-auto">
+      <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-sky-100">
         <h1 className="secondary-font font-bold text-2xl">Signup</h1>
-        <div className="input-profile-pic my-4">
-          <div>Profile Picture</div>
-          {imgPreview && (
-            <div className="flex gap-1 items-end my-2">
-              <img
-                src={imgPreview}
-                alt="Preview"
-                className="max-w-[150px] max-h-[150px] object-cover rounded-md"
-              />
-              <button
-                className="h-fit"
-                onClick={() => {
-                  setImgPreview(null);
-                  setSelectedFile(null);
-                }}
-              >
-                Remove profile Picture
-              </button>
-            </div>
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            name="profileImage"
-            onChange={handleFileChange}
-            value={selectedFile ? selectedFile.filename : ""}
-            className="w-full"
-          />
-        </div>
-        <div className="input my-4">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter your email"
-            value={credentials.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input my-4">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            value={credentials.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input my-4">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            value={credentials.confirmPassword}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input">
-          <label htmlFor="birthdate">Birthdate</label>
-          <input
-            type="date"
-            name="birthDate"
-            value={credentials.birthDate}
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          value={credentials.name}
+          handleChange={handleChange}
+          label="Name"
+          styles="mt-12"
+        />
+        <Input
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          value={credentials.email}
+          handleChange={handleChange}
+          label="Email"
+          styles="mt-12"
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          value={credentials.password}
+          handleChange={handleChange}
+          label="Password"
+          styles={"mt-12"}
+        />
+        <Input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={credentials.confirmPassword}
+          handleChange={handleChange}
+          label="Confirm Password"
+          styles={"mt-12"}
+        />
+
         <div className="already-account text-right mt-4">
           <p>
-            Don't have an account?{" "}
-            <Link to="/login" className="text-underline text-violet-700">
+            Already have an account?{" "}
+            <Link to="/login" className="text-underline text-sky-500">
               Login
             </Link>
           </p>
         </div>
-        <button
-          type="submit"
-          className="my-10 w-full flex justify-center items-center gap-1"
-        >
-          {loading ? (
-            <div className="spinner spinner-extra-small"></div>
-          ) : (
-            <div>Signup</div>
-          )}
-        </button>
+        <Button type="submit" loading={loading} styles="mt-10">
+          Signup
+        </Button>
       </div>
     </form>
   );

@@ -8,10 +8,10 @@ import { useDispatch } from "react-redux";
 import { logout as logoutAction } from "../../store/slices/auth/auth.actions";
 import { useToast } from "../../hooks/toast.hook";
 
-export default function Header({ title, user }) {
+export default function Header({ user, showLogo = true }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const { showSuccess, showError } = useToast();
+  const { showSuccess } = useToast();
 
   const handleMouseEnter = () => {
     setOpen(true);
@@ -31,9 +31,8 @@ export default function Header({ title, user }) {
     });
   };
   return (
-    <header className="px-4 py-2  bg-white border border-b-slate-100 flex items-center ">
-      <Logo />
-      <h1 className="text-lg font-bold text-slate-600">{title}</h1>
+    <header className="px-8 py-4 bg-white border-b border-b-slate-100 flex items-center ">
+      {showLogo && <Logo />}
       <div className="flex-1"></div>
       {/* <Searchbar /> */}
       <div className="bg-gray-50 py-2 px-2 rounded-full cursor-pointer hover:bg-sky-400 transition-colors text-slate-700 hover:text-white">

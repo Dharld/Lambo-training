@@ -5,14 +5,26 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.jsx";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./utils/router.jsx";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import "./_index.scss";
+
+const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+
+const options = {
+  mode: "payment",
+  amount: 1099,
+  currency: "usd",
+};
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ToasterProvider>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <Elements stripe={stripePromise} options={options}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </Elements>
     </ToasterProvider>
   </React.StrictMode>
 );

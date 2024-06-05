@@ -1,5 +1,5 @@
 .spinner {
-  border: 16px solid #f3f3f3;
+  border: 8px solid #f3f3f3;
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -9,13 +9,13 @@
   &.spinner-small {
     width: 40px;
     height: 40px;
-    border-width: 8px;
+    border-width: 4px;
   }
 
   &.spinner-extra-small {
     width: 16px;
     height: 16px;
-    border-width: 4px;
+    border-width: 2px;
   }
 }
 

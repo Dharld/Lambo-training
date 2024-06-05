@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function GoBack() {
+export default function GoBack({ children }) {
   const navigate = useNavigate();
   return (
     <div
@@ -20,9 +20,7 @@ export default function GoBack() {
           </g>
         </svg>
       </div>
-      <h1 className="text-xl text-slate-500 font-semibold group-hover:text-sky-500 transition-colors">
-        Create Course
-      </h1>
+      {children}
     </div>
   );
 }

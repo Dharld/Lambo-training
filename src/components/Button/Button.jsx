@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 export default function Button({
+  type = "button",
   loading,
   children,
   handleClick,
@@ -10,7 +11,7 @@ export default function Button({
 }) {
   return (
     <button
-      type="submit"
+      type={type}
       className={`${
         fit ? "w-fit" : "w-full"
       } flex justify-center items-center disabled:bg-sky-00 ${styles}`}

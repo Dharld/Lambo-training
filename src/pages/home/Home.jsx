@@ -14,6 +14,12 @@ export default function Home() {
       case "Super Admin":
         navigate("/super-admin");
         break;
+      case "Admin":
+        navigate("/admin");
+        break;
+      case "User":
+        navigate("/");
+        break;
     }
   }, [user, navigate]);
 }

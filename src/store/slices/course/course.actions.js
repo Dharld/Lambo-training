@@ -1,6 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import courseService from "../../../services/courseService";
 
+export const getAllCourses = createAsyncThunk(
+  "course/getAllCourses",
+  async (_, { rejectWithValue }) => {
+    try {
+      const courses = await courseService.getAllCourses();
+      return courses;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
 export const getUserCourses = createAsyncThunk(
   "course/getUserCourses",
   async (_, { rejectWithValue }) => {
@@ -17,7 +29,6 @@ export const addCourse = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const { title, description, file, price, level } = data;
-      console.log(price);
       const course = await courseService.addCourse(
         title,
         description,

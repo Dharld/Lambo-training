@@ -7,10 +7,14 @@ import supabase from "./connectSupabase";
  * @returns {Promise<string>}
  */
 export async function uploadImage(file, name) {
+  const extension = file.type ? file.type.split("/")[1] : "png";
   if (!file) return;
   const { data, error } = await supabase.storage
     .from("images")
-    .upload(`public/${name}`, file, { cacheControl: "3600", upsert: false });
+    .upload(`public/${name}.${extension}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
 
   if (error) {
     console.error("Error uploading image: " + error.message);

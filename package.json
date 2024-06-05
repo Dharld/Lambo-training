@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.5.0",
     "@supabase/supabase-js": "^2.42.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

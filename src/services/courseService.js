@@ -29,6 +29,21 @@ async function addCourse(title, description, price, file, level) {
   return data;
 }
 
+async function getAllCourses() {
+  try {
+    const { data, error } = await supabase.rpc("get_all_courses", {});
+
+    if (error) {
+      console.error("Error fetching courses: ", error.message);
+      throw new Error("Error while fetching courses");
+    }
+
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
 async function getUserCourses() {
   const { data, error } = await supabase.rpc("get_user_courses", {});
   if (error) {
@@ -38,4 +53,4 @@ async function getUserCourses() {
   return data;
 }
 
-export default { addCourse, getUserCourses };
+export default { addCourse, getUserCourses, getAllCourses };

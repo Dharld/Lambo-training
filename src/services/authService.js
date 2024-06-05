@@ -9,102 +9,156 @@ import supabase from "../utils/connectSupabase";
 // };
 
 async function addSupervisor(name, email, password) {
-  const { data, err } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  try {
+    const { data, err } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  if (err) {
-    console.error("Error signing up: ", err);
-    return;
+    if (err) {
+      console.error("Error signing up: ", err);
+      return;
+    }
+
+    const user_id = data.user.id;
+
+    const { error: rpcError } = await supabase.rpc("add_admin", {
+      user_id,
+      name,
+      email,
+      password,
+    });
+
+    if (rpcError) {
+      console.error("Error calling add_admin procedure:", rpcError);
+      throw new Error("Can't add new supervisor", rpcError);
+    }
+
+    console.log("Supervisor created and role assigned successfully");
+    return { success: true, data: data };
+  } catch (err) {
+    return { success: false, error: err.message };
   }
-
-  const user_id = data.user.id;
-
-  const { error: rpcError } = await supabase.rpc("add_admin", {
-    user_id,
-    name,
-    email,
-    password,
-  });
-
-  if (rpcError) {
-    console.error("Error calling add_admin procedure:", rpcError);
-    throw new Error("Can't add new supervisor", rpcError);
-  }
-
-  console.log("Supervisor created and role assigned successfully");
-  return data;
 }
 
 async function addAdmin(name, email, password) {
-  const { err } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  try {
+    const { err } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  if (err) {
-    console.error("Error signing up: ", err);
-    return;
+    if (err) {
+      console.error("Error signing up: ", err);
+      return;
+    }
+
+    const { error: rpcError } = await supabase.rpc("add_super_admin", {
+      name,
+      email,
+      password, // Note: The password will be hashed in the procedure
+    });
+
+    if (rpcError) {
+      console.error("Error calling add_super_admin procedure:", rpcError);
+      throw new Error("Can't add new admin", rpcError);
+    }
+
+    console.log("Admin user created and role assigned successfully");
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
   }
-
-  const { error: rpcError } = await supabase.rpc("add_super_admin", {
-    name,
-    email,
-    password, // Note: The password will be hashed in the procedure
-  });
-
-  if (rpcError) {
-    console.error("Error calling add_super_admin procedure:", rpcError);
-    throw new Error("Can't add new admin", rpcError);
-  }
-
-  console.log("Admin user created and role assigned successfully");
 }
 
 async function login(email, password) {
   // Step 1: Sign in the user using Supabase's auth.signIn method
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-  if (error) {
-    console.error("Error signing in: ", error);
-    throw new Error("Invalid email or password. Please try again.");
-  }
-
-  // Step 2: Retrieve additional user data from your custom User table
-  const { data: userData, error: userError } = await supabase.rpc(
-    "get_user_with_role",
-    {
-      user_email: email,
+    if (error) {
+      console.error("Error signing in: ", error);
+      throw error;
     }
-  );
 
-  const { session } = data;
+    // Step 2: Retrieve additional user data from your custom User table
+    const { data: userData, error: userError } = await supabase.rpc(
+      "get_user_with_role",
+      {
+        user_email: email,
+      }
+    );
 
-  if (userError) {
-    console.error("Error fetching user data: ", userError);
-    throw new Error("There's an error within the system.");
+    const { session } = data;
+
+    if (userError) {
+      console.error("Error fetching user data: ", userError);
+      throw error;
+    }
+
+    const expirationTime = Math.floor(Date.now() / 1000) + session.expires_in;
+    const sessionWithExpiry = { ...session, expires_at: expirationTime };
+    localStorage.setItem(
+      "supabase.auth.token",
+      JSON.stringify(sessionWithExpiry)
+    );
+
+    return { success: true, data: userData[0] };
+  } catch (err) {
+    return { success: false, error: err.message };
   }
+}
 
-  const expirationTime = Math.floor(Date.now() / 1000) + session.expires_in;
-  const sessionWithExpiry = { ...session, expires_at: expirationTime };
-  localStorage.setItem(
-    "supabase.auth.token",
-    JSON.stringify(sessionWithExpiry)
-  );
+async function signup(name, email, password) {
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  return userData[0];
+    if (error) {
+      console.error("Error signing up: ", error);
+      throw error;
+    }
+
+    const user_id = data.user.id;
+
+    const { error: rpcError } = await supabase.rpc("add_user", {
+      user_id,
+      name,
+      email,
+      password,
+    });
+
+    if (rpcError) {
+      console.error("Error calling add_user procedure:", rpcError);
+      throw new Error("Can't add new user", rpcError);
+    }
+
+    console.log("User signed up successfully");
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
 }
 
 async function logout() {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error("We have an error logging out: ", error);
-    throw new Error("There's an error within the system.");
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("We have an error logging out: ", error);
+      throw new Error("There's an error within the system.");
+    }
+    console.log("User logged out successfully");
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
   }
-  console.log("User logged out successfully");
 }
-export default { addSupervisor, addAdmin, login, logout };
+
+export default { addSupervisor, addAdmin, login, logout, signup };

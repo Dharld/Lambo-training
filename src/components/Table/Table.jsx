@@ -14,7 +14,7 @@ export default function Table({ data, openModal }) {
   };
 
   return (
-    <table className="mt-6 mx-auto max-w-[1000px] w-full bg-white rounded-md shadow-sm">
+    <table className="w-full bg-white rounded-sm shadow-sm">
       <thead className="px-4">
         <tr className="bg-slate-100">
           <th className="px-2 pl-8 py-4 text-left text-sm text-sky-800 rounded-t-md">

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout } from "./auth.actions";
+import { login, logout, signup } from "./auth.actions";
 import User from "../../../models/user";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -22,6 +22,10 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signup.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
       .addCase(logout.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
@@ -55,8 +59,9 @@ const authSlice = createSlice({
         (action) =>
           action.type.startsWith("auth") && action.type.endsWith("/rejected"),
         (state, action) => {
+          console.log(action);
           state.loading = false; // Set loading to false for rejected actions
-          state.error = action.error; // Set error message from action payload
+          state.error = action.payload; // Set error message from action payload
         }
       );
   },

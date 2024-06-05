@@ -47,9 +47,11 @@ export default function AddCourse() {
       if (res.error) {
         showError("Failed to add course");
         return;
+      } else {
+        console.log(res.payload);
       }
-      navigate("/admin");
       showSuccess("Course added successfully!");
+      navigate("/admin");
     });
   };
 
@@ -61,7 +63,11 @@ export default function AddCourse() {
   return (
     <div className="h-full w-full grid-background">
       <div className="container mx-auto flex items-center justify-between px-4">
-        <GoBack />
+        <GoBack>
+          <h1 className="text-xl text-slate-500 font-semibold group-hover:text-sky-500 transition-colors">
+            Create Course
+          </h1>
+        </GoBack>
         <Button
           styles="px-8"
           fit={true}
