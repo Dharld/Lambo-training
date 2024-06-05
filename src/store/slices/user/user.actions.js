@@ -22,6 +22,8 @@ export const getAllUsers = createAsyncThunk(
       const users = await userService.getAllUsers();
       return users;
     } catch (error) {
+      console.error(error);
+
       return rejectWithValue(error.message);
     }
   }

@@ -13,7 +13,7 @@ export default function Input({
       className={`group relative border border-slate-200 flex px-4 py-3 rounded-sm transition-all focus-within:border focus-within:border-sky-500 ${styles}`}
     >
       <label
-        className="absolute -left-0 -top-6 text-slate-900 font-semibold group-focus-within:text-sky-500"
+        className="absolute -left-0 -top-8 text-slate-500 font-semibold group-focus-within:text-sky-500"
         htmlFor="password"
       >
         {label}

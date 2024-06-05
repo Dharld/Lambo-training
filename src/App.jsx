@@ -70,6 +70,8 @@ function App() {
     } else {
       if (user.role == "Super Admin") {
         navigate("/super-admin");
+      } else if (user.role == "Admin") {
+        navigate("/admin");
       }
     }
 

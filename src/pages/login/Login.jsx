@@ -27,13 +27,17 @@ export default function Login() {
     if (user) {
       if (user.role === "Super Admin") {
         navigate("/super-admin");
+      } else if (user.role === "Admin") {
+        navigate("/admin");
+      } else if (user.role === "Customer") {
+        navigate("/");
       }
     }
   }, [user, navigate]);
 
   useEffect(() => {
     if (error) {
-      showError(error.message);
+      showError(error);
     }
   }, [error, showError]);
 
@@ -73,7 +77,7 @@ export default function Login() {
           value={credentials.email}
           handleChange={handleChange}
           label="Email"
-          styles="mt-8"
+          styles="mt-12"
         />
         <Input
           type="password"
@@ -82,7 +86,7 @@ export default function Login() {
           value={credentials.password}
           handleChange={handleChange}
           label="Password"
-          styles={"mt-8"}
+          styles={"mt-12"}
         />
 
         <div className="already-account text-right mt-4">
@@ -93,7 +97,7 @@ export default function Login() {
             </Link>
           </p>
         </div>
-        <Button loading={loading} styles="mt-10">
+        <Button type="submit" loading={loading} styles="mt-10">
           Login
         </Button>
       </div>

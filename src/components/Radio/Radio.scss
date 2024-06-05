@@ -1,0 +1,8 @@
+.radio {
+  &::before {
+    @apply text-sky-500;
+  }
+  &:checked::before {
+    transform: scale(1);
+  }
+}
