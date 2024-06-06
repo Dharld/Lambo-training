@@ -12,7 +12,7 @@ export default function User() {
       <main className="flex flex-1">
         <UserSidebar></UserSidebar>
         <div className="flex-1 bg-gray-100">
-          <div className="container h-full mx-auto w-full p-8">
+          <div className="w-full max-w-[1200px] h-full mx-auto w-full p-8">
             <h1 className="font-semibold text-3xl text-gray-600">
               Explore our catalog of courses
             </h1>

@@ -3,7 +3,7 @@
   border-radius: 50%;
   width: 120px;
   height: 120px;
-  animation: spin 400ms linear infinite;
+  animation: spin 500ms infinite cubic-bezier(0.4, 0, 0.2, 1);
   @apply border-t-sky-500;
 
   &.spinner-small {
