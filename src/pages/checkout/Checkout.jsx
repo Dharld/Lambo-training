@@ -1,13 +1,23 @@
-import { PaymentElement } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  PaymentRequestButtonElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import Button from "../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Chip from "../../components/Chip/Chip";
+import { useToast } from "../../hooks/toast.hook";
 
 export default function Checkout() {
+  const stripe = useStripe();
+  const elements = useElements();
   const [course, setCourse] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { showError, showSuccess } = useToast();
 
   useEffect(() => {
     if (location.state.course) {
@@ -26,12 +36,35 @@ export default function Checkout() {
     layout,
   };
 
-  console.log(course);
-
   const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const result = await stripe.confirmPayment({
+      //`Elements` instance that was used to create the Payment Element
+      elements,
+      confirmParams: {
+        return_url: "localhost:3000",
+      },
+    });
+
+    if (result.error) {
+      showError(result.error.message);
+    } else {
+      showSuccess("Payment successful");
+    }
+  };
+
   return (
-    <form className=" h-[100vh]  grid items-center bg-slate-50 relative">
+    <form
+      className=" h-[100vh]  grid items-center bg-slate-50 relative"
+      onSubmit={handleSubmit}
+    >
       {course && (
         <div className="wrapper w-full max-w-[900px] mx-auto">
           <div className="flex flex-col md:flex-row gap-4 rounded-sm">

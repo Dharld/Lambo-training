@@ -9,7 +9,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "./_index.scss";
 
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+
+const stripePromise = loadStripe(publishableKey);
 
 const options = {
   mode: "payment",
