@@ -3,7 +3,7 @@ import Chip from "../Chip/Chip";
 
 /* eslint-disable react/prop-types */
 export default function CourseCard({ course, isAdmin = true, handleAction }) {
-  const publicUrl = process.env.REACT_APP_SUPABASE_IMAGE;
+  const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
 
   return (
     <div className="  bg-white rounded-md overflow-hidden border border-slate-100 transition-all cursor-pointer h-[325px] flex flex-col">

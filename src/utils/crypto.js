@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-const cryptoKey = process.env.REACT_APP_CRYPTO_KEY;
+const cryptoKey = import.meta.env.VITE_CRYPTO_KEY;
 
 function encrypt(message) {
   return CryptoJS.AES.encrypt(message, cryptoKey).toString();
