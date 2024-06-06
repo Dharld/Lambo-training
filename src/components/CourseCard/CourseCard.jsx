@@ -6,8 +6,8 @@ export default function CourseCard({ course, isAdmin = true, handleAction }) {
   const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
 
   return (
-    <div className="  bg-white rounded-md overflow-hidden border border-slate-100 transition-all cursor-pointer h-[345px] flex flex-col">
-      <div className="bg-slate-200 h-[125px] relative">
+    <div className="  bg-white rounded-md overflow-hidden border border-slate-100 transition-all cursor-pointer h-[325px] flex flex-col">
+      <div className="bg-slate-200 h-[125px] relative shrink-0">
         <img
           src={publicUrl + course.thumbnail_url}
           className="absolute w-full h-full object-cover"
@@ -19,7 +19,7 @@ export default function CourseCard({ course, isAdmin = true, handleAction }) {
         </div>
         <Chip text={course.level} />
         <div className="flex-1"></div>
-        <div className="text-2xl my-4 font-bold text-slate-500 text-right">
+        <div className="text-2xl my-2 font-bold text-slate-500 text-right">
           ${course.price}
         </div>
         <div className="flex pb-2">

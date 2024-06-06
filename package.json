@@ -28,6 +28,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "sass": "^1.77.2",
+    "stripe": "^15.10.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7"
