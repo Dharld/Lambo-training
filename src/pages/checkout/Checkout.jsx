@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../hooks/toast.hook";
 import Spinner from "../../components/Spinner/Spinner";
 
-const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+const publishableKey = REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = loadStripe(publishableKey);
 
 export default function Checkout() {

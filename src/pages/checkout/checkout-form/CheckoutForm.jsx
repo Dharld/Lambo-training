@@ -24,7 +24,7 @@ export default function CheckoutForm({ course }) {
     layout,
   };
 
-  const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
+  const publicUrl = REACT_APP_SUPABASE_IMAGE;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
