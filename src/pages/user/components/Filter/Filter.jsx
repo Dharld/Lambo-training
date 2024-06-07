@@ -6,10 +6,6 @@ export default function Filter() {
     levels: [],
   });
 
-  useEffect(() => {
-    console.log(creds.levels);
-  }, [creds]);
-
   const handleChange = (e) => {
     const { value, checked } = e.target;
     console.log(checked);

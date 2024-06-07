@@ -8,13 +8,16 @@ export default function Button({
   isDisabled,
   fit = false,
   icon = null,
+  error = false,
 }) {
   return (
     <button
       type={type}
       className={`${
         fit ? "w-fit" : "w-full"
-      } flex justify-center items-center disabled:bg-sky-00 ${styles}`}
+      } flex justify-center items-center disabled:bg-sky-100 ${styles} ${
+        error ? "bg-red-400" : ""
+      }`}
       onClick={handleClick}
       disabled={isDisabled}
     >
