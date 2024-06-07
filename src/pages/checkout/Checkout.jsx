@@ -4,8 +4,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkout-form/CheckoutForm";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useToast } from "../../hooks/toast.hook";
 import Spinner from "../../components/Spinner/Spinner";
+import usePayment from "../../hooks/payment.hook";
+import { useSelector } from "react-redux";
 
 const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = loadStripe(publishableKey);
@@ -13,39 +14,24 @@ const stripePromise = loadStripe(publishableKey);
 export default function Checkout() {
   const [course, setCourse] = useState(null);
   const [options, setOptions] = useState(null);
-  const [clientSecret, setClientSecret] = useState(null);
+
   const location = useLocation();
   const navigate = useNavigate();
+  const { clientSecret, initiatePayment, loading, error } = usePayment();
+
+  const currentUser = useSelector((state) => state.auth.user);
 
   // Load the course and set the options
   useEffect(() => {
-    const getClientSecret = () => {
-      /* const { id } = course;
-      fetch(`/api/stripe/create-checkout-session/${id}`)
-       .then((res) => res.json())
-       .then((data) => {
-          setClientSecret(data.clientSecret);
-        })
-       .catch((err) => {
-          console.log(err);
-        }); */
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ clientSecret: "test" });
-        }, 500);
-      });
-    };
-
     if (course) {
+      const price = +course.price * 100;
       const options = {
         mode: "payment",
-        amount: +course.price,
+        amount: price,
         currency: "usd",
       };
       setOptions(options);
-      getClientSecret().then((data) => {
-        setClientSecret(data.clientSecret);
-      });
+      initiatePayment(currentUser.email, price);
     }
   }, [course]);
 
@@ -67,7 +53,7 @@ export default function Checkout() {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <CheckoutForm course={course} />
+      <CheckoutForm course={course} clientSecret={clientSecret} />
     </Elements>
   );
 }

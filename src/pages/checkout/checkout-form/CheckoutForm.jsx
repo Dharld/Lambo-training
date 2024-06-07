@@ -8,10 +8,12 @@ import {
 import { useToast } from "../../../hooks/toast.hook";
 import Button from "../../../components/Button/Button";
 import Chip from "../../../components/Chip/Chip";
+import { useState } from "react";
 
-export default function CheckoutForm({ course }) {
+export default function CheckoutForm({ course, clientSecret }) {
   const stripe = useStripe();
   const elements = useElements();
+  const [loading, setLoading] = useState(false);
 
   const { showError, showSuccess } = useToast();
 
@@ -27,17 +29,22 @@ export default function CheckoutForm({ course }) {
   const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
 
     if (!stripe || !elements) {
       return;
     }
 
+    elements.submit();
+
+    // Create a PaymentIntent with the order amount and currency
     const result = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
       elements,
+      clientSecret,
       confirmParams: {
-        return_url: "localhost:3000",
+        return_url: "http://localhost:8888",
       },
     });
 
@@ -46,6 +53,8 @@ export default function CheckoutForm({ course }) {
     } else {
       showSuccess("Payment successful");
     }
+
+    setLoading(false);
   };
   return (
     <form
@@ -75,7 +84,12 @@ export default function CheckoutForm({ course }) {
             </div>
             <div className="relative h-fit w-[50%] p-8 border border-slate-100 rounded-sm bg-white shadow-lg shadow-gray-100">
               <PaymentElement options={paymentElementOptions} />
-              <Button type="submit" styles="w-full mt-8" isDisabled={!stripe}>
+              <Button
+                type="submit"
+                styles="w-full mt-8"
+                isDisabled={!stripe}
+                loading={loading}
+              >
                 Pay
               </Button>
             </div>

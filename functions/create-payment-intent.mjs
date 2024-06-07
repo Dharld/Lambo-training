@@ -1,4 +1,15 @@
 import Stripe from "stripe";
+
+if (process.env.NODE_ENV !== "production") {
+  import("dotenv")
+    .then((dotenv) => {
+      dotenv.config();
+    })
+    .catch((err) => {
+      console.error("Failed to load dotenv", err);
+    });
+}
+
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 async function handler(event, context) {
