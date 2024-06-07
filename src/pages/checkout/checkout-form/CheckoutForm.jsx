@@ -44,7 +44,7 @@ export default function CheckoutForm({ course, clientSecret }) {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: "http://localhost:8888",
+        return_url: "http://localhost:8888/payment-status",
       },
     });
 

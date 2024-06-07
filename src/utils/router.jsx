@@ -9,6 +9,7 @@ import AddCourse from "../pages/admin/components/AddCourse/AddCourse.jsx";
 import Home from "../pages/admin/components/Home/Home.jsx";
 import User from "../pages/user/User.jsx";
 import Checkout from "../pages/checkout/Checkout.jsx";
+import PaymentStatus from "../pages/payment-status/PaymentStatus.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <User />,
+      },
+      {
+        path: "payment-status",
+        element: <PaymentStatus />,
       },
     ],
   },
