@@ -45,8 +45,7 @@ export async function handler({ body, httpMethod, headers }) {
     case "payment_intent.succeeded":
       const paymentIntent = stripeEvent.data.object;
       console.log(`PaymentIntent was successful!`, paymentIntent);
-      // Then define and call a method to handle the successful payment intent.
-      // handlePaymentIntentSucceeded(paymentIntent);
+
       break;
     default:
       console.log(`Unhandled event type ${stripeEvent.type}`);
