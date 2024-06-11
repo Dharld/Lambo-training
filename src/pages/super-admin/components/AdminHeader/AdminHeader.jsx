@@ -4,5 +4,5 @@
 import Header from "../../../../components/Header/Header";
 
 export default function AdminHeader({ user }) {
-  return <Header user={user} showLogo={false} title="Super Admin" />;
+  return <Header user={user} showLogo={true} title="Super Admin" />;
 }

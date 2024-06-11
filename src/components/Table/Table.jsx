@@ -1,16 +1,18 @@
+import { useModal } from "../../hooks/modal.hook";
+
 /* eslint-disable react/prop-types */
-export default function Table({ data, openModal }) {
+export default function Table({ data }) {
+  const { openModal } = useModal();
+
   const editUser = async (user) => {
-    const action = {
+    openModal({
       type: "edit",
       payload: { user },
-    };
-    openModal(action);
+    });
   };
 
   const deleteUser = async (user) => {
-    const action = { type: "delete", payload: { user } };
-    openModal(action);
+    openModal({ type: "delete", payload: { user } });
   };
 
   return (

@@ -1,8 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addCourse, getAllCourses, getUserCourses } from "./course.actions";
+import {
+  addCourse,
+  filterCourses,
+  filterCoursesByName,
+  getAllCourses,
+  getUserCourses,
+} from "./course.actions";
 
 const initialState = {
   courses: [],
+  displayedCourses: [],
   loading: false,
   error: null,
 };
@@ -10,7 +17,27 @@ const initialState = {
 const courseSlice = createSlice({
   name: "course",
   initialState,
-  reducers: {},
+  reducers: {
+    // Add a new course to the state
+    filterCourses: (state, action) => {
+      state.displayedCourses = state.courses.filter(action.payload);
+    },
+    filterCoursesByName: (state, action) => {
+      state.displayedCourses = state.courses.filter((course) =>
+        course.title.toLowerCase().includes(action.payload.toLowerCase())
+      );
+    },
+    filterCoursesByLevel: (state, action) => {
+      const levels = action.payload;
+      if (levels.length === 0) {
+        state.displayedCourses = state.courses;
+        return;
+      }
+      state.displayedCourses = state.courses.filter((course) =>
+        levels.includes(course.level)
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllCourses.fulfilled, (state, action) => {

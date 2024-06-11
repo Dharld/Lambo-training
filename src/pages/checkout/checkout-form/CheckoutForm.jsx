@@ -9,11 +9,16 @@ import { useToast } from "../../../hooks/toast.hook";
 import Button from "../../../components/Button/Button";
 import Chip from "../../../components/Chip/Chip";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function CheckoutForm({ course, clientSecret }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+
+  const { course_id } = course;
+  const { id } = user;
 
   const { showError, showSuccess } = useToast();
 

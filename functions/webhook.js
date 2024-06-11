@@ -1,3 +1,4 @@
+import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 
 // Conditionally load dotenv in non-production environments
@@ -14,6 +15,10 @@ if (process.env.NODE_ENV !== "production") {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function handler({ body, httpMethod, headers }) {
   if (httpMethod !== "POST") {
@@ -44,7 +49,12 @@ export async function handler({ body, httpMethod, headers }) {
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
       const paymentIntent = stripeEvent.data.object;
-      console.log(`PaymentIntent was successful!`, paymentIntent);
+      const { payment_id } = paymentIntent.metadata;
+
+      // Sync the database
+      await supabase.rpc("confirm_payment", {
+        p_payment_id: payment_id,
+      });
 
       break;
     default:

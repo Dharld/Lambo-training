@@ -1,93 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "./toast.hook";
 import {
-  deleteUser,
-  getAllUsers,
-  updateUser,
+  deleteUser as deleteUserAction,
+  getAllUsers as getAllUsersAction,
+  updateUser as updateUserAction,
 } from "../store/slices/user/user.actions";
 
 export const useUsers = () => {
-  const [isModalOpen, setisModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const loadingUsers = useSelector((state) => state.user.loading);
   const users = useSelector((state) => state.user.users);
+
   const dispatch = useDispatch();
-  const { showError, showSuccess } = useToast();
 
   useEffect(() => {
-    dispatch(getAllUsers()).then((res) => {
-      if (res.error && res.error.message) {
-        showError(res.error.message);
-        return;
-      }
-    });
-  }, [dispatch, showError]);
-
-  const closeModal = () => {
-    setisModalOpen(false);
-    setUser(null);
-  };
-
-  const openModal = (action) => {
-    const { payload } = action;
-    setisModalOpen(true);
-    setUser(payload.user);
-  };
-
-  const cancelAction = () => {
-    setUser(false);
-    setisModalOpen(false);
-  };
-
-  const confirmAction = (action) => {
-    const { type } = action;
-    if (type === "delete") {
-      confirmDeletion();
-    } else {
-      confirmUpdate();
+    function getAllUsers() {
+      dispatch(getAllUsersAction());
     }
+    getAllUsers();
+  }, [dispatch]);
+
+  const deleteUser = (user) => {
+    if (!user) return;
+    return dispatch(deleteUserAction({ id: user.user_id }));
   };
 
-  const confirmDeletion = () => {
+  const updateUser = (user) => {
     if (!user) return;
-
-    dispatch(deleteUser({ id: user.user_id })).then((res) => {
-      if (res.error && res.error.message) {
-        showError(res.payload);
-        setUser(null);
-        setisModalOpen(false);
-        return;
-      }
-      setUser(null);
-      setisModalOpen(false);
-      showSuccess("User deleted");
-    });
-  };
-
-  const confirmUpdate = () => {
-    if (!user) return;
-
-    dispatch(updateUser({ id: user.user_id })).then((res) => {
-      if (res.error && res.error.message) {
-        showError(res.payload);
-        setUser(null);
-        setisModalOpen(false);
-        return;
-      }
-      setUser(null);
-      setisModalOpen(false);
-      showSuccess("User updated");
-    });
+    return dispatch(
+      updateUserAction({
+        user_id: user.user_id,
+        name: user.name,
+        email: user.email,
+      })
+    );
   };
 
   return {
     users,
     loadingUsers,
-    isModalOpen,
-    openModal,
-    confirmAction,
-    cancelAction,
-    closeModal,
+    deleteUser,
+    updateUser,
   };
 };

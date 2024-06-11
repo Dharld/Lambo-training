@@ -6,7 +6,7 @@ async function getAllUsers() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    throw new Error("User is not authenticated");
+    return { success: false, error: "No session" };
   }
 
   const currentUserId = session.user.id;
@@ -17,10 +17,10 @@ async function getAllUsers() {
 
   if (error) {
     console.error("Error fetching users: ", error.message);
-    return;
+    return { success: false, error: error.message };
   }
 
-  return data;
+  return { success: true, data: data };
 }
 
 async function deleteUser(id) {
@@ -28,12 +28,10 @@ async function deleteUser(id) {
 
   if (error) {
     console.error("Error deleting user: ", error.message);
-    throw new Error("Error deleting user");
+    return { success: false, error: error.message };
   }
 
-  console.log("User with id " + id + " deleted successfully.");
-
-  return id;
+  return { success: true, data: id };
 }
 
 async function updateUser(id, name, email) {
@@ -43,12 +41,16 @@ async function updateUser(id, name, email) {
     p_email: email,
   });
 
+  console.log(name);
+
   if (error) {
     console.error("Error editing user: ", error.message);
-    throw new Error("Error editing user");
+    return { success: false, error: error.message };
   }
 
   console.log("User with id " + id + " edited successfully.");
+
+  return { success: true, data: id };
 }
 
 export default { getAllUsers, deleteUser, updateUser };

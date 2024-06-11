@@ -17,7 +17,7 @@ export default function Checkout() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { clientSecret, initiatePayment, loading, error } = usePayment();
+  const { clientSecret, paymentId, initiatePayment } = usePayment();
 
   const currentUser = useSelector((state) => state.auth.user);
 
@@ -31,7 +31,9 @@ export default function Checkout() {
         currency: "usd",
       };
       setOptions(options);
-      initiatePayment(currentUser.email, price);
+      const { email, id: userId } = currentUser;
+      const { course_id: courseId } = course;
+      initiatePayment({ email, amount: price / 100, userId, courseId });
     }
   }, [course]);
 

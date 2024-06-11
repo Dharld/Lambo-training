@@ -9,7 +9,7 @@ async function addCourse(title, description, price, file, level) {
 
   if (imageUploadError) {
     console.error("Error uploading the image");
-    throw imageUploadError;
+    return { success: false, error: imageUploadError.message };
   }
 
   const { data, error } = await supabase.rpc("add_course", {
@@ -22,11 +22,10 @@ async function addCourse(title, description, price, file, level) {
 
   if (error) {
     console.error("Error adding course:", error.message);
-    throw new Error("Failed to add course");
+    return { success: false, error: error.message };
   }
 
-  console.log("Course added successfully:", data);
-  return data;
+  return { success: true, data };
 }
 
 async function getAllCourses() {
@@ -35,7 +34,7 @@ async function getAllCourses() {
 
     if (error) {
       console.error("Error fetching courses: ", error.message);
-      throw new Error("Error while fetching courses");
+      return { success: false, error: error.message };
     }
 
     return { success: true, data };
@@ -48,9 +47,9 @@ async function getUserCourses() {
   const { data, error } = await supabase.rpc("get_user_courses", {});
   if (error) {
     console.error("Error fetching courses: ", error.message);
-    throw new Error("Failed to fetch courses");
+    return { success: false, error: error.message };
   }
-  return data;
+  return { success: true, data };
 }
 
 export default { addCourse, getUserCourses, getAllCourses };

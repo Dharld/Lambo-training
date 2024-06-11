@@ -6,13 +6,16 @@ import { store } from "./store/store.jsx";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./utils/router.jsx";
 import "./_index.scss";
+import { ModalProvider } from "./hooks/modal.hook.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ToasterProvider>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </ToasterProvider>
+    <ModalProvider>
+      <ToasterProvider>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </ToasterProvider>
+    </ModalProvider>
   </React.StrictMode>
 );

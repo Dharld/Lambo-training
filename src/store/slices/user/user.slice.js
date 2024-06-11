@@ -21,9 +21,10 @@ const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        console.log(action.payload);
         state.users = state.users.map((user) => {
-          if (user.id === action.payload.id) {
-            return action.payload;
+          if (user.user_id === action.payload.user_id) {
+            return { ...user, ...action.payload };
           }
           return user;
         });

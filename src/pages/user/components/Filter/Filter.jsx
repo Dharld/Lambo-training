@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Checkbox from "../../../../components/Checkbox/Checkbox";
+import { useDispatch } from "react-redux";
+import { filterCoursesByLevel } from "../../../../store/slices/course/course.actions";
 
 export default function Filter() {
   const [creds, setCreds] = useState({
     levels: [],
   });
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(filterCoursesByLevel(creds.levels));
+  }, [creds.levels, dispatch]);
+
   const handleChange = (e) => {
     const { value, checked } = e.target;
-    console.log(checked);
 
     setCreds((prevCreds) => {
       if (checked) {

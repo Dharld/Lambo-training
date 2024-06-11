@@ -17,7 +17,7 @@ async function addSupervisor(name, email, password) {
 
     if (err) {
       console.error("Error signing up: ", err);
-      return;
+      return { success: false, error: err.message };
     }
 
     const user_id = data.user.id;
@@ -31,7 +31,7 @@ async function addSupervisor(name, email, password) {
 
     if (rpcError) {
       console.error("Error calling add_admin procedure:", rpcError);
-      throw new Error("Can't add new supervisor", rpcError);
+      return { success: false, error: rpcError.message };
     }
 
     console.log("Supervisor created and role assigned successfully");
@@ -49,8 +49,8 @@ async function addAdmin(name, email, password) {
     });
 
     if (err) {
-      console.error("Error signing up: ", err);
-      return;
+      console.error("Error adding new admin: ", err);
+      return { success: false, error: err.message };
     }
 
     const { error: rpcError } = await supabase.rpc("add_super_admin", {
@@ -61,7 +61,7 @@ async function addAdmin(name, email, password) {
 
     if (rpcError) {
       console.error("Error calling add_super_admin procedure:", rpcError);
-      throw new Error("Can't add new admin", rpcError);
+      return { success: false, error: rpcError.message };
     }
 
     console.log("Admin user created and role assigned successfully");
@@ -82,7 +82,7 @@ async function login(email, password) {
 
     if (error) {
       console.error("Error signing in: ", error);
-      throw error;
+      return { success: false, error: error.message };
     }
 
     // Step 2: Retrieve additional user data from your custom User table
@@ -97,7 +97,7 @@ async function login(email, password) {
 
     if (userError) {
       console.error("Error fetching user data: ", userError);
-      throw error;
+      return { success: false, error: userError.message };
     }
 
     const expirationTime = Math.floor(Date.now() / 1000) + session.expires_in;
@@ -122,7 +122,7 @@ async function signup(name, email, password) {
 
     if (error) {
       console.error("Error signing up: ", error);
-      throw error;
+      return { success: false, error: error.message };
     }
 
     const user_id = data.user.id;
@@ -136,7 +136,7 @@ async function signup(name, email, password) {
 
     if (rpcError) {
       console.error("Error calling add_user procedure:", rpcError);
-      throw new Error("Can't add new user", rpcError);
+      return { success: false, error: rpcError.message };
     }
 
     console.log("User signed up successfully");
@@ -152,7 +152,7 @@ async function logout() {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("We have an error logging out: ", error);
-      throw new Error("There's an error within the system.");
+      return { success: false, error: error.message };
     }
     console.log("User logged out successfully");
     return { success: true };

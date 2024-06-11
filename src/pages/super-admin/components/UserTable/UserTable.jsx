@@ -3,7 +3,7 @@ import Table from "../../../../components/Table/Table";
 import Spinner from "../../../../components/Spinner/Spinner";
 import EmptyState from "../EmptyState/EmptyState";
 
-const UserTable = ({ users, loadingUsers, addAdmin, openModal }) => {
+const UserTable = ({ users, loadingUsers, addAdmin }) => {
   return (
     <div className="flex-1  rounded-xl">
       {loadingUsers ? (
@@ -22,7 +22,7 @@ const UserTable = ({ users, loadingUsers, addAdmin, openModal }) => {
             </button>
           </div>
           <div className="mt-4">
-            <Table data={users} openModal={openModal} />
+            <Table data={users} />
           </div>
         </div>
       ) : (

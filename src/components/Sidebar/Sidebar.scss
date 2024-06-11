@@ -1,6 +1,7 @@
 li {
   @apply transition-colors;
-  &:hover {
+  &:hover,
+  a.active {
     @apply bg-sky-50 text-sky-500 cursor-pointer;
   }
 }
