@@ -7,7 +7,8 @@ import { useUsers } from "../../../../hooks/users.hook";
 import { useModal } from "../../../../hooks/modal.hook";
 
 export default function UpdateModal({ user }) {
-  const { loadingUsers, updateUser, deleteUser } = useUsers();
+  const [loading, setLoading] = useState(false);
+  const { updateUser } = useUsers();
   const { closeModal } = useModal();
   const { showError, showSuccess } = useToast();
 
@@ -23,17 +24,18 @@ export default function UpdateModal({ user }) {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (creds.name === "" || creds.email === "") {
       showError("Please fill in all fields");
       return;
     }
-    updateUser({ ...user, ...creds }).then((res) => {
+    setLoading(true);
+    await updateUser({ ...user, ...creds }).then((res) => {
       if (res.error) {
         showError(res.error.message);
         return;
       }
+      setLoading(false);
       showSuccess("User updated");
       closeModal();
     });
@@ -64,14 +66,12 @@ export default function UpdateModal({ user }) {
         />
       </form>
       <div className="flex mt-4 gap-1">
-        <Button styles="" isDisabled={loadingUsers}>
-          Cancel
-        </Button>
+        <Button styles="">Cancel</Button>
         <Button
           handleClick={handleSubmit}
           styles="bg-transparent border border-sky-500 text-sky-400 hover:bg-sky-400 hover:text-white"
-          isDisabled={loadingUsers}
-          loading={loadingUsers}
+          isDisabled={loading}
+          loading={loading}
         >
           Update User
         </Button>

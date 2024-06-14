@@ -1,12 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import inbox from "../../../../assets/images/inbox.png";
 import Button from "../../../../components/Button/Button.jsx";
+import { useModal } from "../../../../hooks/modal.hook.jsx";
 
 export default function EmptyState() {
-  const navigate = useNavigate();
+  const { openModal } = useModal();
 
-  const openModal = () => {
-    navigate("add-admin");
+  const open = () => {
+    openModal({
+      type: "add",
+      payload: null,
+    });
   };
 
   return (
@@ -21,7 +24,7 @@ export default function EmptyState() {
           started now!
         </p>
         <div className="mt-8">
-          <Button handleClick={openModal}>Add Admin</Button>
+          <Button handleClick={open}>Add Admin</Button>
         </div>
       </div>
     </div>

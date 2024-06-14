@@ -24,8 +24,9 @@ export default function Courses({ courses, loading }) {
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2">
+    <div className="flex flex-col overflow-auto">
+      {/* <Filter /> */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-2">
         {courses.map((course) => (
           <div key={course.course_id}>
             <CourseCard
@@ -36,7 +37,6 @@ export default function Courses({ courses, loading }) {
           </div>
         ))}
       </div>
-      <Filter />
     </div>
   );
 }

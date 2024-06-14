@@ -1,0 +1,12 @@
+$empty: 48px;
+$remaining: calc(100% - #{$empty});
+
+.longest {
+  flex: 1;
+}
+
+.other {
+  flex: 0 0 15%;
+  max-width: 15%;
+  text-align: left;
+}

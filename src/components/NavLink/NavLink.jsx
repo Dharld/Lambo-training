@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
 
-const NavbarLink = ({ children, to, title }) => {
+const NavbarLink = ({ children, to, title, styles }) => {
   return (
-    <li className=" text-gray-400">
+    <li className={`text-gray-400 ${styles}`}>
       <NavLink
         to={to}
         className={({ isActive }) =>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Overlay from "../../../../components/Overlay/Overlay";
 import Input from "../../../../components/Input/Input";
-import { useNavigate } from "react-router-dom";
 import Button from "../../../../components/Button/Button";
 import { useToast } from "../../../../hooks/toast.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { addSupervisor } from "../../../../store/slices/user/user.actions";
+import { useModal } from "../../../../hooks/modal.hook";
 
 const INITIAL_STATE = {
   name: "",
@@ -13,17 +13,16 @@ const INITIAL_STATE = {
   password: "",
 };
 
-export default function AddAdmin() {
+export default function AddModal() {
   const [creds, setCreds] = useState(INITIAL_STATE);
   const [isOverlayVisible, setIsOverlayVisible] = useState(true);
 
   const error = useSelector((state) => state.user.error);
   const loading = useSelector((state) => state.user.loading);
+
   const dispatch = useDispatch();
-
   const { showSuccess, showError } = useToast();
-
-  const navigate = useNavigate();
+  const { closeModal } = useModal();
 
   useEffect(() => {
     if (error && error.message) {
@@ -31,9 +30,9 @@ export default function AddAdmin() {
     }
   }, [error, showError]);
 
-  const closeOverlay = () => {
+  const close = () => {
     setIsOverlayVisible(false);
-    navigate("../");
+    closeModal();
   };
 
   const handleChange = (event) => {
@@ -56,13 +55,13 @@ export default function AddAdmin() {
         return;
       }
       showSuccess("Supervisor added successfully!");
-      closeOverlay();
+      close();
     });
   };
 
   return (
-    <div className="fixed w-full h-full grid place-items-center">
-      <Overlay isVisible={isOverlayVisible} onClose={closeOverlay}>
+    <div className="fixed left-0 top-0 w-full h-full grid place-items-center">
+      <Overlay isVisible={isOverlayVisible} onClose={close}>
         <form
           className="w-[400px] bg-white py-6 px-8 rounded-md"
           onSubmit={handleSubmit}
@@ -76,7 +75,7 @@ export default function AddAdmin() {
             value={creds.name}
             handleChange={handleChange}
             placeholder="Enter the supervisor's name"
-            styles={"mt-8"}
+            styles={"mt-12"}
           />
           <Input
             type="email"
@@ -85,7 +84,7 @@ export default function AddAdmin() {
             value={creds.email}
             handleChange={handleChange}
             placeholder="Enter the supervisor's email"
-            styles={"mt-8"}
+            styles={"mt-12"}
           />
           <Input
             type="password"
@@ -94,7 +93,7 @@ export default function AddAdmin() {
             value={creds.password}
             handleChange={handleChange}
             placeholder="Enter the supervisor's password"
-            styles={"mt-8"}
+            styles={"mt-12"}
           />
           <Button type="submit" loading={loading} styles="mt-10">
             Add new supervisor

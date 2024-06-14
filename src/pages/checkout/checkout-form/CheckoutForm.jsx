@@ -17,9 +17,6 @@ export default function CheckoutForm({ course, clientSecret }) {
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
-  const { course_id } = course;
-  const { id } = user;
-
   const { showError, showSuccess } = useToast();
 
   const layout = {
@@ -43,9 +40,7 @@ export default function CheckoutForm({ course, clientSecret }) {
 
     elements.submit();
 
-    // Create a PaymentIntent with the order amount and currency
     const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
       elements,
       clientSecret,
       confirmParams: {
@@ -61,17 +56,18 @@ export default function CheckoutForm({ course, clientSecret }) {
 
     setLoading(false);
   };
+
   return (
     <form
-      className=" h-[100vh]  grid items-center bg-slate-50 relative"
+      className="h-screen bg-gray-100 py-4 px-4 overflow-auto md:grid md:place-items-center"
       onSubmit={handleSubmit}
     >
       {course && (
-        <div className="wrapper w-full max-w-[900px] mx-auto">
-          <div className="flex flex-col md:flex-row gap-4 rounded-sm">
-            <div className="flex-1  p-4 ">
-              <h1 className="font-semibold text-2xl">Checkout</h1>
-              <p className="text-gray-600 text-base leading-3 mt-2">
+        <div className="w-full max-w-4xl bg-white rounded-lg overflow-scroll">
+          <div className="flex flex-col md:flex-row">
+            <div className="flex-1 p-8">
+              <h1 className="font-semibold text-3xl mb-4">Checkout</h1>
+              <p className="text-gray-600 text-lg leading-6 mb-4">
                 {course?.title}
               </p>
               <Chip text={course?.level} styles="mt-2 mb-4" />
@@ -79,24 +75,26 @@ export default function CheckoutForm({ course, clientSecret }) {
                 <img
                   src={publicUrl + course.thumbnail_url}
                   className="absolute w-full h-full object-cover"
+                  alt="Course Thumbnail"
                 />
               </div>
-              <img src="" alt="" />
-              <p className=" font-bold text-3xl mb-1 text-gray-600">
+              <p className="text-3xl font-bold text-gray-700 mb-2">
                 ${course?.price}
               </p>
-              <p className=" text-lg">{course?.description}</p>
+              <p className="text-lg text-gray-600">{course?.description}</p>
             </div>
-            <div className="relative h-fit w-[50%] p-8 border border-slate-100 rounded-sm bg-white shadow-lg shadow-gray-100">
-              <PaymentElement options={paymentElementOptions} />
-              <Button
-                type="submit"
-                styles="w-full mt-8"
-                isDisabled={!stripe}
-                loading={loading}
-              >
-                Pay
-              </Button>
+            <div className="flex-1 p-8 bg-gray-50">
+              <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-md">
+                <PaymentElement options={paymentElementOptions} />
+                <Button
+                  type="submit"
+                  styles="w-full mt-8"
+                  isDisabled={!stripe}
+                  loading={loading}
+                >
+                  Pay
+                </Button>
+              </div>
             </div>
           </div>
         </div>

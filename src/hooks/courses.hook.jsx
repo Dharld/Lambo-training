@@ -1,26 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "./toast.hook";
-import { getAllCourses } from "../store/slices/course/course.actions";
-import { useEffect } from "react";
+import {
+  deleteCourse as deleteCourseAction,
+  getAllCourses as getAllCoursesAction,
+} from "../store/slices/course/course.actions";
 
 export const useCourses = () => {
-  const { showError } = useToast();
   const dispatch = useDispatch();
 
+  const allCourses = useSelector((state) => state.course.courses);
   const courses = useSelector((state) => state.course.displayedCourses);
-  const loading = useSelector((state) => state.course.loading);
+  const loadingCourses = useSelector((state) => state.course.loading);
 
-  useEffect(() => {
-    dispatch(getAllCourses()).then((res) => {
-      if (res.error) {
-        showError(res.error.message);
-        return;
-      }
-    });
-  }, []);
+  const getAllCourses = () => {
+    return dispatch(getAllCoursesAction());
+  };
+
+  const deleteCourse = (course) => {
+    const courseId = course.course_id;
+    return dispatch(deleteCourseAction(courseId));
+  };
 
   return {
+    allCourses,
     courses,
-    loading,
+    loadingCourses,
+    deleteCourse,
+    getAllCourses,
   };
 };

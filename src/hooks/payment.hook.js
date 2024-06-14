@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { createPaymentIntent } from "../services/paymentService";
+import paymentService from "../services/paymentService";
+import { getAllPayment as getAllPaymentAction } from "../store/slices/payment/payment.action";
+import { useDispatch } from "react-redux";
 
 const usePayment = () => {
   const [clientSecret, setClientSecret] = useState("");
@@ -7,11 +9,13 @@ const usePayment = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const dispatch = useDispatch();
+
   const initiatePayment = async ({ email, amount, userId, courseId }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await createPaymentIntent({
+      const response = await paymentService.createPaymentIntent({
         email,
         amount,
         userId,
@@ -30,7 +34,11 @@ const usePayment = () => {
     }
   };
 
-  return { clientSecret, initiatePayment, loading, error };
+  const getAllPayment = () => {
+    return dispatch(getAllPaymentAction());
+  };
+
+  return { clientSecret, initiatePayment, getAllPayment, loading, error };
 };
 
 export default usePayment;

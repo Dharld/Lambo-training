@@ -52,4 +52,14 @@ async function getUserCourses() {
   return { success: true, data };
 }
 
-export default { addCourse, getUserCourses, getAllCourses };
+async function deleteCourse(id) {
+  const { error } = await supabase.rpc("delete_course", {
+    p_course_id: id,
+  });
+  if (error) {
+    console.error("Error deleting course: ", error.message);
+    return { success: false, error: error.message };
+  }
+  return { success: true, data: id };
+}
+export default { addCourse, getUserCourses, getAllCourses, deleteCourse };

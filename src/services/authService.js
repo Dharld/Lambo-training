@@ -10,32 +10,26 @@ import supabase from "../utils/connectSupabase";
 
 async function addSupervisor(name, email, password) {
   try {
-    const { data, err } = await supabase.auth.signUp({
-      email,
-      password,
+    const res = await fetch(`/api/add-supervisor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
     });
 
-    if (err) {
-      console.error("Error signing up: ", err);
-      return { success: false, error: err.message };
+    if (!res.ok) {
+      const errorBody = await res.json();
+      return { success: false, error: errorBody.message };
     }
 
-    const user_id = data.user.id;
+    const data = await res.json();
 
-    const { error: rpcError } = await supabase.rpc("add_admin", {
-      user_id,
-      name,
-      email,
-      password,
-    });
-
-    if (rpcError) {
-      console.error("Error calling add_admin procedure:", rpcError);
-      return { success: false, error: rpcError.message };
-    }
-
-    console.log("Supervisor created and role assigned successfully");
-    return { success: true, data: data };
+    return { success: true, data };
   } catch (err) {
     return { success: false, error: err.message };
   }

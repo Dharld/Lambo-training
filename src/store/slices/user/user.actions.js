@@ -10,7 +10,7 @@ export const addSupervisor = createAsyncThunk(
     if (res.error) {
       return rejectWithValue(res.error);
     }
-    return { user_id: res, name, email, role_name: "Admin" }; // Return necessary supervisor info
+    return { user_id: res.data, name, email, role_name: "Admin" }; // Return necessary supervisor info
   }
 );
 

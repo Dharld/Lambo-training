@@ -68,3 +68,19 @@ export const addCourse = createAsyncThunk(
     }
   }
 );
+
+export const deleteCourse = createAsyncThunk(
+  "course/deleteCourse",
+  async (id, { rejectWithValue }) => {
+    try {
+      console.log(id);
+      const res = await courseService.deleteCourse(id);
+      if (!res.success) {
+        return rejectWithValue(res.error);
+      }
+      return id;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);

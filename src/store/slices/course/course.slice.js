@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addCourse,
-  filterCourses,
-  filterCoursesByName,
+  deleteCourse,
   getAllCourses,
   getUserCourses,
 } from "./course.actions";
@@ -29,6 +28,7 @@ const courseSlice = createSlice({
     },
     filterCoursesByLevel: (state, action) => {
       const levels = action.payload;
+      console.log(state.courses);
       if (levels.length === 0) {
         state.displayedCourses = state.courses;
         return;
@@ -52,6 +52,13 @@ const courseSlice = createSlice({
       })
       .addCase(addCourse.fulfilled, (state, action) => {
         state.courses.push(action.payload);
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteCourse.fulfilled, (state, action) => {
+        state.courses = state.courses.filter(
+          (course) => course.course_id !== action.payload
+        );
         state.loading = false;
         state.error = null;
       })
