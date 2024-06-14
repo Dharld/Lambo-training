@@ -1,13 +1,13 @@
+/* eslint-disable react/prop-types */
 import NavbarLink from "../../../../components/NavLink/NavLink";
+import { VERTICAL } from "../../../../utils/constants";
 
-export default function AdminMenu(direction = "vertical") {
+export default function AdminMenu({ direction = VERTICAL }) {
   const style =
-    direction === "vertical"
-      ? "flex flex-col"
-      : "flex flex-row justify-between";
+    direction === VERTICAL ? "flex flex-col" : "flex flex-row justify-between";
   return (
     <ul className={style}>
-      <NavbarLink title="Users" to="" styles="flex-1">
+      <NavbarLink title="Users" to="home" styles="flex-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

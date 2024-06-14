@@ -11,10 +11,13 @@ export default function SuperAdmin() {
     <div className="w-[100vw] h-[100vh] flex flex-col">
       <AdminHeader user={user} />
       <div className="w-[100vw] h-full flex">
-        <div className="hidden">
+        <div className="hidden md:block">
           <AdminSidebar />
         </div>
-        <AdminMobileMenu />
+        <div className="md:hidden">
+          {" "}
+          <AdminMobileMenu />
+        </div>
         <Outlet />
       </div>
     </div>

@@ -26,7 +26,7 @@ export default function Login() {
   useEffect(() => {
     if (user) {
       if (user.role === "Super Admin") {
-        navigate("/super-admin");
+        navigate("/super-admin/home");
       } else if (user.role === "Admin") {
         navigate("/admin");
       } else if (user.role === "Customer") {

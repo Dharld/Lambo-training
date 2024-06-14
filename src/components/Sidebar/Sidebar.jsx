@@ -29,7 +29,7 @@ export default function Sidebar({
     <div
       className={`${
         styles ?? ""
-      } w-fit max-w-72 flex flex-col border-r bg-gray-50 border-r-slate-100`}
+      } w-fit max-w-72 h-full flex flex-col justify-between border-r bg-gray-50 border-r-slate-100`}
     >
       {showLogo && (
         <div className="flex justify-center">

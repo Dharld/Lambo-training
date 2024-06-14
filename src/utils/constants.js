@@ -1,0 +1,4 @@
+const VERTICAL = "VERTICAL";
+const HORIZONTAL = "HORIZONTAL";
+
+export { VERTICAL, HORIZONTAL };

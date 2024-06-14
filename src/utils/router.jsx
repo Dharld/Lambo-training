@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
         element: <SuperAdmin />,
         children: [
           {
-            path: "",
+            path: "home",
             element: <HomeSuperAdmin />,
           },
           {

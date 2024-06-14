@@ -37,7 +37,16 @@ export default function Courses() {
   }
 
   if (allCourses.length === 0) {
-    return <div className="text-center">No courses available.</div>;
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-600 mb-4">
+            No courses available
+          </h2>
+          <p className="text-gray-500">Check back later for more courses.</p>
+        </div>
+      </div>
+    );
   }
 
   const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, signup } from "./auth.actions";
-import User from "../../../models/user";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -33,13 +32,13 @@ const authSlice = createSlice({
         localStorage.removeItem("user");
       })
       .addCase(login.fulfilled, (state, action) => {
-        const loggedUser = new User({
+        const loggedUser = {
           id: action.payload.user_id,
           email: action.payload.email,
           role: action.payload.role_name,
           profilePicture: action.payload.profile_picture,
           name: action.payload.name,
-        });
+        };
         localStorage.setItem("user", JSON.stringify(loggedUser));
         state.user = loggedUser;
         state.loading = false;
