@@ -6,17 +6,23 @@ import { useSelector } from "react-redux";
 
 export default function Catalog() {
   const filteredCourses = useSelector((state) => state.course.displayedCourses);
-  const { getAllCourses, loading } = useCourses();
+  const { getAllUserNonEnrolledCourses, loading } = useCourses();
   const { showError } = useToast();
+  const user = useSelector((state) => state.auth.user);
+
+  const id = user?.id;
 
   useEffect(() => {
-    getAllCourses().then((res) => {
+    if (!id) return;
+    getAllUserNonEnrolledCourses(id).then((res) => {
       if (res.error) {
         showError(res.error.message);
         return;
       }
     });
   }, []);
+
+  if (!id) return;
 
   return (
     <div className="mt-4 h-full">

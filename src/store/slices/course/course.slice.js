@@ -3,6 +3,7 @@ import {
   addCourse,
   deleteCourse,
   getAllCourses,
+  getAllUserNonEnrolledCourses,
   getUserCourses,
 } from "./course.actions";
 
@@ -22,6 +23,11 @@ const courseSlice = createSlice({
       state.displayedCourses = state.courses.filter(action.payload);
     },
     filterCoursesByName: (state, action) => {
+      console.log(action);
+      if (action.payload === "") {
+        state.displayedCourses = state.courses;
+        return;
+      }
       state.displayedCourses = state.courses.filter((course) =>
         course.title.toLowerCase().includes(action.payload.toLowerCase())
       );
@@ -40,6 +46,12 @@ const courseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getAllUserNonEnrolledCourses.fulfilled, (state, action) => {
+        state.courses = action.payload;
+        state.displayedCourses = state.courses;
+        state.loading = false;
+        state.error = null;
+      })
       .addCase(getAllCourses.fulfilled, (state, action) => {
         state.courses = action.payload;
         state.loading = false;

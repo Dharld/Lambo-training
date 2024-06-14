@@ -3,6 +3,7 @@ import {
   deleteCourse as deleteCourseAction,
   getAllCourses as getAllCoursesAction,
   getAllUserEnrolledCourses as getAllUserEnrolledCoursesAction,
+  getAllUserNonEnrolledCourses as getAllUserNonEnrolledCoursesAction,
 } from "../store/slices/course/course.actions";
 
 export const useCourses = () => {
@@ -20,6 +21,10 @@ export const useCourses = () => {
     return dispatch(getAllUserEnrolledCoursesAction({ user_id: id }));
   };
 
+  const getAllUserNonEnrolledCourses = (id) => {
+    return dispatch(getAllUserNonEnrolledCoursesAction({ user_id: id }));
+  };
+
   const deleteCourse = (course) => {
     const courseId = course.course_id;
     return dispatch(deleteCourseAction(courseId));
@@ -32,5 +37,6 @@ export const useCourses = () => {
     deleteCourse,
     getAllCourses,
     getAllUserEnrolledCourses,
+    getAllUserNonEnrolledCourses,
   };
 };

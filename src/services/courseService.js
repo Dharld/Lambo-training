@@ -52,6 +52,17 @@ async function getUserCourses() {
   return { success: true, data };
 }
 
+async function getAllUserNonEnrolledCourses(user_id) {
+  const { data, error } = await supabase.rpc("get_user_not_enrolled_courses", {
+    p_user_id: user_id,
+  });
+  if (error) {
+    console.error("Error fetching courses: ", error.message);
+    return { success: false, error: error.message };
+  }
+  return { success: true, data };
+}
+
 async function getAllUserEnrolledCourses(user_id) {
   const { data, error } = await supabase.rpc("get_user_enrolled_courses", {
     p_user_id: user_id,
@@ -79,4 +90,5 @@ export default {
   getAllCourses,
   deleteCourse,
   getAllUserEnrolledCourses,
+  getAllUserNonEnrolledCourses,
 };

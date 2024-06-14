@@ -29,21 +29,28 @@ export default function Learn() {
 
   if (loading) {
     return (
-      <div className="w-full h-full grid items-center">
+      <div className="w-full h-full grid place-items-center">
         <Spinner />
       </div>
     );
   }
   return (
-    <div>
-      {courses.map((c) => (
-        <CourseCard
-          course={c}
-          isAdmin={false}
-          handleAction={(e) => {}}
-          key={c.course_id}
-        />
-      ))}
+    <div className="h-full flex-1 max-w-[900px] mx-auto">
+      <h1 className="text-3xl text-slate-500 font-bold my-6 container mx-auto">
+        Your Courses
+      </h1>
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-2">
+        {courses.map((c) => (
+          <CourseCard
+            course={c}
+            isAdmin={false}
+            handleAction={() => {}}
+            key={c.course_id}
+            showPrice={false}
+            buttonLabel="Continue Learning"
+          />
+        ))}
+      </div>
     </div>
   );
 }

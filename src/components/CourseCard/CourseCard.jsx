@@ -3,7 +3,12 @@ import Button from "../Button/Button";
 import Chip from "../Chip/Chip";
 
 /* eslint-disable react/prop-types */
-export default function CourseCard({ course, buttonLabel, handleAction }) {
+export default function CourseCard({
+  course,
+  buttonLabel,
+  handleAction,
+  showPrice = true,
+}) {
   const publicUrl = import.meta.env.VITE_SUPABASE_IMAGE;
   const [fadeIn, setFadeIn] = useState(false);
 
@@ -17,7 +22,7 @@ export default function CourseCard({ course, buttonLabel, handleAction }) {
 
   return (
     <div
-      className={`opacity-0 bg-white rounded-md overflow-hidden border border-slate-100 transition-all cursor-pointer flex flex-col hover:shadow-md ${
+      className={`h-full min-h-[350px] max-h-[380px] opacity-0 bg-white rounded-md overflow-hidden border border-slate-100 transition-all cursor-pointer flex flex-col hover:shadow-md ${
         fadeIn ? "fade-in" : ""
       }`}
     >
@@ -28,14 +33,19 @@ export default function CourseCard({ course, buttonLabel, handleAction }) {
         />
       </div>
       <div className="px-4 py-2 flex flex-1 flex-col">
+        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+          COURSE
+        </div>
         <div className="text-2xl font-semibold text-slate-500 leading-6 mb-2">
           {course.title}
         </div>
-        <Chip text={course.level} />
+        <Chip text={course.level} size="small" />
         <div className="flex-1"></div>
-        <div className="text-2xl my-2 font-bold text-slate-500 text-right">
-          ${course.price}
-        </div>
+        {showPrice && (
+          <div className="text-2xl my-2 font-bold text-slate-500 text-right">
+            ${course.price}
+          </div>
+        )}
         <div className="flex-1"></div>
         <div className="flex pb-2">
           {

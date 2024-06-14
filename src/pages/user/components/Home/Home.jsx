@@ -12,7 +12,9 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(filterCoursesByName(searchTerm));
+    if (searchTerm) {
+      dispatch(filterCoursesByName(searchTerm));
+    }
   }, [searchTerm, dispatch]);
 
   const handleChange = (e) => {
@@ -35,7 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex-1 h-screen overflow-auto bg-gray-50">
+    <div className="flex-1 h-full overflow-auto bg-gray-50">
       <Search
         ref={searchBarRef}
         isSticky={isSticky}
