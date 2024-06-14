@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 // import Searchbar from "../../../../components/searchbar/Searchbar";
-
 import { useState } from "react";
 import Logo from "../Logo/Logo";
 import Popup from "../Popup/Popup";
@@ -31,11 +30,11 @@ export default function Header({ user, showLogo = true }) {
     });
   };
   return (
-    <header className="px-4 py-4 bg-white border-b border-b-slate-100 flex items-center ">
+    <header className="px-4 py-4 bg-white border-b border-b-slate-100 flex items-center">
       {showLogo && <Logo />}
       <div className="flex-1"></div>
       {/* <Searchbar /> */}
-      <div className="bg-gray-50 py-2 px-2 rounded-full cursor-pointer hover:bg-sky-400 transition-colors text-slate-700 hover:text-white">
+      <div className="bg-gray-50 py-2 px-2 rounded-full cursor-pointer hover:bg-violet-400 transition-colors text-slate-700 hover:text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -50,13 +49,15 @@ export default function Header({ user, showLogo = true }) {
       </div>
       {user && (
         <div
-          className="ml-2 font-bold relative select-none cursor-pointer"
+          className="ml-2 font-bold relative select-none cursor-pointer text-zinc-600"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           {user.name}
           <Popup isOpen={open}>
-            <li onClick={logout}>Logout</li>
+            <li onClick={logout} className="text-zinc-600">
+              Logout
+            </li>
           </Popup>
         </div>
       )}

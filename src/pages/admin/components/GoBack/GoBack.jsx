@@ -7,7 +7,7 @@ export default function GoBack({ children }) {
       className="flex items-center  py-4 gap-2 group transition-colors cursor-pointer"
       onClick={() => navigate(-1)}
     >
-      <div className="flex items-center bg-slate-100 group-hover:bg-sky-500 px-2 py-2 rounded-full transition-colors">
+      <div className="flex items-center bg-slate-100 group-hover:bg-violet-500 px-2 py-2 rounded-full transition-colors">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

@@ -25,7 +25,7 @@ const UserTable = ({ users, loadingUsers }) => {
           <div className="flex items-center justify-between pt-6 pb-2">
             <h2 className="text-lg font-bold text-gray-600">All Users</h2>
             <button
-              className="bg-sky-400 text-white px-4 py-2 rounded-md"
+              className="bg-violet-400 text-white px-4 py-2 rounded-md"
               onClick={openAddModal}
             >
               Add User

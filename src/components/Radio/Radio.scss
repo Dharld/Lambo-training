@@ -1,6 +1,6 @@
 .radio {
   &::before {
-    @apply text-sky-500;
+    @apply text-violet-500;
   }
   &:checked::before {
     transform: scale(1);

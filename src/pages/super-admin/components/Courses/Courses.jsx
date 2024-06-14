@@ -82,7 +82,7 @@ export default function Courses() {
   return (
     <div className="container mx-auto p-4 px-8">
       <h1 className="text-3xl font-bold text-gray-600 mb-4">Courses</h1>
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 overflow-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 overflow-auto">
         {allCourses.map((course) => (
           <div
             key={course.course_id}
@@ -94,7 +94,7 @@ export default function Courses() {
               className="w-full h-44 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-regular font-bold text-sky-700 truncate leading-3">
+              <h3 className="text-regular font-bold text-violet-700 truncate leading-3">
                 {course.title}
               </h3>
               <p className="text-sm text-gray-700 mt-1">{course.description}</p>

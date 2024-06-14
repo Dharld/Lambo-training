@@ -10,10 +10,12 @@ export default function User() {
     <div className="w-[100vw] h-[100vh] flex flex-col">
       <UserHeader user={user} />
       <main className="flex flex-1">
-        <div className="hidden">
+        <div className="hidden md:block">
           <UserSidebar />
         </div>
-        <UserMobileMenu />
+        <div className="md:hidden">
+          <UserMobileMenu />
+        </div>
         <Outlet />
       </main>
     </div>

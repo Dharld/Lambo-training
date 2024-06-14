@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCourse as deleteCourseAction,
   getAllCourses as getAllCoursesAction,
+  getAllUserEnrolledCourses as getAllUserEnrolledCoursesAction,
 } from "../store/slices/course/course.actions";
 
 export const useCourses = () => {
@@ -15,6 +16,10 @@ export const useCourses = () => {
     return dispatch(getAllCoursesAction());
   };
 
+  const getAllUserEnrolledCourses = (id) => {
+    return dispatch(getAllUserEnrolledCoursesAction({ user_id: id }));
+  };
+
   const deleteCourse = (course) => {
     const courseId = course.course_id;
     return dispatch(deleteCourseAction(courseId));
@@ -26,5 +31,6 @@ export const useCourses = () => {
     loadingCourses,
     deleteCourse,
     getAllCourses,
+    getAllUserEnrolledCourses,
   };
 };

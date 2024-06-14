@@ -49,7 +49,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials);
     if (
       !credentials.email ||
       !credentials.password ||
@@ -78,7 +77,7 @@ export default function Signup() {
       onSubmit={handleSubmit}
       className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50"
     >
-      <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-sky-100">
+      <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-violet-100">
         <h1 className="secondary-font font-bold text-2xl">Signup</h1>
         <Input
           type="text"
@@ -120,7 +119,7 @@ export default function Signup() {
         <div className="already-account text-right mt-4">
           <p>
             Already have an account?{" "}
-            <Link to="/login" className="text-underline text-sky-500">
+            <Link to="/login" className="text-underline text-violet-500">
               Login
             </Link>
           </p>

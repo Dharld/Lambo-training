@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "../../../../components/Button/Button";
 import Input from "../../../../components/Input/Input";
 import { useToast } from "../../../../hooks/toast.hook";
+import Tab from "../Tab/Tab";
 
 export default function PricingTab({ data, onPrevious, onNext }) {
   const [formData, setFormData] = useState({
@@ -28,24 +29,26 @@ export default function PricingTab({ data, onPrevious, onNext }) {
     onPrevious();
   };
   return (
-    <div className="max-w-[400px] mx-auto mt-6">
-      <Input
-        type="number"
-        name="price"
-        label="Price"
-        placeholder="Enter the price"
-        styles={"mt-12"}
-        handleChange={handleChange}
-      />
-      <div className="flex gap-1 mt-4">
-        <Button
-          styles="bg-white border border-sky-500 text-sky-500 hover:text-white"
-          handleClick={handlePrevious}
-        >
-          Previous
-        </Button>
-        <Button handleClick={handleNext}>Next</Button>
-      </div>
-    </div>
+    <Tab>
+      <>
+        <Input
+          type="number"
+          name="price"
+          label="Price"
+          placeholder="Enter the price"
+          styles={"mt-12"}
+          handleChange={handleChange}
+        />
+        <div className="flex gap-1 mt-4">
+          <Button
+            styles="bg-white border border-violet-500 text-violet-500 hover:text-white"
+            handleClick={handlePrevious}
+          >
+            Previous
+          </Button>
+          <Button handleClick={handleNext}>Next</Button>
+        </div>
+      </>
+    </Tab>
   );
 }

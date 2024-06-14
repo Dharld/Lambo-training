@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "admin",
+        path: "admin/home",
         element: <Admin />,
         children: [
           {
@@ -49,6 +49,9 @@ export const router = createBrowserRouter([
           {
             path: "add-course",
             element: <AddCourse />,
+          },
+          {
+            path: ":courseId/manage",
           },
         ],
       },

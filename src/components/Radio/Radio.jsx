@@ -17,7 +17,7 @@ export default function Radio({
         type="radio"
         name={name}
         value={value}
-        className="appearance-none text-current w-[1.15em] h-[1.15em] border border-current rounded-full translate-y-[0.075em] grid place-content-center before:content-[''] before:w-[0.65em] before:h-[0.65em] before:rounded-full before:scale-0 before:transition-all before:shadow-inset radio focus:outline-sky-500"
+        className="appearance-none text-current w-[1.15em] h-[1.15em] border border-current rounded-full translate-y-[0.075em] grid place-content-center before:content-[''] before:w-[0.65em] before:h-[0.65em] before:rounded-full before:scale-0 before:transition-all before:shadow-inset radio focus:outline-violet-500"
         style={{
           fontSize: "inherit",
         }}

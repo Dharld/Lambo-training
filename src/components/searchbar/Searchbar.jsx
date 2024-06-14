@@ -1,6 +1,6 @@
 export default function Searchbar() {
   return (
-    <div className="bg-gray-50 flex gap-1 items-center px-4 py-4 max-w-[400px] w-full rounded-full mx-2 focus-within:ring-1 focus-within:ring-sky-400 focus-within:text-sky-400 text-slate-400">
+    <div className="bg-gray-50 flex gap-1 items-center px-4 py-4 max-w-[400px] w-full rounded-full mx-2 focus-within:ring-1 focus-within:ring-violet-400 focus-within:text-violet-400 text-slate-400">
       <i className="h-[24px] w-[24px] grid place-items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"

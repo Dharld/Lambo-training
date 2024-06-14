@@ -23,7 +23,7 @@ const Modal = ({ isOpen, onClose, children }) => {
     <Overlay isVisible={isOpen} onClose={onClose}>
       <div className="relative" onClick={(e) => e.stopPropagation()}>
         <button
-          className="absolute right-2 top-2 bg-transparent text-sky-400 rounded-full border border-sky-400 hover:bg-sky-400 hover:text-white transition-colors w-[40px] h-[40px]hover:"
+          className="absolute right-2 top-2 bg-transparent text-violet-400 rounded-full border border-violet-400 hover:bg-violet-400 hover:text-white transition-colors w-[40px] h-[40px]hover:"
           onClick={onClose}
         >
           &times;

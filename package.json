@@ -9,6 +9,8 @@
     "deploy-dev": "vite build && git add . && git commit -m \"Build for deployment\" && git push origin main",
     "deploy": "vite build && git add . && git commit -m \"Build for deployment\" && git push origin main",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "stripe-login": "stripe login",
+    "stripe-listen": "stripe listen --forward-to localhost:8888/api/webhook",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -52,6 +52,17 @@ async function getUserCourses() {
   return { success: true, data };
 }
 
+async function getAllUserEnrolledCourses(user_id) {
+  const { data, error } = await supabase.rpc("get_user_enrolled_courses", {
+    p_user_id: user_id,
+  });
+  if (error) {
+    console.error("Error fetching courses: ", error.message);
+    return { success: false, error: error.message };
+  }
+  return { success: true, data };
+}
+
 async function deleteCourse(id) {
   const { error } = await supabase.rpc("delete_course", {
     p_course_id: id,
@@ -62,4 +73,10 @@ async function deleteCourse(id) {
   }
   return { success: true, data: id };
 }
-export default { addCourse, getUserCourses, getAllCourses, deleteCourse };
+export default {
+  addCourse,
+  getUserCourses,
+  getAllCourses,
+  deleteCourse,
+  getAllUserEnrolledCourses,
+};

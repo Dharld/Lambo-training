@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
-import digitalWallet from "../../assets/images/wallet.png";
+import digitalWallet from "../../assets/images/wallet-violet.png";
 import error from "../../assets/images/delete.png";
 import Button from "../../components/Button/Button";
 

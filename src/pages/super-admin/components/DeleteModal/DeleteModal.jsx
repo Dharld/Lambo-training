@@ -21,7 +21,7 @@ export default function DeleteModal({
         <Button handleClick={handleCancel}>Cancel</Button>
         <Button
           handleClick={handleDelete}
-          styles="bg-transparent border border-sky-500 text-sky-400 hover:bg-sky-400 hover:text-white"
+          styles="bg-transparent border border-violet-500 text-violet-400 hover:bg-violet-400 hover:text-white"
           isDisabled={loading}
           loading={loading}
         >

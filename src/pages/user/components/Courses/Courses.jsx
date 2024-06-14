@@ -2,7 +2,7 @@
 import Spinner from "../../../../components/Spinner/Spinner";
 import CourseCard from "../../../../components/CourseCard/CourseCard";
 import { useNavigate } from "react-router-dom";
-import Filter from "../Filter/Filter";
+// import Filter from "../Filter/Filter";
 
 export default function Courses({ courses, loading }) {
   const navigate = useNavigate();
@@ -24,19 +24,15 @@ export default function Courses({ courses, loading }) {
   };
 
   return (
-    <div className="flex flex-col overflow-auto">
-      {/* <Filter /> */}
-      <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-2">
-        {courses.map((course) => (
-          <div key={course.course_id}>
-            <CourseCard
-              course={course}
-              isAdmin={false}
-              handleAction={(e) => checkout(e, course)}
-            />
-          </div>
-        ))}
-      </div>
+    <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-2">
+      {courses.map((course) => (
+        <CourseCard
+          course={course}
+          buttonLabel="Pay Now"
+          handleAction={(e) => checkout(e, course)}
+          key={course.course_id}
+        />
+      ))}
     </div>
   );
 }

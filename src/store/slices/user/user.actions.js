@@ -7,6 +7,7 @@ export const addSupervisor = createAsyncThunk(
   "user/addSupervisor",
   async ({ name, email, password }, { rejectWithValue }) => {
     const res = await authService.addSupervisor(name, email, password);
+    console.log(res);
     if (res.error) {
       return rejectWithValue(res.error);
     }

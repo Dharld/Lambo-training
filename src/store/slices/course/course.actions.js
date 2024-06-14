@@ -36,6 +36,21 @@ export const getAllCourses = createAsyncThunk(
   }
 );
 
+export const getAllUserEnrolledCourses = createAsyncThunk(
+  "course/getAllUserEnrolledCourses",
+  async ({ user_id }, { rejectWithValue }) => {
+    try {
+      const res = await courseService.getAllUserEnrolledCourses(user_id);
+      if (!res.success) {
+        return rejectWithValue(res.error);
+      }
+      return res.data;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
 export const getUserCourses = createAsyncThunk(
   "course/getUserCourses",
   async (_, { rejectWithValue }) => {

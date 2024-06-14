@@ -6,7 +6,7 @@ export default function Tab({ title, isActive, onClick }) {
       className={`${
         !isActive
           ? "font-semibold relative"
-          : "relative text-sky-500 after:bg-sky-500 after:content-[''] after:absolute after:w-full  after:h-1 after:-bottom-2 after:left-0"
+          : "relative text-violet-500 after:bg-violet-500 after:content-[''] after:absolute after:w-full  after:h-1 after:-bottom-2 after:left-0"
       }`}
     >
       {title}

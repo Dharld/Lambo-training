@@ -10,10 +10,10 @@ export default function Input({
 }) {
   return (
     <div
-      className={`group relative border border-slate-200 flex px-4 py-3 rounded-sm transition-all focus-within:border focus-within:border-sky-500 ${styles}`}
+      className={`bg-white group relative border border-slate-200 flex px-4 py-3 rounded-sm transition-all focus-within:border focus-within:border-violet-500 ${styles}`}
     >
       <label
-        className="absolute -left-0 -top-8 text-slate-500 font-semibold group-focus-within:text-sky-500"
+        className="absolute -left-0 -top-8 text-slate-500 font-semibold group-focus-within:text-violet-500"
         htmlFor="password"
       >
         {label}

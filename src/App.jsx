@@ -71,7 +71,7 @@ function App() {
       if (user.role == "Super Admin") {
         navigate("/super-admin/home");
       } else if (user.role == "Admin") {
-        navigate("/admin");
+        navigate("/admin/home");
       }
     }
 

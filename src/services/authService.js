@@ -133,8 +133,6 @@ async function signup(name, email, password) {
       return { success: false, error: rpcError.message };
     }
 
-    console.log("User signed up successfully");
-
     return { success: true };
   } catch (err) {
     return { success: false, error: err.message };
@@ -148,7 +146,6 @@ async function logout() {
       console.error("We have an error logging out: ", error);
       return { success: false, error: error.message };
     }
-    console.log("User logged out successfully");
     return { success: true };
   } catch (err) {
     return { success: false, error: err.message };

@@ -28,7 +28,7 @@ export default function Login() {
       if (user.role === "Super Admin") {
         navigate("/super-admin/home");
       } else if (user.role === "Admin") {
-        navigate("/admin");
+        navigate("/admin/home");
       } else if (user.role === "Customer") {
         navigate("/");
       }
@@ -66,7 +66,7 @@ export default function Login() {
       onSubmit={handleSubmit}
       className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50"
     >
-      <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-sky-100">
+      <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-violet-100">
         <h1 className="secondary-font font-bold text-2xl">
           Login to your account
         </h1>
@@ -92,7 +92,7 @@ export default function Login() {
         <div className="already-account text-right mt-4">
           <p>
             Don't have an account?{" "}
-            <Link to="/signup" className="text-underline text-sky-500">
+            <Link to="/signup" className="text-underline text-violet-500">
               Sign up
             </Link>
           </p>

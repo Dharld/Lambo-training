@@ -36,7 +36,7 @@ export default function Sidebar({
           <Logo />
         </div>
       )}
-      <nav className="flex-1 flex flex-col text-sky">{children}</nav>
+      <nav className="flex-1 flex flex-col text-violet">{children}</nav>
       <nav>
         <ul>
           <li className="flex flex-col items-center gap-2 text-gray-400 font-semibold px-4 py-4 rounded text-color">

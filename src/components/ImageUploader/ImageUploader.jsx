@@ -54,7 +54,7 @@ export default function ImageUploader({
 
   return (
     <div
-      className={`bg-sky-50 transition-colors grid place-items-center rounded-md relative cursor-pointer h-[175px] overflow-hidden ${styles}`}
+      className={`bg-violet-50 transition-colors grid place-items-center rounded-md relative cursor-pointer h-[175px] overflow-hidden ${styles}`}
     >
       {previewUrl ? (
         <div className="absolute top-0 left-0 w-full h-full overlay z-10"></div>
