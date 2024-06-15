@@ -1,0 +1,5 @@
+$mobile-menu: 72px;
+
+.container-overflow {
+  height: calc(100vh - #{$mobile-menu} * 2);
+}
