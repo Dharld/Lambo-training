@@ -9,13 +9,16 @@ export default function Learn() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { id } = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
+
+  const id = user.id;
 
   const { showError } = useToast();
 
   const { getAllUserEnrolledCourses } = useCourses();
 
   useEffect(() => {
+    if (!id) return;
     setLoading(true);
     getAllUserEnrolledCourses(id).then((res) => {
       if (res.error) {
