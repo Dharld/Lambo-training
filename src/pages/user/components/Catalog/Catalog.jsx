@@ -25,7 +25,7 @@ export default function Catalog() {
   if (!id) return;
 
   return (
-    <div className="mt-4 h-full">
+    <div className="mt-4 overflow-auto h-[480px] md:h-full">
       <Courses courses={filteredCourses} loading={loading} />
     </div>
   );

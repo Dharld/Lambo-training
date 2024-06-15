@@ -37,15 +37,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex-1 h-full overflow-auto bg-gray-50">
+    <div className="flex-1 h-fullbg-gray-50">
       <Search
         ref={searchBarRef}
         isSticky={isSticky}
         handleChange={handleChange}
         searchTerm={searchTerm}
       />
-      <div className="w-full max-w-5xl h-full mx-auto py-8 px-4">
-        <h1 className="font-semibold text-3xl text-gray-700 text-center mb-8">
+      <div className="w-full max-w-5xl h-full mx-auto pb-8 px-4">
+        <h1 className="font-bold text-3xl text-slate-500 text-center mb-2 leading-8">
           Explore our catalog of courses
         </h1>
         <Catalog />

@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className="px-8 container mx-auto py-4 flex-1">
       <div className="flex justify-between pb-2 relative z-10">
-        <h1 className="text-slate-500 font-bold text-3xl">My Courses</h1>
+        <h1 className="text-slate-500 font-bold text-2xl">My Courses</h1>
         <div className="flex-1"></div>
         <Button fit={true} styles="cursor-pointer" handleClick={handleNavigate}>
           Add Course

@@ -12,7 +12,7 @@ export default function CourseList({ courses, loading }) {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 container">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 container">
       {courses.map((c, key) => (
         <CourseCard key={key} course={c} buttonLabel="Manage Course" />
       ))}

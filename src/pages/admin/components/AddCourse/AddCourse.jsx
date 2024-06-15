@@ -62,12 +62,8 @@ export default function AddCourse() {
   ];
   return (
     <div className="h-full w-full grid-background flex-1 flex flex-col ">
-      <div className="container mx-auto flex items-center justify-between px-4">
-        <GoBack>
-          <h1 className="text-xl text-slate-500 font-semibold group-hover:text-violet-500 transition-colors">
-            Create Course
-          </h1>
-        </GoBack>
+      <div className="container max-w-[800px] mx-auto flex items-center justify-between px-4">
+        <GoBack></GoBack>
         <Button
           styles="px-8"
           fit={true}
