@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useModal } from "../../hooks/modal.hook";
+import "./Table.scss";
 
 export default function Table({ data }) {
   const { openModal } = useModal();
@@ -24,7 +25,7 @@ export default function Table({ data }) {
         <div className="w-1/4">Actions</div>
       </div>
 
-      <div>
+      <div className="container-overflow">
         {data.map((user) => (
           <div
             className="flex flex-col bg-white shadow-sm hover:bg-slate-50 transition-colors rounded-md mb-2 p-4"
