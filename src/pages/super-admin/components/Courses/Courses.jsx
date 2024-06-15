@@ -81,7 +81,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="container mx-auto p-4 px-8 flex-1 overflow-auto container-overflow">
+    <div className="container mx-auto p-4 px-8 flex-1 overflow-auto">
       <h1 className="text-3xl font-bold text-gray-600 mb-4">Courses</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 overflow-auto">
         {allCourses.map((course) => (

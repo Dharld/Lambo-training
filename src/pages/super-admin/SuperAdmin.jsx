@@ -8,9 +8,9 @@ export default function SuperAdmin() {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <div className="w-[100vw] h-[100vh] flex flex-col">
+    <div className="h-[100vh] flex flex-col">
       <AdminHeader user={user} />
-      <div className="w-[100vw] h-full flex">
+      <div className="flex flex-1 h-full">
         <div className="hidden md:block">
           <AdminSidebar />
         </div>

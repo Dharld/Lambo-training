@@ -12,10 +12,10 @@ const PaymentListHeader = () => {
       <div className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider other">
         Amount
       </div>
-      <div className=" py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider other">
+      <div className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider other">
         Date
       </div>
-      <div className=" py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider other">
+      <div className="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider other">
         Name
       </div>
     </div>
@@ -24,12 +24,10 @@ const PaymentListHeader = () => {
 
 function PaymentListBody({ payments }) {
   return (
-    <div className="w-full">
+    <div className="PaymentListBody">
       {payments.map((p) => (
-        <div key={p.payment_id} className="p-4 px-0 bg-white  border-b flex">
-          <div className=" shrink-0 grow-0 w-12 text-center">
-            {p.payment_id}
-          </div>
+        <div key={p.payment_id} className="p-4 px-0 bg-white border-b flex">
+          <div className="shrink-0 grow-0 w-12 text-center">{p.payment_id}</div>
           <div className="longest">{p.course_title}</div>
           <div className="other">${p.amount}</div>
           <div className="other">{formatDate(new Date(p.payment_date))}</div>
@@ -42,7 +40,7 @@ function PaymentListBody({ payments }) {
 
 export default function PaymentList({ payments }) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col">
       <PaymentListHeader />
       <PaymentListBody payments={payments} />
     </div>

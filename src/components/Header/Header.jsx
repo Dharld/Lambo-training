@@ -30,7 +30,7 @@ export default function Header({ user, showLogo = true }) {
     });
   };
   return (
-    <header className="px-4 py-4 bg-white border-b border-b-slate-100 flex items-center">
+    <header className="relative px-4 py-4 bg-white border-b border-b-slate-100 flex items-center">
       {showLogo && <Logo />}
       <div className="flex-1"></div>
       {/* <Searchbar /> */}
