@@ -63,7 +63,7 @@ export default function CheckoutForm({ course, clientSecret }) {
       onSubmit={handleSubmit}
     >
       {course && (
-        <div className="w-full max-w-4xl bg-white rounded-lg overflow-scroll">
+        <div className="w-full max-w-4xl bg-white rounded-lg overflow-auto">
           <div className="flex flex-col md:flex-row">
             <div className="flex-1 p-8">
               <h1 className="font-semibold text-3xl mb-4">Checkout</h1>

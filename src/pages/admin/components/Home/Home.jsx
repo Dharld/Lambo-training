@@ -19,7 +19,6 @@ export default function Home() {
       if (res.error) {
         showError(res.error.message);
       } else {
-        console.log(res);
         setCourses(res.payload);
       }
       setLoading(false);
@@ -28,13 +27,13 @@ export default function Home() {
 
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("add-course");
+    navigate("courses/draft");
   };
 
   return (
     <div className="px-8 container mx-auto py-4 flex-1">
       <div className="flex justify-between pb-2 relative z-10">
-        <h1 className="text-slate-500 font-bold text-2xl">My Courses</h1>
+        <h1 className="text-gray-500 font-bold text-2xl">My Courses</h1>
         <div className="flex-1"></div>
         <Button fit={true} styles="cursor-pointer" handleClick={handleNavigate}>
           Add Course
