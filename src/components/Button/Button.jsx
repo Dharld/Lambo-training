@@ -7,6 +7,7 @@ export default function Button({
   styles,
   isDisabled,
   fit = false,
+  front = false,
   icon = null,
   error = false,
 }) {
@@ -25,8 +26,9 @@ export default function Button({
         <div className="spinner spinner-extra-small"></div>
       ) : (
         <div className="flex items-center">
+          {front && <span className="mr-2">{icon}</span>}
           <span>{children}</span>
-          {icon}
+          {!front && icon && <span className="mr-2">{icon}</span>}
         </div>
       )}
     </button>

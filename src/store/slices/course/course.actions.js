@@ -21,6 +21,21 @@ export const filterCoursesByLevel = (levels) => {
     payload: levels,
   };
 };
+export const createDraftCourse = createAsyncThunk(
+  "course/createDraftCourse",
+  async ({ title, category_id }, { rejectWithValue }) => {
+    try {
+      const res = await courseService.createDraftCourse(title, category_id);
+      if (!res.success) {
+        return rejectWithValue(res.error);
+      }
+      return res.data;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
 export const getAllCourses = createAsyncThunk(
   "course/getAllCourses",
   async (_, { rejectWithValue }) => {

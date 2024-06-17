@@ -27,11 +27,11 @@ export default function Home() {
 
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("courses/draft");
+    navigate("../courses/draft");
   };
 
   return (
-    <div className="px-8 container mx-auto py-4 flex-1">
+    <div className="px-8 max-w-[1200px] container mx-auto mt-8 flex-1">
       <div className="flex justify-between pb-2 relative z-10">
         <h1 className="text-gray-500 font-bold text-2xl">My Courses</h1>
         <div className="flex-1"></div>

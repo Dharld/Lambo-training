@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addCourse,
+  createDraftCourse,
   deleteCourse,
   getAllCourses,
   getAllUserNonEnrolledCourses,
@@ -10,6 +11,7 @@ import {
 const initialState = {
   courses: [],
   displayedCourses: [],
+  currentCourse: null,
   loading: false,
   error: null,
 };
@@ -34,7 +36,6 @@ const courseSlice = createSlice({
     },
     filterCoursesByLevel: (state, action) => {
       const levels = action.payload;
-      console.log(state.courses);
       if (levels.length === 0) {
         state.displayedCourses = state.courses;
         return;
@@ -46,6 +47,11 @@ const courseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createDraftCourse.fulfilled, (state, action) => {
+        state.currentCourse = action.payload;
+        state.loading = false;
+        state.error = false;
+      })
       .addCase(getAllUserNonEnrolledCourses.fulfilled, (state, action) => {
         state.courses = action.payload;
         state.displayedCourses = state.courses;

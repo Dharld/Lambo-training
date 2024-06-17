@@ -43,6 +43,20 @@ async function getAllCourses() {
   }
 }
 
+async function createDraftCourse(title, category_id) {
+  try {
+    // Draft for the method using the api
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Draft course created");
+        resolve({ success: true, data: { title, category_id, course_id: 1 } });
+      }, 500);
+    });
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
 async function getUserCourses() {
   const { data, error } = await supabase.rpc("get_user_courses", {});
   if (error) {
@@ -85,6 +99,7 @@ async function deleteCourse(id) {
   return { success: true, data: id };
 }
 export default {
+  createDraftCourse,
   addCourse,
   getUserCourses,
   getAllCourses,

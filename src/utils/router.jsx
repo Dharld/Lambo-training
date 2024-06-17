@@ -4,7 +4,6 @@ import Login from "../pages/login/Login.jsx";
 import App from "../App.jsx";
 import SuperAdmin from "../pages/super-admin/SuperAdmin.jsx";
 import Admin from "../pages/admin/Admin.jsx";
-import AddCourse from "../pages/admin/components/AddCourse/AddCourse.jsx";
 import Home from "../pages/admin/components/Home/Home.jsx";
 import { default as HomeSuperAdmin } from "../pages/super-admin/components/Home/Home.jsx";
 import User from "../pages/user/User.jsx";
@@ -14,6 +13,11 @@ import { default as HomeUser } from "../pages/user/components/Home/Home.jsx";
 import Courses from "../pages/super-admin/components/Courses/Courses.jsx";
 import Payments from "../pages/super-admin/Payments/Payments.jsx";
 import Learn from "../pages/user/components/Learn/Learn.jsx";
+import AddDraftCourse from "../pages/admin/components/AddDraftCourse/AddDraftCourse.jsx";
+import EditDraftCourse from "../pages/admin/components/EditDraftCourse/EditDraftCourse.jsx";
+import Audience from "../pages/admin/components/EditDraftCourse/components/Audience.jsx";
+import Content from "../pages/admin/components/EditDraftCourse/components/Content.jsx";
+import Landing from "../pages/admin/components/EditDraftCourse/components/Landing.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -39,19 +43,34 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "admin/home",
+        path: "admin",
         element: <Admin />,
         children: [
           {
-            path: "",
-            element: <Home />,
+            path: "home",
+            element: <EditDraftCourse /> /* Change this to <Home /> */,
           },
           {
             path: "courses/draft",
-            element: <AddCourse />,
+            element: <AddDraftCourse />,
           },
           {
-            path: ":courseId/manage",
+            path: "courses/draft/:courseId/edit",
+            element: <EditDraftCourse />,
+            children: [
+              {
+                path: "audience",
+                element: <Audience />,
+              },
+              {
+                path: "content",
+                element: <Content />,
+              },
+              {
+                path: "landing",
+                element: <Landing />,
+              },
+            ],
           },
         ],
       },
@@ -63,7 +82,6 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-
       {
         path: "",
         element: <User />,
