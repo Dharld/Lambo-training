@@ -30,7 +30,7 @@ export default function Header({ user, showLogo = true }) {
     });
   };
   return (
-    <div className="sticky top-0 z-50 px-4 py-4 bg-white border-b border-b-slate-100 flex items-center">
+    <div className="sticky top-0 z-50 px-4 py-4 bg-white border-b border-b-slate-100 flex items-center h-[64px]">
       {showLogo && <Logo />}
       <div className="flex-1"></div>
       {/* <Searchbar /> */}
@@ -54,8 +54,14 @@ export default function Header({ user, showLogo = true }) {
           onMouseLeave={handleMouseLeave}
         >
           {user.name}
+          {/* <span
+            onClick={logout}
+            className="text-zinc-700 ml-2 hover:text-violet-500"
+          >
+            Logout
+          </span> */}
           <Popup isOpen={open}>
-            <li onClick={logout} className="text-zinc-600">
+            <li onClick={logout} className="text-zinc-600 px-4 py-2">
               Logout
             </li>
           </Popup>

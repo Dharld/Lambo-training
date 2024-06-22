@@ -16,7 +16,7 @@ export default function Button({
       type={type}
       className={`${
         fit ? "w-fit" : "w-full"
-      } flex justify-center items-center disabled:bg-violet-100 ${styles} ${
+      } flex justify-center items-center  disabled:bg-violet-100 ${styles} ${
         error ? "bg-red-400" : ""
       }`}
       onClick={handleClick}

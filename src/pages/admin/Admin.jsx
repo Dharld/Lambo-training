@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export default function Admin() {
   const user = useSelector((state) => state.auth.user);
   return (
-    <div className="flex flex-col overflow-auto bg-slate-50">
+    <div className="flex flex-col overflow-auto bg-slate-50 h-screen">
       <Header user={user} title="Admin" />
       <Outlet />
     </div>

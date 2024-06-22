@@ -9,7 +9,7 @@ const Overlay = ({ isVisible, onClose, children }) => {
   };
   return (
     <div
-      className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center ${
+      className={`z-[1000] fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${
         !isVisible ? "hidden" : ""
       } backdrop-blur`}
       onClick={handleClickOverlay}

@@ -5,14 +5,24 @@ import {
   getAllUserEnrolledCourses as getAllUserEnrolledCoursesAction,
   getAllUserNonEnrolledCourses as getAllUserNonEnrolledCoursesAction,
 } from "../store/slices/course/course.actions";
+import courseService from "../services/courseService";
 
 export const useCourses = () => {
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.auth.user);
   const allCourses = useSelector((state) => state.course.courses);
   const courses = useSelector((state) => state.course.displayedCourses);
   const loadingCourses = useSelector((state) => state.course.loading);
 
+  const id = user?.id;
+
+  const getAllCategories = async () => {
+    return courseService.getCategories();
+  };
+
+  const getAllDrafts = () => {
+    return courseService.getAllDrafts(id);
+  };
   const getAllCourses = () => {
     return dispatch(getAllCoursesAction());
   };
@@ -38,5 +48,7 @@ export const useCourses = () => {
     getAllCourses,
     getAllUserEnrolledCourses,
     getAllUserNonEnrolledCourses,
+    getAllCategories,
+    getAllDrafts,
   };
 };

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Signup from "../pages/signup/Signup.jsx";
 import Login from "../pages/login/Login.jsx";
 import App from "../App.jsx";
@@ -18,6 +18,8 @@ import EditDraftCourse from "../pages/admin/components/EditDraftCourse/EditDraft
 import Audience from "../pages/admin/components/EditDraftCourse/components/Audience.jsx";
 import Content from "../pages/admin/components/EditDraftCourse/components/Content.jsx";
 import Landing from "../pages/admin/components/EditDraftCourse/components/Landing.jsx";
+import Drafts from "../pages/admin/components/Drafts.jsx";
+import AuthorCourses from "../pages/admin/components/AuthorCourses.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -48,14 +50,29 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "home",
-            element: <EditDraftCourse /> /* Change this to <Home /> */,
+            element: <Home />,
+
+            children: [
+              {
+                path: "",
+                element: <Navigate replace to="drafts" />,
+              },
+              {
+                path: "drafts",
+                element: <Drafts />,
+              },
+              {
+                path: "courses",
+                element: <AuthorCourses />,
+              },
+            ],
           },
           {
-            path: "courses/draft",
+            path: "courses/new-draft",
             element: <AddDraftCourse />,
           },
           {
-            path: "courses/draft/:courseId/edit",
+            path: "courses/draft/edit",
             element: <EditDraftCourse />,
             children: [
               {

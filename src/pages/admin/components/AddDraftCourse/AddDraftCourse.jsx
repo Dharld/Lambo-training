@@ -2,29 +2,48 @@ import Button from "../../../../components/Button/Button";
 import Input from "../../../../components/Input/Input";
 import Logo from "../../../../components/Logo/Logo";
 import Select from "../../../../components/Select/Select";
+import Spinner from "../../../../components/Spinner/Spinner";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useToast } from "../../../../hooks/toast.hook";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./AddDraftCourse.scss";
 import { createDraftCourse } from "../../../../store/slices/course/course.actions";
+import { useCourses } from "../../../../hooks/courses.hook";
+import "./AddDraftCourse.scss";
 
 export default function AddDraftCourse() {
-  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const dispatch = useDispatch();
-  const { showError } = useToast();
 
   const [formData, setFormData] = useState({
     title: "",
     category_id: "",
   });
 
+  const { getAllCategories } = useCourses();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { showError } = useToast();
+
+  useEffect(() => {
+    setLoading(true);
+    getAllCategories()
+      .then((res) => {
+        if (!res.success) {
+          showError(res.error);
+          return;
+        }
+        console.log(res.data);
+        setCategories(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -46,18 +65,18 @@ export default function AddDraftCourse() {
         showError(res.error);
         setLoading(false);
       }
-      const { course_id } = res.payload;
-      navigate(`${course_id}/edit`);
+      navigate(`/admin/courses/draft/edit`);
       setLoading(false);
     });
   };
 
-  const categories = [
-    { id: 0, category_id: "Computer Science" },
-    { id: 1, category_id: "Nursing" },
-    { id: 2, category_id: "Human Resource" },
-    { id: 3, category_id: "Finance" },
-  ];
+  if (loading) {
+    return (
+      <div className="w-full h-full grid place-items-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full absolute top-0 left-0 bg-gray-50 z-50 h-screen">
@@ -86,7 +105,7 @@ export default function AddDraftCourse() {
             data={categories}
             styles="mt-4"
             idAttribute="id"
-            labelAttribute="category_id"
+            labelAttribute="name"
             handleChange={handleChange}
           />
         </div>

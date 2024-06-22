@@ -21,15 +21,72 @@ export const filterCoursesByLevel = (levels) => {
     payload: levels,
   };
 };
+
+export const setCurrentCourse = (course) => {
+  return {
+    type: "course/setCurrentCourse",
+    payload: course,
+  };
+};
+
+export const clearDraft = () => {
+  return {
+    type: "course/clearDraft",
+  };
+};
+
+export const setDraft = (draft) => {
+  return {
+    type: "course/setDraft",
+    payload: draft,
+  };
+};
+
 export const createDraftCourse = createAsyncThunk(
   "course/createDraftCourse",
-  async ({ title, category_id }, { rejectWithValue }) => {
+  async ({ title, category_id }, { dispatch, rejectWithValue }) => {
     try {
       const res = await courseService.createDraftCourse(title, category_id);
       if (!res.success) {
         return rejectWithValue(res.error);
       }
-      return res.data;
+      const draft = res.data;
+      draft.objectives = [];
+      draft.requirements = [];
+      draft.targets = [];
+      dispatch(setDraft(draft));
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const addAudienceDetails = createAsyncThunk(
+  "course/addAudienceDetails",
+  async (
+    { draft_id, requirements, objectives, targets },
+    { dispatch, getState, rejectWithValue }
+  ) => {
+    try {
+      const res = await courseService.addAudienceDetails(
+        draft_id,
+        requirements,
+        objectives,
+        targets
+      );
+      if (!res.success) {
+        return rejectWithValue(res.error);
+      }
+      const state = await getState();
+      const draft = state.course.draft;
+      const newDraft = {
+        ...draft,
+        requirements,
+        objectives,
+        targets,
+      };
+      dispatch(setDraft(newDraft));
+      return newDraft;
     } catch (err) {
       rejectWithValue(err);
     }
@@ -118,8 +175,22 @@ export const deleteCourse = createAsyncThunk(
   "course/deleteCourse",
   async (id, { rejectWithValue }) => {
     try {
-      console.log(id);
       const res = await courseService.deleteCourse(id);
+      if (!res.success) {
+        return rejectWithValue(res.error);
+      }
+      return id;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteDraft = createAsyncThunk(
+  "course/deleteDraft",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await courseService.deleteDraft(id);
       if (!res.success) {
         return rejectWithValue(res.error);
       }

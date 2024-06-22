@@ -4,6 +4,7 @@ export default function Input({
   name,
   label,
   value,
+  min,
   handleChange,
   placeholder,
   styles,
@@ -22,6 +23,7 @@ export default function Input({
         type={type}
         name={name}
         id={name}
+        min={type === "number" ? min : undefined}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}

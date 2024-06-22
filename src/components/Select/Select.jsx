@@ -24,21 +24,18 @@ export default function Select({
         name={name}
         id={id}
         onChange={handleChange}
-        className={`bg-white group relative border border-slate-200 outline-none flex p-4 rounded-sm transition-all focus-within:border focus-within:border-violet-500 w-full peer`}
+        defaultValue=""
+        className={`bg-white group relative border border-slate-200 outline-none flex p-3 rounded-sm transition-all focus-within:border focus-within:border-violet-500 w-full peer`}
       >
-        {data.map((d, i) => {
-          return (
-            <>
-              <option
-                value={d[valueAttribute]}
-                key={d[idAttribute]}
-                selected={i == 0}
-              >
-                {d[labelAttribute]}
-              </option>
-            </>
-          );
-        })}
+        {/* Label option added here */}
+        <option value="" disabled>
+          Select an option
+        </option>
+        {data.map((d) => (
+          <option value={d[valueAttribute]} key={d[idAttribute]}>
+            {d[labelAttribute]}
+          </option>
+        ))}
       </select>
     </div>
   );

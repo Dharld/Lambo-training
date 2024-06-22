@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  addAudienceDetails,
   addCourse,
   createDraftCourse,
   deleteCourse,
@@ -8,9 +9,12 @@ import {
   getUserCourses,
 } from "./course.actions";
 
+const draft = JSON.parse(localStorage.getItem("draft"));
+
 const initialState = {
   courses: [],
   displayedCourses: [],
+  draft: draft || null,
   currentCourse: null,
   loading: false,
   error: null,
@@ -21,11 +25,24 @@ const courseSlice = createSlice({
   initialState,
   reducers: {
     // Add a new course to the state
+    setCurrentCourse: (state, action) => {
+      state.currentCourse = {
+        ...state.currentCourse,
+        ...action.payload,
+      };
+    },
+    setDraft: (state, action) => {
+      state.draft = action.payload;
+      localStorage.setItem("draft", JSON.stringify(state.draft));
+    },
+    clearDraft: (state) => {
+      state.draft = null;
+      localStorage.removeItem("draft");
+    },
     filterCourses: (state, action) => {
       state.displayedCourses = state.courses.filter(action.payload);
     },
     filterCoursesByName: (state, action) => {
-      console.log(action);
       if (action.payload === "") {
         state.displayedCourses = state.courses;
         return;
@@ -47,8 +64,11 @@ const courseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createDraftCourse.fulfilled, (state, action) => {
-        state.currentCourse = action.payload;
+      .addCase(addAudienceDetails.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(createDraftCourse.fulfilled, (state) => {
         state.loading = false;
         state.error = false;
       })

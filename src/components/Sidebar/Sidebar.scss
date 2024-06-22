@@ -1,7 +1,11 @@
-li {
+/* li {
   @apply transition-colors;
   &:hover,
   a.active {
     @apply bg-violet-50 text-violet-500 cursor-pointer;
   }
+}
+ */
+.sidebar-height {
+  height: calc(100vh - 64px);
 }

@@ -11,7 +11,7 @@ export default function CourseList({ courses, loading }) {
     );
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 container py-8 h-[600px] overflow-y-auto ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 container py-8 overflow-y-auto ">
       {courses.map((c, key) => (
         <CourseCard key={key} course={c} buttonLabel="Manage Course" />
       ))}

@@ -1,4 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
+import "react-image-crop/dist/ReactCrop.css";
 import "./App.scss";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
