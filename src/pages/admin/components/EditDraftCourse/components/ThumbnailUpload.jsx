@@ -31,7 +31,11 @@ const ThumbnailUpload = ({ courseThumbnailUrl, handleImageChange, file }) => {
           >
             <div className="hover:underline">Show Preview</div>
           </div>
-          <img src={courseThumbnailUrl.current} alt="" className="flex-1" />
+          <img
+            src={decodeURIComponent(courseThumbnailUrl.current)}
+            alt=""
+            className="flex-1"
+          />
         </div>
         <div className="flex-1 flex flex-col justify-center">
           <div>

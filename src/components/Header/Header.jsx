@@ -53,13 +53,7 @@ export default function Header({ user, showLogo = true }) {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {user.name}
-          {/* <span
-            onClick={logout}
-            className="text-zinc-700 ml-2 hover:text-violet-500"
-          >
-            Logout
-          </span> */}
+          <span>{user.name}</span>
           <Popup isOpen={open}>
             <li onClick={logout} className="text-zinc-600 px-4 py-2">
               Logout

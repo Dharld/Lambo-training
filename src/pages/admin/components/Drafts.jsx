@@ -11,19 +11,22 @@ import Button from "../../../components/Button/Button";
 
 const Draft = ({ draft, user, formatDate, actions }) => (
   <div
-    className="bg-white flex flex-col h-[50vh] rounded-md overflow-hidden relative"
+    className="bg-white flex flex-col h-[50vh] rounded-sm overflow-hidden relative"
     key={draft.draft_id}
   >
     <div className="aspect-w-16 aspect-h-9 bg-slate-200 relative overflow-hidden">
-      <img src={draft.thumbnail_url} className="w-full h-full object-cover" />
+      <img
+        src={decodeURIComponent(draft.thumbnail_url)}
+        className="w-full h-full object-cover"
+      />
       <div className="absolute transition-colors cursor-pointer bg-white text-gray-600 text-xs font-bold w-fit h-fit px-2 py-1">
         {draft.Category.name}
       </div>
     </div>
     <div className="flex-1 p-4 flex flex-col">
-      <div className="flex">
-        <div className="font-bold w-full text-xl leading-6 tracking-normal">
-          {draft.title}
+      <div className="flex flex-col-reverse">
+        <div className="font-bold w-full text-xl leading-6 tracking-normal ">
+          {draft.title.slice(0, 50) + (draft.title.length > 50 ? "..." : "")}
         </div>
         <div className="text-slate-400 text-sm font-semibold my-1 flex items-center justify-between">
           {formatDate(draft.created_at)}
@@ -31,7 +34,7 @@ const Draft = ({ draft, user, formatDate, actions }) => (
       </div>
       {draft.description && (
         <div className="text-gray-400 text-sm mt-1">
-          {draft.description.slice(0, 60) + "..."}{" "}
+          {draft.description.slice(0, 100) + "..."}{" "}
           {/* <span className="underline text-violet-500 hover:text-violet-400 cursor-pointer">
                         Read more
                       </span> */}
@@ -69,6 +72,7 @@ export default function Drafts() {
           showError(res.error);
           return;
         }
+        console.log(res.data);
         setDrafts(res.data);
       })
       .finally(() => {
@@ -122,7 +126,7 @@ export default function Drafts() {
             Create your Own Course
           </h1>
           <Button fit={true} styles="cursor-pointer">
-            <NavLink to="../courses/new-draft">Create New Course</NavLink>
+            <NavLink to="/admin/courses/new-draft">Create New Course</NavLink>
           </Button>
         </div>
       </div>

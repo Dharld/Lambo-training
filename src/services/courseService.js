@@ -13,7 +13,7 @@ async function getCourseDetails(courseId) {
       console.error("Error getting course details: ", error.message);
       return { success: false, error: error.message };
     }
-    return { success: true, data };
+    return { success: true, data: data };
   } catch (err) {
     console.error("Error getting course details: ", err.message);
     return { success: false, error: err.message };
@@ -49,6 +49,7 @@ async function createSection(draft_id, title) {
       console.error("Error adding session: ", error.message);
       return { success: false, error: error.message };
     }
+
     return { success: true, data: data[0] };
   } catch (err) {
     console.error("Error adding session: ", err.message);
@@ -348,7 +349,7 @@ async function uploadThumbnail(draft_id, blob, filePath) {
   const {
     data: { publicUrl },
     error,
-  } = await supabase.storage.from("thumbnails").getPublicUrl(filePath);
+  } = supabase.storage.from("thumbnails").getPublicUrl(filePath);
 
   if (error) {
     console.error("Error getting thumbnail url: ", error.message);

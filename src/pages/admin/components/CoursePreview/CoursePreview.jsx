@@ -10,6 +10,7 @@ import Spinner from "../../../../components/Spinner/Spinner";
 // import { useEffect, useRef } from "react";
 
 export default function CoursePreview() {
+  const [showMore, setShowMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState(null);
 
@@ -28,6 +29,7 @@ export default function CoursePreview() {
             showError(res.error);
             return;
           }
+          console.log(res.data);
           setCourse(res.data);
         })
         .finally(() => {
@@ -36,9 +38,11 @@ export default function CoursePreview() {
     }
   }, []);
 
-  const description = `This course will teach you the fundamentals of Data Science and Machine Learning. You will learn to leverage the power of ChatGPTand add a powerful tool in your Tech Stack. You will also learnabout Matplotlib and Seaborn - Two important Data Visualization libraries in Python. You will build 3 complete Data Science andMachine Learning Projects in a qucik and efficient way by usingconcepts covered in the course and ChatGPT. This course will teachyou  ChatGPT.`;
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
 
-  if (true) {
+  if (loading) {
     return (
       <div className="w-full h-full grid place-items-center">
         <Spinner />
@@ -48,7 +52,10 @@ export default function CoursePreview() {
   return (
     <div className="bg-white top-[64px] left-0 w-full z-[1999]">
       <div className="right-menu rounded-sm overflow-hidden shadow">
-        <div className="w-[348px] aspect-[16/9] mx-auto mt-[1px] bg-zinc-200" />
+        <img
+          src={decodeURIComponent(course.thumbnail_url)}
+          className="w-[348px] aspect-[16/9] mx-auto mt-[1px] bg-zinc-200 object-cover"
+        />
         <div className="px-6 pt-4">
           <div className="text-slate-900 font-bold text-3xl">
             ${course.price}
@@ -86,9 +93,9 @@ export default function CoursePreview() {
           </div> */}
           <div className="left h-full flex flex-col pt-0 pb-6">
             <div className="bg-transparent border-l-2 border-l-violet-500 text-violet-500 select-none w-fit flex items-center justify-center  font-bold px-2 py-[2px] mb-6">
-              {course.Category.name}
+              {course.category_name}
             </div>
-            <div className="text-4xl font-bold">{course.title}</div>
+            <div className="text-4xl font-bold">{course.course_title}</div>
             <div className="text-slate-100 mt-2 text-xl">{course.subtitle}</div>
             <div className="mt-2">
               <div className="flex items-center gap-1">
@@ -108,7 +115,7 @@ export default function CoursePreview() {
             <div>
               Created by{" "}
               <span className="text-violet-500 hover:underline cursor-pointer">
-                Takou Tene
+                {course.author_name}
               </span>
             </div>
           </div>
@@ -119,16 +126,19 @@ export default function CoursePreview() {
           <section className="border px-6 py-4 mt-6">
             <h2 className="section-header">What you will learn</h2>
             <ul className="flex flex-col gap-2">
-              <li className="flex items-start gap-2 leading-6">
-                <span>
-                  <AiOutlineCheckSquare className="text-violet-500" />
-                </span>
-                <span className="-mt-[4px]">
-                  {" "}
-                  Learn about Fundamentals of Data Science and Machine Learning.
-                </span>
-              </li>
-              <li className="flex items-start gap-2 leading-6">
+              {course.objectives.map((o) => (
+                <li
+                  className="flex items-start gap-2 leading-6"
+                  key={o.objective_id}
+                >
+                  <span>
+                    <AiOutlineCheckSquare className="text-violet-500" />
+                  </span>
+                  <span className="-mt-[4px]"> {o.objective_description}.</span>
+                </li>
+              ))}
+
+              {/* <li className="flex items-start gap-2 leading-6">
                 <span>
                   <AiOutlineCheckSquare className="text-violet-500" />
                 </span>
@@ -155,35 +165,51 @@ export default function CoursePreview() {
                   a qucik and efficient way by using concepts covered in the
                   course and ChatGPT.
                 </span>
-              </li>
+              </li> */}
             </ul>
           </section>
-          <div className="flex gap-4">
-            <section className="my-4">
-              <h2 className="section-header">Requirements</h2>
-              <ul className="text-gray-700">
-                <li>Basic knowledge of Python</li>
+
+          <section className="my-4">
+            <h2 className="section-header">Requirements</h2>
+            <ul className="text-gray-700">
+              {course.requirements.map((r) => (
+                <li key={r.requirement_id} className="flex my-3 gap-2">
+                  <AiOutlineCheckSquare className="text-violet-500" />
+                  <span className="-mt-[4px]">{r.requirement_description}</span>
+                </li>
+              ))}
+              {/* <li>Basic knowledge of Python</li>
                 <li>Basic knowledge of Machine Learning</li>
-                <li>Basic knowledge of Data Science</li>
-              </ul>
-            </section>
-            <div className="h-full w-[10px] bg-slate-900"></div>
-            <section className="my-4">
-              <h2 className="section-header">Who's this course for ?</h2>
-              <ul className="text-gray-700">
-                <li>Machine Learning Engineer</li>
-                <li>Software Engineers</li>
-              </ul>
-            </section>
-          </div>
+                <li>Basic knowledge of Data Science</li> */}
+            </ul>
+          </section>
+          <div className="h-full w-[10px] bg-slate-900"></div>
+          <section className="my-4">
+            <h2 className="section-header">Who's this course for ?</h2>
+            <ul className="text-gray-700">
+              {course.targets.map((t) => (
+                <li key={t.target_id} className="flex my-3 gap-2">
+                  <AiOutlineCheckSquare className="text-violet-500" />
+                  <span className="-mt-[4px]">{t.target_description}</span>
+                </li>
+              ))}
+              {/* <li>Machine Learning Engineer</li>
+                <li>Software Engineers</li> */}
+            </ul>
+          </section>
 
           <section>
             <h2 className="section-header">Description</h2>
             <p>
-              {description.slice(0, 400) + "..."}{" "}
-              <span className="text-violet-500 cursor-pointer hover:underline">
-                Read More
-              </span>{" "}
+              {showMore
+                ? course.course_description.slice(0, 400) + "..."
+                : course.course_description}
+              <span
+                className="text-violet-500 cursor-pointer hover:underline"
+                onClick={toggleShowMore}
+              >
+                {showMore ? "Read More" : "Show Less"}
+              </span>
             </p>
           </section>
         </div>
