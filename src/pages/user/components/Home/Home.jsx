@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Catalog from "../Catalog/Catalog";
 import { filterCoursesByName } from "../../../../store/slices/course/course.actions";
 import Search from "../Search/Search";
+import Header from "../../../../components/Header/Header";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,6 +11,7 @@ export default function Home() {
   const searchBarRef = useRef(null);
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (searchTerm) {
@@ -38,6 +40,7 @@ export default function Home() {
 
   return (
     <div className="flex-1 h-fullbg-gray-50">
+      <Header user={user} />
       <Search
         ref={searchBarRef}
         isSticky={isSticky}

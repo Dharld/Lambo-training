@@ -58,7 +58,7 @@ export default function AuthorCourses() {
   const { showError, showSuccess } = useToast();
   const navigate = useNavigate();
 
-  const id = user.id;
+  const id = user?.id;
 
   useEffect(() => {
     setLoading(true);

@@ -4,6 +4,27 @@ import supabase from "../utils/connectSupabase";
 import { uploadImage } from "../utils/upload.js";
 import { encodeUri } from "../utils/url.js";
 
+async function getAllCoursesPreview() {
+  try {
+    const { data, error } = await supabase.from("Course").select(`
+      course_id,
+      title,
+      description,
+      price,
+      subtitle,
+      thumbnail_url,
+      User:author_id (name)
+    `);
+    if (error) {
+      console.error("Error getting courses: ", error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  } catch (e) {
+    console.error("Error getting courses: ", e.message);
+    return { success: false, error: e.message };
+  }
+}
 async function getCourseDetails(courseId) {
   try {
     const { data, error } = await supabase.rpc("get_course_details", {
@@ -391,6 +412,7 @@ export default {
   getAllPublishedCourses,
   getAllSection,
   getAllCourses,
+  getAllCoursesPreview,
   getCourseDetails,
   deleteCourse,
   getAllUserEnrolledCourses,

@@ -1,4 +1,9 @@
-import { AiFillStar, AiFillTrophy, AiOutlineCheckSquare } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiFillTrophy,
+  AiOutlineArrowLeft,
+  AiOutlineCheckSquare,
+} from "react-icons/ai";
 import "./CoursePreview.scss";
 import Button from "../../../../components/Button/Button";
 import { IoInfiniteOutline } from "react-icons/io5";
@@ -6,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import courseService from "../../../../services/courseService";
 import { useToast } from "../../../../hooks/toast.hook";
+import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner/Spinner";
 // import { useEffect, useRef } from "react";
 
@@ -17,7 +23,9 @@ export default function CoursePreview() {
   const params = useParams();
   const courseId = params.courseId;
 
-  const { showError, showSuccess } = useToast();
+  const { showError } = useToast();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (courseId) {
@@ -42,6 +50,10 @@ export default function CoursePreview() {
     setShowMore(!showMore);
   };
 
+  const navigateToHome = () => {
+    navigate("/home");
+  };
+
   if (loading) {
     return (
       <div className="w-full h-full grid place-items-center">
@@ -51,6 +63,12 @@ export default function CoursePreview() {
   }
   return (
     <div className="bg-white top-[64px] left-0 w-full z-[1999]">
+      <div
+        className="absolute top-20 left-4 w-12 h-12 cursor-pointer bg-slate-100 z-[1000000000] rounded-full grid place-items-center hover:border-violet-500 hover:border transition-colors group"
+        onClick={navigateToHome}
+      >
+        <AiOutlineArrowLeft className="group-hover:text-violet-500" />
+      </div>
       <div className="right-menu rounded-sm overflow-hidden shadow">
         <img
           src={decodeURIComponent(course.thumbnail_url)}

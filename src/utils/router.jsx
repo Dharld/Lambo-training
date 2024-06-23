@@ -21,12 +21,36 @@ import Landing from "../pages/admin/components/EditDraftCourse/components/Landin
 import Drafts from "../pages/admin/components/Drafts.jsx";
 import AuthorCourses from "../pages/admin/components/AuthorCourses.jsx";
 import CoursePreview from "../pages/admin/components/CoursePreview/CoursePreview.jsx";
+import Homepage from "../pages/home/HomePage.jsx";
+import Layout from "../pages/Layout.jsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "",
+        element: <Navigate replace to="home" />,
+      },
+      {
+        path: "home",
+        element: <Layout />,
+        children: [
+          {
+            path: "",
+            element: <Homepage />,
+          },
+          {
+            path: "course/:courseId",
+            element: <CoursePreview />,
+          },
+        ],
+      },
+      {
+        path: "user",
+        element: <HomeUser />,
+      },
       {
         path: "super-admin",
         element: <SuperAdmin />,

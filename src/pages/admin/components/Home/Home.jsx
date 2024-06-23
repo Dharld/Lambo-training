@@ -17,7 +17,7 @@ import "./Home.scss";
 import { logout as logoutAction } from "../../../../store/slices/auth/auth.actions";
 
 export default function Home() {
-  const { isOpen, closeModal, modalContent } = useModal();
+  const { isOpen, closeModal } = useModal();
 
   const { showError, showSuccess } = useToast();
   const dispatch = useDispatch();

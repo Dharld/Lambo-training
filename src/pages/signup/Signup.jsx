@@ -6,6 +6,7 @@ import "./Signup.scss";
 import { signup } from "../../store/slices/auth/auth.actions";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const INITIAL_STATE = {
   name: "",
@@ -72,11 +73,21 @@ export default function Signup() {
     });
   };
 
+  const navigateToHome = () => {
+    navigate("/home");
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50"
     >
+      <div
+        className="absolute top-4 left-4 w-12 h-12 cursor-pointer bg-slate-100 rounded-full grid place-items-center hover:border-violet-500 hover:border transition-colors group"
+        onClick={navigateToHome}
+      >
+        <AiOutlineArrowLeft className="group-hover:text-violet-500" />
+      </div>
       <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-violet-100">
         <h1 className="secondary-font font-bold text-2xl">Signup</h1>
         <Input

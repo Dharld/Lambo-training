@@ -7,6 +7,7 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./Login.scss";
 import "./../../App.scss";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const INITIAL_STATE = {
   email: "",
@@ -17,6 +18,7 @@ export default function Login() {
   const [credentials, setCredentials] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const user = useSelector((state) => state.auth.user);
   const error = useSelector((state) => state.auth.error);
   const loading = useSelector((state) => state.auth.loading);
@@ -24,6 +26,7 @@ export default function Login() {
   const { showError, showSuccess } = useToast();
 
   useEffect(() => {
+    console.log(user);
     if (user) {
       if (user.role === "Super Admin") {
         navigate("/super-admin/home");
@@ -40,6 +43,10 @@ export default function Login() {
       showError(error);
     }
   }, [error, showError]);
+
+  const navigateToHome = () => {
+    navigate("/home");
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,8 +71,14 @@ export default function Login() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50"
+      className="grid items-center w-full h-[100vh] place-items-center my-auto overflow-auto px-2 bg-slate-50 relative"
     >
+      <div
+        className="absolute top-4 left-4 w-12 h-12 cursor-pointer bg-slate-100 rounded-full grid place-items-center hover:border-violet-500 hover:border transition-colors group"
+        onClick={navigateToHome}
+      >
+        <AiOutlineArrowLeft className="group-hover:text-violet-500" />
+      </div>
       <div className="wrapper w-full max-w-[450px] mx-auto bg-white p-10 rounded-md shadow-sm shadow-violet-100">
         <h1 className="secondary-font font-bold text-2xl">
           Login to your account
