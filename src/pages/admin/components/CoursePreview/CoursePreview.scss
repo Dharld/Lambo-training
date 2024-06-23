@@ -1,0 +1,22 @@
+.my-container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .left {
+    width: 55%;
+  }
+}
+
+.right-menu {
+  position: fixed;
+  top: calc(64px + 2rem);
+  left: 60%;
+  width: 350px;
+  min-height: 300px;
+  padding-bottom: 1rem;
+  background-color: white;
+}
+
+.section-header {
+  @apply text-2xl font-bold my-2;
+}

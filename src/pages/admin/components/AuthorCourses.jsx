@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import Button from "../../../components/Button/Button";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import courseService from "../../../services/courseService";
 import { useToast } from "../../../hooks/toast.hook";
 import { AiFillEye } from "react-icons/ai";
 import Spinner from "../../../components/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const Course = ({ draft, user, formatDate, actions }) => (
   <div
@@ -30,7 +30,7 @@ const Course = ({ draft, user, formatDate, actions }) => (
 
       {draft.description && (
         <div className="text-gray-400 text-sm mt-1">
-          {draft.description.slice(0, 60) + "..."}{" "}
+          {draft.description.slice(0, 60) + "..."}
           {/* <span className="underline text-violet-500 hover:text-violet-400 cursor-pointer">
                         Read more
                       </span> */}
@@ -43,7 +43,6 @@ const Course = ({ draft, user, formatDate, actions }) => (
         <div className="mx-auto"></div>
         {actions}
       </div>
-      {/* <Button styles="mt-2">Preview Course</Button> */}
     </div>
   </div>
 );
@@ -51,8 +50,10 @@ const Course = ({ draft, user, formatDate, actions }) => (
 export default function AuthorCourses() {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
+
   const user = useSelector((state) => state.auth.user);
   const { showError, showSuccess } = useToast();
+  const navigate = useNavigate();
 
   const id = user.id;
 
@@ -79,11 +80,16 @@ export default function AuthorCourses() {
     }).format(new Date(date));
   };
 
-  const PreviewCourseAction = () => {
+  const PreviewCourseAction = ({ id }) => {
+    const navigateToCoursePreview = () => {
+      navigate(`/admin/home/preview/${id}`);
+    };
+
     return (
       <div
         className="bg-violet-50 hover:bg-violet-500 transition-colors px-4 py-2 rounded-full cursor-pointer group flex items-center gap-2"
         title="Preview Course"
+        onClick={() => navigateToCoursePreview(id)}
       >
         <AiFillEye
           className="text-base text-violet-500 group-hover:text-white"
@@ -115,7 +121,7 @@ export default function AuthorCourses() {
             draft={d}
             user={user}
             formatDate={formatDate}
-            actions={<PreviewCourseAction />}
+            actions={<PreviewCourseAction id={d.course_id} />}
           />
         ))}
       </div>

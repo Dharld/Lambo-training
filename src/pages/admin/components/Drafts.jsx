@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { useCourses } from "../../../hooks/courses.hook";
 import { setDraft } from "../../../store/slices/course/course.actions";
 import { useToast } from "../../../hooks/toast.hook";
 import Spinner from "../../../components/Spinner/Spinner";
+import Button from "../../../components/Button/Button";
 
 const Draft = ({ draft, user, formatDate, actions }) => (
   <div
@@ -114,20 +115,32 @@ export default function Drafts() {
   );
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto">
-      <h1 className="font-semibold text-slate-600 text-xl my-6">
-        Your previous drafts
-      </h1>
-      <div className="grid grid-cols-3 gap-8">
-        {drafts.map((d) => (
-          <Draft
-            key={d.draft_id}
-            draft={d}
-            user={user}
-            formatDate={formatDate}
-            actions={<EditDraftAction draft={d} />}
-          />
-        ))}
+    <div className="w-full">
+      <div className="bg-white px-4 py-4 items-center rounded-sm sticky top-0 z-[100]">
+        <div className="max-w-[1000px] mx-auto flex justify-between items-center w-full">
+          <h1 className="text-zinc-600 font-semibold text-xl">
+            Create your Own Course
+          </h1>
+          <Button fit={true} styles="cursor-pointer">
+            <NavLink to="../courses/new-draft">Create New Course</NavLink>
+          </Button>
+        </div>
+      </div>
+      <div className="max-w-[1000px] mx-auto">
+        <h1 className="font-semibold text-slate-600 text-xl my-6">
+          Your previous drafts
+        </h1>
+        <div className="grid grid-cols-3 gap-8">
+          {drafts.map((d) => (
+            <Draft
+              key={d.draft_id}
+              draft={d}
+              user={user}
+              formatDate={formatDate}
+              actions={<EditDraftAction draft={d} />}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

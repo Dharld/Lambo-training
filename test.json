@@ -1,0 +1,63 @@
+[
+  {
+    "get_course_details": {
+      "course_id": 22,
+      "course_title": "Test",
+      "course_description": "This is my description",
+      "price": 150,
+      "level": "Beginner",
+      "created_at": "2024-06-22T16:59:39.80654+00:00",
+      "thumbnail_url": "https://ogvmullqzynkqipuuzsx.supabase.co/storage/v1/object/public/thumbnails/Test.jpeg",
+      "author_id": "58928031-98a1-494b-9b84-40e3429b6b7b",
+      "author_name": "Takou",
+      "category_id": 5,
+      "category_name": "Compensation and Benefits",
+      "subtitle": "This is a subtest",
+      "requirements": [
+        {
+          "requirement_id": 20,
+          "requirement_description": "Requirements"
+        }
+      ],
+      "objectives": [
+        {
+          "objective_id": 73,
+          "objective_description": "Learning Objective"
+        },
+        {
+          "objective_id": 74,
+          "objective_description": "Learning Objective"
+        },
+        {
+          "objective_id": 75,
+          "objective_description": "Learning Objective"
+        },
+        {
+          "objective_id": 76,
+          "objective_description": "Learning Objective"
+        }
+      ],
+      "targets": [
+        {
+          "target_id": 19,
+          "target_description": "Target"
+        }
+      ],
+      "sections": [
+        {
+          "section_id": 4,
+          "section_title": "Introduction",
+          "section_order": 4,
+          "lectures": [
+            {
+              "lecture_id": 18,
+              "lecture_title": "Lecture 1",
+              "lecture_order": 18,
+              "lecture_video_url": "https://ogvmullqzynkqipuuzsx.supabase.co/storage/v1/object/public/lectures/section-04/Lecture_1-c8702fea-f771-4226-a9be-9ef780c51162.mp4"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

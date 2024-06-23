@@ -4,6 +4,22 @@ import supabase from "../utils/connectSupabase";
 import { uploadImage } from "../utils/upload.js";
 import { encodeUri } from "../utils/url.js";
 
+async function getCourseDetails(courseId) {
+  try {
+    const { data, error } = await supabase.rpc("get_course_details", {
+      p_course_id: courseId,
+    });
+    if (error) {
+      console.error("Error getting course details: ", error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  } catch (err) {
+    console.error("Error getting course details: ", err.message);
+    return { success: false, error: err.message };
+  }
+}
+
 async function publishCourse(draft_id) {
   try {
     const { error } = await supabase.rpc("publish_course_draft", {
@@ -374,6 +390,7 @@ export default {
   getAllPublishedCourses,
   getAllSection,
   getAllCourses,
+  getCourseDetails,
   deleteCourse,
   getAllUserEnrolledCourses,
   getAllUserNonEnrolledCourses,

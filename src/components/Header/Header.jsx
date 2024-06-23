@@ -30,7 +30,7 @@ export default function Header({ user, showLogo = true }) {
     });
   };
   return (
-    <div className="sticky top-0 z-50 px-4 py-4 bg-white border-b border-b-slate-100 flex items-center h-[64px]">
+    <div className="sticky top-0 z-[2000] px-4 py-4 bg-white border-b border-b-slate-100 flex items-center h-[64px]">
       {showLogo && <Logo />}
       <div className="flex-1"></div>
       {/* <Searchbar /> */}

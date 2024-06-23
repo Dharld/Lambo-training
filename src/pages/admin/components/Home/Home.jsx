@@ -134,16 +134,6 @@ export default function Home() {
         </ul>
       </Sidebar>
       <div className="flex-1 pb-2 mx-auto flex flex-col relative overflow-scroll custom-height">
-        <div className="bg-white px-4 py-4 items-center rounded-sm sticky top-0 z-[100]">
-          <div className="max-w-[1000px] mx-auto flex justify-between items-center w-full">
-            <h1 className="text-zinc-600 font-semibold text-xl">
-              Create your Own Course
-            </h1>
-            <Button fit={true} styles="cursor-pointer">
-              <NavLink to="../courses/new-draft">Create New Course</NavLink>
-            </Button>
-          </div>
-        </div>
         <Outlet />
       </div>
     </div>

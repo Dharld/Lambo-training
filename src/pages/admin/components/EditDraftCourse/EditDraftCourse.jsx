@@ -22,6 +22,8 @@ export default function EditDraftCourse() {
   const { handleSaveLanding } = useLanding();
 
   const draft = useSelector((state) => state.course.draft);
+
+  console.log(draft);
   const { showError, showSuccess } = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -119,7 +121,7 @@ export default function EditDraftCourse() {
   }
 
   return (
-    <div className="absolute top-0 left-0 w-full z-50 bg-slate-50 h-screen overflow-auto">
+    <div className="absolute top-0 left-0 w-full z-[2001] bg-slate-50 h-screen overflow-auto">
       <div className="sticky top-0 bg-zinc-900 flex justify-between items-center text-white px-4 py-3 z-[100]">
         <div className="flex gap-2 items-center">
           <NavLink

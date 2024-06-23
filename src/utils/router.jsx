@@ -20,6 +20,7 @@ import Content from "../pages/admin/components/EditDraftCourse/components/Conten
 import Landing from "../pages/admin/components/EditDraftCourse/components/Landing.jsx";
 import Drafts from "../pages/admin/components/Drafts.jsx";
 import AuthorCourses from "../pages/admin/components/AuthorCourses.jsx";
+import CoursePreview from "../pages/admin/components/CoursePreview/CoursePreview.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -51,7 +52,6 @@ export const router = createBrowserRouter([
           {
             path: "home",
             element: <Home />,
-
             children: [
               {
                 path: "",
@@ -64,6 +64,10 @@ export const router = createBrowserRouter([
               {
                 path: "courses",
                 element: <AuthorCourses />,
+              },
+              {
+                path: "preview/:courseId",
+                element: <CoursePreview />,
               },
             ],
           },
