@@ -14,6 +14,8 @@ import courseService from "../../services/courseService";
 import { useToast } from "../../hooks/toast.hook";
 import Spinner from "../../components/Spinner/Spinner";
 
+import bannerImg from "../../assets/images/banner.png";
+
 const COURSES = [
   {
     id: 1,
@@ -202,7 +204,9 @@ const Homepage = () => {
 
   return (
     <div className="h-screen pb-8">
-      <div className="h-[50vh] bg-slate-50" />
+      <div className="h-[50vh] banner-bg">
+        <img src={bannerImg} alt="" className="w-full h-full object-none" />
+      </div>
       <div className="w-[1300px] mx-auto relative">
         <div className="py-8">
           <div className="flex justify-between items-baseline">
