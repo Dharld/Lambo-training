@@ -118,7 +118,9 @@ const CoursePreview = ({ p, handleClick }) => {
         />
       </div>
       <div className="text-zinc-900 font-bold text-xl leading-6 mt-2">
-        {p.title.length > 40 ? p.title.slice(0, 40) + "..." : p.title}
+        {p.course_title.length > 40
+          ? p.course_title.slice(0, 40) + "..."
+          : p.course_title}
       </div>
       <div className="text-base text-gray-500">{p.author}</div>
       <Rating rating={4.7} />

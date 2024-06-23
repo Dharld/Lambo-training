@@ -35,9 +35,9 @@ const CartPopup = ({ styles }) => {
                 </div>
                 <div className="flex flex-col ml-3">
                   <div className="font-extrabold text leading-4 -mt-[-6px] text-zinc-800">
-                    {i.title.length < 35
-                      ? i.title
-                      : i.title.slice(0, 35) + "..."}
+                    {i.course_title && i.course_title.length < 35
+                      ? i.course_title
+                      : i.course_title.slice(0, 35) + "..."}
                   </div>
                   <div className="text-slate-500 text-sm">{i.author}</div>
                   <div className="text-zinc-800 tracking-tighter font-semibold mt-2">

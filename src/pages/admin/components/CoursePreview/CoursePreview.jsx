@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   AiFillStar,
   AiFillTrophy,
@@ -13,9 +14,12 @@ import courseService from "../../../../services/courseService";
 import { useToast } from "../../../../hooks/toast.hook";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner/Spinner";
+import { addToCart as addToCartAction } from "../../../../store/slices/cart/cart.slice";
+import { useDispatch } from "react-redux";
+
 // import { useEffect, useRef } from "react";
 
-export default function CoursePreview() {
+export default function CoursePreview({ mode = "preview" }) {
   const [showMore, setShowMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState(null);
@@ -26,6 +30,7 @@ export default function CoursePreview() {
   const { showError } = useToast();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (courseId) {
@@ -37,7 +42,6 @@ export default function CoursePreview() {
             showError(res.error);
             return;
           }
-          console.log(res.data);
           setCourse(res.data);
         })
         .finally(() => {
@@ -50,8 +54,14 @@ export default function CoursePreview() {
     setShowMore(!showMore);
   };
 
-  const navigateToHome = () => {
-    navigate("/home");
+  const navigateBack = () => {
+    navigate(-1);
+  };
+
+  const addToCart = (product) => {
+    console.log(mode);
+    if (mode == "preview") return;
+    dispatch(addToCartAction(product));
   };
 
   if (loading) {
@@ -65,7 +75,7 @@ export default function CoursePreview() {
     <div className="bg-white top-[64px] left-0 w-full z-[1999]">
       <div
         className="absolute top-20 left-4 w-12 h-12 cursor-pointer bg-slate-100 z-[1000000000] rounded-full grid place-items-center hover:border-violet-500 hover:border transition-colors group"
-        onClick={navigateToHome}
+        onClick={navigateBack}
       >
         <AiOutlineArrowLeft className="group-hover:text-violet-500" />
       </div>
@@ -78,7 +88,9 @@ export default function CoursePreview() {
           <div className="text-slate-900 font-bold text-3xl">
             ${course.price}
           </div>
-          <Button styles="mt-2">Add To Cart</Button>
+          <Button styles="mt-2" handleClick={() => addToCart(course)}>
+            Add To Cart
+          </Button>
           <Button styles="mt-2 bg-transparent border border-violet-500 text-violet-500 hover:text-white">
             Buy Now
           </Button>

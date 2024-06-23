@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "course/:courseId",
-            element: <CoursePreview />,
+            element: <CoursePreview mode="client" />,
           },
         ],
       },

@@ -6,7 +6,7 @@ import { encodeUri } from "../utils/url.js";
 
 async function getAllCoursesPreview() {
   try {
-    const { data, error } = await supabase.from("Course").select(`
+    let { data, error } = await supabase.from("Course").select(`
       course_id,
       title,
       description,
@@ -19,6 +19,10 @@ async function getAllCoursesPreview() {
       console.error("Error getting courses: ", error.message);
       return { success: false, error: error.message };
     }
+    data = data.map((c) => {
+      c.course_title = c.title;
+      return c;
+    });
     return { success: true, data };
   } catch (e) {
     console.error("Error getting courses: ", e.message);
