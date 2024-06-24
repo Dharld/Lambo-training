@@ -1,8 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import { base64ToBlob } from "../utils/binary.js";
 import supabase from "../utils/connectSupabase";
 import { uploadImage } from "../utils/upload.js";
-import { encodeUri } from "../utils/url.js";
 
 async function getAllCoursesPreview() {
   try {
@@ -61,81 +58,6 @@ async function publishCourse(draft_id) {
   }
 }
 
-async function createSection(draft_id, title) {
-  try {
-    const { data, error } = await supabase
-      .from("Section")
-      .insert({
-        draft_id,
-        title,
-      })
-      .select();
-    if (error) {
-      console.error("Error adding session: ", error.message);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true, data: data[0] };
-  } catch (err) {
-    console.error("Error adding session: ", err.message);
-    return { success: false, error: err.message };
-  }
-}
-
-async function addLectureToSection(section_id, title, base64String) {
-  try {
-    const mimeType = base64String.match(/data:(.*?);base64,/)[1];
-    const fileExt = mimeType.split("/").pop();
-    // Transform the base64 string to a blob
-    const blob = base64ToBlob(base64String, [
-      "video/mp4",
-      "video/webm",
-      "video/ogg",
-    ]);
-
-    const id = uuidv4();
-    const encodedTitle = encodeUri(title);
-    const filePath = `section-${section_id
-      .toString()
-      .padStart(2, "0")}/${encodedTitle}-${id}.${fileExt}`;
-    /* 
-    console.log(blob);
-    console.log(filePath); */
-
-    // Store the base64String to supabase storage
-    const { data, error: uploadError } = await supabase.storage
-      .from("lectures")
-      .upload(filePath, blob, { upsert: true });
-
-    if (uploadError) {
-      console.error("Error uploading image: ", uploadError.message);
-      return { success: false, error: uploadError.message };
-    }
-
-    const fullPath = data.fullPath;
-
-    const { data: finalData, error } = await supabase
-      .from("Lecture")
-      .insert({
-        section_id,
-        title,
-        video_url:
-          import.meta.env.VITE_SUPABASE_STORAGE_URL + "public/" + fullPath,
-      })
-      .select("id, order, title, video_url, section_id");
-
-    if (error) {
-      console.error("Error adding lecture: ", error.message);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true, data: finalData[0] };
-  } catch (err) {
-    console.error("Error uploading image: ", err.message);
-    return { success: false, error: err.message };
-  }
-}
-
 async function getAllPublishedCourses(author_id) {
   try {
     const { data, error } = await supabase
@@ -154,27 +76,6 @@ async function getAllPublishedCourses(author_id) {
   }
 }
 
-async function deleteLecture(lecture_id, title) {
-  // Remove the lecture video from the storage
-}
-
-async function getAllSection(draft_id) {
-  try {
-    const { data, error } = await supabase
-      .from("Section")
-      .select("id, draft_id, order, title, lectures:Lecture(*)")
-      .eq("draft_id", draft_id);
-
-    if (error) {
-      console.error("Error fetching sessions: ", error.message);
-      return { success: false, error: error.message };
-    }
-    return { success: true, data };
-  } catch (err) {
-    console.error("Error fetching sessions: ", err.message);
-    return { success: false, error: err.message };
-  }
-}
 async function addAudienceDetails(draft_id, requirements, objectives, targets) {
   console.log(requirements);
   const { data, error } = await supabase.rpc("update_course_draft_details", {
@@ -191,6 +92,7 @@ async function addAudienceDetails(draft_id, requirements, objectives, targets) {
 
   return { success: true, data };
 }
+
 async function addCourse(title, description, price, file, level) {
   const { data: thumbnailPath, error: imageUploadError } = await uploadImage(
     file,
@@ -407,14 +309,11 @@ async function deleteDraft(draft_id) {
 }
 
 export default {
-  addLectureToSection,
   addAudienceDetails,
   createDraftCourse,
-  createSection,
   addCourse,
   getUserCourses,
   getAllPublishedCourses,
-  getAllSection,
   getAllCourses,
   getAllCoursesPreview,
   getCourseDetails,
