@@ -8,6 +8,7 @@ import Home from "../pages/admin/components/Home/Home.jsx";
 import { default as HomeSuperAdmin } from "../pages/super-admin/components/Home/Home.jsx";
 import User from "../pages/user/User.jsx";
 import Checkout from "../pages/checkout/Checkout.jsx";
+import { default as CheckoutItem } from "../pages/checkout-courses/Checkout.jsx";
 import PaymentStatus from "../pages/payment-status/PaymentStatus.jsx";
 import { default as HomeUser } from "../pages/user/components/Home/Home.jsx";
 import Courses from "../pages/super-admin/components/Courses/Courses.jsx";
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
           {
             path: "course/:courseId",
             element: <CoursePreview mode="client" />,
+          },
+          {
+            path: "checkout",
+            element: <CheckoutItem />,
           },
         ],
       },

@@ -59,7 +59,6 @@ export default function CoursePreview({ mode = "preview" }) {
   };
 
   const addToCart = (product) => {
-    console.log(mode);
     if (mode == "preview") return;
     dispatch(addToCartAction(product));
   };

@@ -10,6 +10,12 @@ const CartPopup = ({ styles }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.total);
 
+  const navigate = useNavigate();
+
+  const goToCheckoutPage = () => {
+    navigate("/home/checkout");
+  };
+
   return (
     <div
       className={
@@ -52,7 +58,9 @@ const CartPopup = ({ styles }) => {
               Total: ${totalPrice}
             </div>
           </div>
-          <Button styles="mt-4">Go To Checkout</Button>
+          <Button styles="mt-4" handleClick={goToCheckoutPage}>
+            Go To Checkout
+          </Button>
         </>
       ) : (
         <div className="text-slate-500 m-auto">No items in cart</div>
