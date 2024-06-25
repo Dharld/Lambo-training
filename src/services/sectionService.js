@@ -3,9 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 import { encodeUri } from "../utils/url";
 import supabase from "../utils/connectSupabase";
 
-export const PDF_CONTENT_TYPE = "PDF";
-export const VIDEO_CONTENT_TYPE = "Video";
-export const QUIZZ_CONTENT_TYPE = "Quizz";
+const PDF_CONTENT_TYPE = "PDF";
+const VIDEO_CONTENT_TYPE = "Video";
+const QUIZZ_CONTENT_TYPE = "Quizz";
+const VIDEO_BUCKET = "videos";
+const PDF_BUCKET = "PDFs";
 
 async function getAllSection(draft_id) {
   try {
@@ -48,9 +50,9 @@ async function createSection(draft_id, title) {
 
 const getAllowedMimeTypes = function (contentType) {
   switch (contentType) {
-    case "Video":
+    case VIDEO_CONTENT_TYPE:
       return ["video/mp4", "video/webm", "video/ogg"];
-    case "PDF":
+    case PDF_CONTENT_TYPE:
       return ["application/pdf"];
     case "Image":
       return ["image/jpeg", "image/png"];
@@ -75,14 +77,16 @@ async function addSectionItem(
       const id = uuidv4();
       const encodedTitle = encodeUri(title);
       const filePath = `section-${section_id
+
         .toString()
-        .padStart(2, "0")}/${encodedTitle}-${id}.${fileExt}`;
+        .padStart(3, "0")}/${encodedTitle}-${id}.${fileExt}`;
 
       // Determine storage bucket based on content type
-      const bucket = contentType === VIDEO_CONTENT_TYPE ? "videos" : "PDFs";
+      const bucket =
+        contentType === VIDEO_CONTENT_TYPE ? VIDEO_BUCKET : PDF_BUCKET;
 
-      const { data, error: uploadError } = await supabase.storage
-        .from(bucket)
+      const { error: uploadError } = await supabase.storage
+        .from("videos")
         .upload(filePath, blob, { upsert: true });
 
       if (uploadError) {
@@ -93,17 +97,23 @@ async function addSectionItem(
         return { success: false, error: uploadError.message };
       }
 
-      const fullPath = data.path; // Ensure this matches your Supabase SDK
+      const { data, error: urlError } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(filePath);
+
+      if (urlError) {
+        console.error("Error getting public URL:", urlError.message);
+        return { success: false, error: urlError.message };
+      }
+
+      const publicURL = data.publicUrl;
+      console.log(contentType === VIDEO_CONTENT_TYPE);
 
       const details = {};
       if (contentType === VIDEO_CONTENT_TYPE) {
-        details.video_url = `${
-          import.meta.env.VITE_SUPABASE_STORAGE_URL
-        }public/${fullPath}`;
+        details.video_url = publicURL;
       } else if (contentType === PDF_CONTENT_TYPE) {
-        details.pdf_url = `${
-          import.meta.env.VITE_SUPABASE_STORAGE_URL
-        }public/${fullPath}`;
+        details.pdf_url = publicURL;
       }
 
       // Save to the supabase storage
@@ -115,7 +125,7 @@ async function addSectionItem(
           content_type: contentType,
           details,
         })
-        .select("id, order, title, details, section_id");
+        .select("item_id, title, details, section_id, content_type, details");
 
       if (error) {
         console.error(
@@ -126,7 +136,7 @@ async function addSectionItem(
       }
 
       return { success: true, data: finalData[0] };
-    } else if (contentType == "Quizz") {
+    } else if (contentType == QUIZZ_CONTENT_TYPE) {
       try {
         if (!quizDetails) {
           return { success: false, error: "Please enter quiz details" };
@@ -166,4 +176,7 @@ export default {
   getAllSection,
   createSection,
   addSectionItem,
+  PDF_CONTENT_TYPE,
+  VIDEO_CONTENT_TYPE,
+  QUIZZ_CONTENT_TYPE,
 };

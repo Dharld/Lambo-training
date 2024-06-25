@@ -54,23 +54,15 @@ export const ContentProvider = ({ children }) => {
       console.error("No title provided for the section item");
       throw new Error("No title provided for the section item");
     }
-    try {
-      const res = sectionService.addSectionItem(
-        id,
-        newItemTitle,
-        base64String,
-        contentType,
-        quizDetails
-      );
-      if (!res.success) {
-        console.error("Failed to add section item:", res.error);
-        throw new Error(res.error);
-      }
-      // return res.data; Uncomment this line if you somewhat need the added item :)
-    } catch (error) {
-      console.error("Unexpected error in addSectionItem:", error);
-      throw new Error(error.message);
-    }
+
+    return sectionService.addSectionItem(
+      id,
+      newItemTitle,
+      base64String,
+      contentType,
+      quizDetails
+    );
+    // return res.data; Uncomment this line if you somewhat need the added item :)
   };
 
   return (

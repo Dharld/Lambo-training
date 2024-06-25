@@ -20,11 +20,7 @@ export default function Content() {
 
   const { showError, showSuccess } = useToast();
 
-  const {
-    addSection,
-    addSectionItem: addSectionItemPromise,
-    getAllSections,
-  } = useContent();
+  const { addSection: addSectionHelper, getAllSections } = useContent();
 
   useEffect(() => {
     setLoading(true);
@@ -51,11 +47,27 @@ export default function Content() {
     setTitle(e.target.value);
   };
 
-  const onUploadError = () => {
+  const addSection = async () => {
+    setLoading(true);
+    await addSectionHelper(title);
+    getAllSections()
+      .then((res) => {
+        const sections = res;
+        setSections(sections);
+        setLoading(false);
+        closeNewSectionModal();
+      })
+      .catch((err) => {
+        showError(err.message);
+      });
+  };
+
+  const onErrorUpload = () => {
     showError("The upload failed");
   };
 
   const onUpdateSection = () => {
+    showSuccess("Section updated successfully");
     setLoading(true);
     getAllSections()
       .then((res) => {
@@ -96,7 +108,7 @@ export default function Content() {
               styles="bg-transparent border border-violet-500 text-violet-400 hover:bg-violet-400 hover:text-white"
               isDisabled={loading}
               loading={loading}
-              handleClick={addSection}
+              handleClick={() => addSection(title)}
             >
               Create Section
             </Button>
@@ -117,7 +129,7 @@ export default function Content() {
             title={s.title}
             items={s.items}
             onUpdateSection={onUpdateSection}
-            onErrorUpload={onUploadError}
+            onErrorUpload={onErrorUpload}
           />
         ))}
       <Button fit={true} styles="mt-4" handleClick={openNewSectionModal}>
