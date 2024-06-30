@@ -42,6 +42,10 @@
   animation: scaleInfinity 800ms ease-out, fadeOut 300ms ease-out forwards; /* Reduced duration for faster interactivity */
 }
 
+.decrease-out {
+  animation: fadeOut 300ms ease-out forwards; /* Reduced duration for faster interactivity */
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -160,4 +164,19 @@
 
 .shake {
   animation: shake 300ms ease-in-out;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-left {
+  animation: smallSlideLeft 300ms ease-out, fadeOut 50ms ease-out;
 }

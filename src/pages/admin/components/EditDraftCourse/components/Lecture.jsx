@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
-import { AiOutlinePlaySquare } from "react-icons/ai";
+import {
+  AiFillFilePdf,
+  AiOutlineFilePdf,
+  AiOutlinePlaySquare,
+} from "react-icons/ai";
 import Modal from "../../../../../components/Modal/Modal";
 import { useState } from "react";
 import Button from "../../../../../components/Button/Button";
+import { pdfType, videoType } from "../../../../../utils/constants";
 
-export default function Lecture({ id, order, title, previewVideo }) {
+export default function Lecture({ id, order, title, previewVideo, type }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -34,7 +39,8 @@ export default function Lecture({ id, order, title, previewVideo }) {
         <div className="flex items-center gap-2 w-full">
           <span>Lecture {order}: </span>
           <div className="flex items-center gap-1">
-            <AiOutlinePlaySquare />
+            {type === videoType && <AiOutlinePlaySquare />}
+            {type === pdfType && <AiOutlineFilePdf />}
             <span>{title}</span>
           </div>
           <div className="flex-1"></div>

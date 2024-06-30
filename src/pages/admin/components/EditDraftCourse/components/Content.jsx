@@ -2,7 +2,6 @@ import Button from "../../../../../components/Button/Button";
 import Modal from "../../../../../components/Modal/Modal";
 import Spinner from "../../../../../components/Spinner/Spinner";
 import Section from "./Section";
-import courseService from "../../../../../services/courseService";
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import Input from "../../../../../components/Input/Input";

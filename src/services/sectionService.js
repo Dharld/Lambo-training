@@ -61,13 +61,7 @@ const getAllowedMimeTypes = function (contentType) {
   }
 };
 
-async function addSectionItem(
-  section_id,
-  title,
-  base64String,
-  contentType,
-  quizDetails
-) {
+async function addSectionItem(section_id, title, base64String, contentType) {
   try {
     if ([VIDEO_CONTENT_TYPE, PDF_CONTENT_TYPE].includes(contentType)) {
       const mimeType = base64String.match(/data:(.*?);base64,/)[1];
@@ -77,7 +71,6 @@ async function addSectionItem(
       const id = uuidv4();
       const encodedTitle = encodeUri(title);
       const filePath = `section-${section_id
-
         .toString()
         .padStart(3, "0")}/${encodedTitle}-${id}.${fileExt}`;
 
@@ -86,7 +79,7 @@ async function addSectionItem(
         contentType === VIDEO_CONTENT_TYPE ? VIDEO_BUCKET : PDF_BUCKET;
 
       const { error: uploadError } = await supabase.storage
-        .from("videos")
+        .from(bucket)
         .upload(filePath, blob, { upsert: true });
 
       if (uploadError) {
@@ -107,7 +100,6 @@ async function addSectionItem(
       }
 
       const publicURL = data.publicUrl;
-      console.log(contentType === VIDEO_CONTENT_TYPE);
 
       const details = {};
       if (contentType === VIDEO_CONTENT_TYPE) {
@@ -172,10 +164,34 @@ async function addSectionItem(
   }
 }
 
+async function addQuizToSection(section_id, title, quizDetails) {
+  try {
+    const { data, error } = await supabase
+      .from("SectionItem")
+      .insert({
+        section_id,
+        title,
+        content_type: QUIZZ_CONTENT_TYPE,
+        details: quizDetails,
+      })
+      .select("id, order, title, details, section_id");
+
+    if (error) {
+      console.error("Error adding quiz: ", error.message);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data: data[0] };
+  } catch (err) {
+    console.error("Error adding quiz: ", err.message);
+    return { success: false, error: err.message };
+  }
+}
 export default {
   getAllSection,
   createSection,
   addSectionItem,
+  addQuizToSection,
   PDF_CONTENT_TYPE,
   VIDEO_CONTENT_TYPE,
   QUIZZ_CONTENT_TYPE,

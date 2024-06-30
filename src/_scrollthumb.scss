@@ -1,0 +1,41 @@
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+/* Style the scrollbar on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Style the scrollbar corner */
+::-webkit-scrollbar-corner {
+  background-color: #f1f1f1;
+}
+
+/* Style the scrollbar track when scrollbar is in a dragging state */
+::-webkit-scrollbar-track:horizontal:active,
+::-webkit-scrollbar-track:vertical:active {
+  background-color: #ddd;
+}
+
+/* Style the scrollbar thumb when scrollbar is in a dragging state */
+::-webkit-scrollbar-thumb:active {
+  background-color: #666;
+}
+
+/* Style the scrollbar track when scrollbar is in a disabled state */
+::-webkit-scrollbar-track:disabled {
+  background-color: #f1f1f1;
+}
+
+/* Style the scrollbar thumb when scrollbar is in a disabled state */
+::-webkit-scrollbar-thumb:disabled {
+  background-color: #ccc;
+}

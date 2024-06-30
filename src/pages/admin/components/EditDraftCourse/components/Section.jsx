@@ -8,7 +8,8 @@ import {
 import Button from "../../../../../components/Button/Button";
 import Lecture from "./Lecture";
 import { useState } from "react";
-import UploadModal, { VIDEO_UPLOAD } from "./UploadModal";
+import UploadModal from "./UploadModal";
+import { pdfType, quizzType, videoType } from "../../../../../utils/constants";
 
 export default function Section({
   id,
@@ -21,8 +22,8 @@ export default function Section({
 }) {
   const [isUploadModalOpen, setisUploadModalOpen] = useState(false);
   const [modalType, setModalType] = useState("video");
-  /*State used by the upload modal for a preview */
 
+  /*State used by the upload modal for a preview */
   const openUploadModal = (upload_type) => {
     setisUploadModalOpen(true);
     setModalType(upload_type);
@@ -30,7 +31,7 @@ export default function Section({
 
   const closeUploadModal = () => {
     setisUploadModalOpen(false);
-    setModalType(VIDEO_UPLOAD);
+    setModalType(videoType);
   };
 
   return (
@@ -57,11 +58,12 @@ export default function Section({
           items.length > 0 &&
           items.map((l, idx) => (
             <Lecture
-              key={l.id}
-              id={l.id}
+              key={l.item_id}
+              id={l.item_id}
               title={l.title}
               previewVideo={l.video_url}
               order={idx + 1}
+              type={l.content_type}
             />
           ))}
         <div className="flex gap-2">
@@ -69,7 +71,7 @@ export default function Section({
             fit={true}
             styles="mt-3 bg-transparent border border-violet-500 text-violet-500 hover:text-white"
             handleClick={() => {
-              openUploadModal("video_upload");
+              openUploadModal(videoType);
             }}
           >
             <span className="flex items-center gap-2">
@@ -80,7 +82,9 @@ export default function Section({
           <Button
             fit={true}
             styles="mt-3 bg-transparent border border-violet-500 text-violet-500 hover:text-white"
-            handleClick={() => {}}
+            handleClick={() => {
+              openUploadModal(pdfType);
+            }}
           >
             <span className="flex items-center gap-2">
               <AiOutlineFilePdf />
@@ -90,7 +94,9 @@ export default function Section({
           <Button
             fit={true}
             styles="mt-3 bg-transparent border border-violet-500 text-violet-500 hover:text-white"
-            handleClick={() => {}}
+            handleClick={() => {
+              openUploadModal(quizzType);
+            }}
           >
             <span className="flex items-center gap-2">
               <AiOutlineBook />
