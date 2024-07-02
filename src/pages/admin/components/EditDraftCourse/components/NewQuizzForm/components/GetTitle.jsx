@@ -33,7 +33,7 @@ export default function GetTitle({ title, handleTitle, page, goToPage }) {
         styles="mt-12"
       />
       <div className="flex gap-1 mt-3">
-        <Button styles="bg-white border border-violet-500 text-violet-500">
+        <Button styles="bg-white border border-violet-500 text-violet-500 hover:text-white">
           Cancel
         </Button>
         <Button styles="bg-violet-500 text-white" handleClick={goToNextPage}>

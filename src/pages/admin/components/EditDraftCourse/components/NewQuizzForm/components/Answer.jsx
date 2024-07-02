@@ -11,6 +11,7 @@ export default function Answer({
   index,
   removeAnswer,
   toggleStatus,
+  value,
   handleOptionChange,
   status = ANSWER_CORRECT_STATUS,
 }) {
@@ -43,6 +44,7 @@ export default function Answer({
           className="outline-none bg-transparent px-2 py-4 flex-1"
           placeholder="Enter the option"
           onChange={(e) => handleOptionChange(index, e)}
+          value={value}
         />
         <div className="flex items-center gap-2 h-full">
           <span

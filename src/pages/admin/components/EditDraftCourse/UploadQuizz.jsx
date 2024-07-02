@@ -10,7 +10,12 @@ export default function UploadQuizz({
   return (
     <div>
       <h2 className="font-bold text-xl">Create New Quizz</h2>
-      <NewQuizzForm />
+      <NewQuizzForm
+        sectionId={sectionId}
+        onUpdateSection={onUpdateSection}
+        onErrorUpload={onErrorUpload}
+        onClose={onClose}
+      />
     </div>
   );
 }

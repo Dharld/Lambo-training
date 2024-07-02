@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "../../../../../../../hooks/toast.hook";
 import Input from "../../../../../../../components/Input/Input";
 import { AiOutlineArrowLeft, AiOutlinePlus } from "react-icons/ai";
@@ -11,15 +11,45 @@ import {
 import Button from "../../../../../../../components/Button/Button";
 
 export default function CreateQuestion({
+  data,
   page,
   goToPage,
   questions,
   addQuestion,
+  editQuestion,
 }) {
-  const [title, setTitle] = useState("");
-  const [options, setOptions] = useState([]);
+  const question = data ? data.question : null;
+  const [title, setTitle] = useState(question ? question.title : "");
+  const [options, setOptions] = useState(question ? question.options : []);
 
-  const { showError, showSuccess } = useToast();
+  const { showError } = useToast();
+
+  useEffect(() => {
+    const pressedKeys = new Set();
+
+    const handleKeyDown = (e) => {
+      pressedKeys.add(e.code); // Use `e.code` for better consistency
+      if (pressedKeys.has("ControlLeft") && pressedKeys.has("KeyN")) {
+        // Check for 'Control' and 'N' using `e.code`
+        e.preventDefault(); // Prevent the default action
+        console.log("Control+N has been pressed");
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      pressedKeys.delete(e.code); // Use `e.code` here as well
+    };
+
+    // Attach the event listeners
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    // Cleanup the event listeners on component unmount
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -78,13 +108,23 @@ export default function CreateQuestion({
       showError("At least two options are required");
       return;
     }
-    const newQuestion = {
-      index: questions.length + 1,
-      title,
-      options,
-    };
 
-    addQuestion(newQuestion);
+    if (!question) {
+      const newQuestion = {
+        index: questions.length + 1,
+        title,
+        options,
+      };
+      addQuestion(newQuestion);
+    } else {
+      const updatedQuestion = {
+        index: question.index,
+        title,
+        options,
+      };
+      editQuestion(updatedQuestion);
+    }
+
     goToPreviousPage();
   };
 
@@ -112,7 +152,9 @@ export default function CreateQuestion({
             onClick={addOption}
           >
             <AiOutlinePlus />
-            <span>Add Option</span>
+            <span>
+              Add Option <span className="font-bold">(Ctrl + N)</span>
+            </span>
           </div>
           <div className="h-[220px] overflow-y-auto">
             <div className="mt-2">
@@ -134,7 +176,7 @@ export default function CreateQuestion({
             styles="mt-[2rem] bg-transparent border border-violet-500 text-violet-500 hover:text-white"
             handleClick={saveQuestion}
           >
-            Create Question
+            {question ? "Update Question" : "Add Question"}
           </Button>
         </div>
       </div>
