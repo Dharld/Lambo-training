@@ -1,57 +1,74 @@
-import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Catalog from "../Catalog/Catalog";
-import { filterCoursesByName } from "../../../../store/slices/course/course.actions";
-import Search from "../Search/Search";
 import Header from "../../../../components/Header/Header";
+import { logout as logoutAction } from "../../../../store/slices/auth/auth.actions";
+import {
+  AiOutlineArrowRight,
+  AiOutlineBook,
+  AiOutlineLogout,
+  AiOutlineSetting,
+} from "react-icons/ai";
+import { NavLink, Outlet } from "react-router-dom";
+import Sidebar from "../../../../components/Sidebar/Sidebar";
+import { useToast } from "../../../../hooks/toast.hook";
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isSticky, setIsSticky] = useState(false);
-  const searchBarRef = useRef(null);
-
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (searchTerm) {
-      dispatch(filterCoursesByName(searchTerm));
-    }
-  }, [searchTerm, dispatch]);
+  const { showError, showSuccess } = useToast();
 
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setSearchTerm(value);
+  const logout = () => {
+    dispatch(logoutAction()).then((res) => {
+      if (res.error && res.error.message) {
+        showError(res.error.message);
+        return;
+      }
+      showSuccess("Logged out successfully");
+    });
   };
-
-  const handleScroll = () => {
-    if (searchBarRef.current) {
-      const { top } = searchBarRef.current.getBoundingClientRect();
-      setIsSticky(top <= 0);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <div className="flex-1 h-fullbg-gray-50">
       <Header user={user} />
-      <Search
-        ref={searchBarRef}
-        isSticky={isSticky}
-        handleChange={handleChange}
-        searchTerm={searchTerm}
-      />
-      <div className="w-full max-w-5xl h-full mx-auto pb-8 px-4">
-        <h1 className="font-bold text-3xl text-slate-500 text-center mb-2 leading-8">
-          Explore our catalog of courses
-        </h1>
-        <Catalog />
+      <div className="flex">
+        <Sidebar showLabel={false} showLogo={false}>
+          <ul className="flex flex-col flex-direction items-center transition-colors">
+            <NavLink
+              className={({ isActive }) =>
+                `p-4 flex-1 flex flex-col justify-center items-center group transition-all ${
+                  isActive ? "text-violet-500" : ""
+                }
+             `
+              }
+            >
+              <AiOutlineBook className="text-3xl text-gray-500 group-hover:text-violet-500" />
+              <span className="text-gray-400 group-hover:text-violet-500 text-xs font-bold mt-1">
+                My Courses
+              </span>
+            </NavLink>
+          </ul>
+          <div className="flex-1"></div>
+          <ul>
+            <li className="p-4 flex-1 flex flex-col justify-center items-center group transition-all">
+              <AiOutlineSetting className="text-3xl text-gray-500 group-hover:text-violet-500" />
+              <span className="text-gray-400 group-hover:text-violet-500 text-xs font-bold mt-1">
+                Settings
+              </span>
+            </li>
+            <li
+              className="p-4 flex-1 flex flex-col justify-center items-center group transition-all cursor-pointer"
+              onClick={logout}
+            >
+              <AiOutlineLogout className="text-3xl text-gray-500 group-hover:text-violet-500" />
+              <span className="text-gray-400 group-hover:text-violet-500 text-xs font-bold mt-1">
+                Logout
+              </span>
+            </li>
+          </ul>
+        </Sidebar>
+        <main className="flex-1">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

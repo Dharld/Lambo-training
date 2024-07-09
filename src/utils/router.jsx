@@ -6,14 +6,12 @@ import SuperAdmin from "../pages/super-admin/SuperAdmin.jsx";
 import Admin from "../pages/admin/Admin.jsx";
 import Home from "../pages/admin/components/Home/Home.jsx";
 import { default as HomeSuperAdmin } from "../pages/super-admin/components/Home/Home.jsx";
-import User from "../pages/user/User.jsx";
 import Checkout from "../pages/checkout/Checkout.jsx";
 import { default as CheckoutItem } from "../pages/checkout-courses/Checkout.jsx";
 import PaymentStatus from "../pages/payment-status/PaymentStatus.jsx";
 import { default as HomeUser } from "../pages/user/components/Home/Home.jsx";
 import Courses from "../pages/super-admin/components/Courses/Courses.jsx";
 import Payments from "../pages/super-admin/Payments/Payments.jsx";
-import Learn from "../pages/user/components/Learn/Learn.jsx";
 import AddDraftCourse from "../pages/admin/components/AddDraftCourse/AddDraftCourse.jsx";
 import EditDraftCourse from "../pages/admin/components/EditDraftCourse/EditDraftCourse.jsx";
 import Audience from "../pages/admin/components/EditDraftCourse/components/Audience.jsx";
@@ -24,6 +22,9 @@ import AuthorCourses from "../pages/admin/components/AuthorCourses.jsx";
 import CoursePreview from "../pages/admin/components/CoursePreview/CoursePreview.jsx";
 import Homepage from "../pages/home/HomePage.jsx";
 import Layout from "../pages/Layout.jsx";
+import Catalog from "../pages/user/components/Catalog/Catalog.jsx";
+import CourseDetails from "../pages/user/components/CourseDetails/CourseDetails.jsx";
+import CourseLearn from "../pages/user/components/CourseLearn/CourseLearn.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,20 @@ export const router = createBrowserRouter([
       {
         path: "user",
         element: <HomeUser />,
+        children: [
+          {
+            path: "",
+            element: <Catalog />,
+          },
+          {
+            path: "courses/:courseId",
+            element: <CourseDetails />,
+          },
+          {
+            path: "courses/:courseId/learn",
+            element: <CourseLearn />,
+          },
+        ],
       },
       {
         path: "super-admin",
@@ -131,20 +146,6 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
-      },
-      {
-        path: "",
-        element: <User />,
-        children: [
-          {
-            path: "",
-            element: <HomeUser />,
-          },
-          {
-            path: "learn",
-            element: <Learn />,
-          },
-        ],
       },
       {
         path: "checkout/:courseId",

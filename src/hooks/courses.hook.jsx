@@ -40,6 +40,10 @@ export const useCourses = () => {
     return dispatch(deleteCourseAction(courseId));
   };
 
+  const getCourseDetails = (courseId) => {
+    return courseService.getCourseDetails(courseId);
+  };
+
   return {
     allCourses,
     courses,
@@ -50,5 +54,6 @@ export const useCourses = () => {
     getAllUserNonEnrolledCourses,
     getAllCategories,
     getAllDrafts,
+    getCourseDetails,
   };
 };

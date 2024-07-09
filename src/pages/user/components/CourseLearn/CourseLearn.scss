@@ -1,0 +1,35 @@
+.scroll-hide::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.scroll-hide {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+}
+
+.item {
+  .circle {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0.5px;
+      left: 0;
+      right: 0;
+      margin-inline: auto;
+      bottom: calc(-100% - 3px);
+      @apply h-4 bg-zinc-500;
+    }
+  }
+
+  &:last-child {
+    .circle::after {
+      width: 0px !important;
+    }
+  }
+}
+
+.player {
+  height: calc(100% - 64px);
+}

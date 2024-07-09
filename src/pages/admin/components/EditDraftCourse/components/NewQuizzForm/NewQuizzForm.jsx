@@ -21,13 +21,19 @@ export default function NewQuizzForm({
 
   const saveQuizz = async () => {
     const quizz = {
-      title,
       questions,
     };
-    console.log(sectionId);
-    /* setLoading(true);
+    setLoading(true);
     try {
-      await sectionService.addQuizToSection(sectionId, title, quizz);
+      const res = await sectionService.addQuizToSection(
+        sectionId,
+        title,
+        quizz
+      );
+      if (!res.success) {
+        showError(res.error);
+        return;
+      }
       onUpdateSection();
       onClose();
     } catch (err) {
@@ -35,7 +41,7 @@ export default function NewQuizzForm({
       onErrorUpload && onErrorUpload(err.message);
     } finally {
       setLoading(false);
-    } */
+    }
   };
 
   const handleTitle = (e) => {

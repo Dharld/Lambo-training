@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { useToast } from "../../../../../../../hooks/toast.hook";
 import Input from "../../../../../../../components/Input/Input";
 import { AiOutlineArrowLeft, AiOutlinePlus } from "react-icons/ai";
+import { FaRegKeyboard } from "react-icons/fa";
+import { uid } from "uid";
+import { v4 as uuidv4 } from "uuid";
+
 import Answer from "./Answer";
 import {
   ANSWER_CORRECT_STATUS,
@@ -21,38 +25,33 @@ export default function CreateQuestion({
   const question = data ? data.question : null;
   const [title, setTitle] = useState(question ? question.title : "");
   const [options, setOptions] = useState(question ? question.options : []);
+  // const [numberOfCreatedQuestions, setNumberOfCreated ]
 
   const { showError } = useToast();
 
   useEffect(() => {
-    const pressedKeys = new Set();
-
     const handleKeyDown = (e) => {
-      pressedKeys.add(e.code); // Use `e.code` for better consistency
-      if (pressedKeys.has("ControlLeft") && pressedKeys.has("KeyN")) {
+      if (e.key == "n" && e.altKey) {
         // Check for 'Control' and 'N' using `e.code`
-        e.preventDefault(); // Prevent the default action
-        console.log("Control+N has been pressed");
+        addOption();
       }
-    };
-
-    const handleKeyUp = (e) => {
-      pressedKeys.delete(e.code); // Use `e.code` here as well
     };
 
     // Attach the event listeners
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
 
     // Cleanup the event listeners on component unmount
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
     };
   }, []); // Empty dependency array ensures this effect runs only once
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
+  };
+
+  const generateUniqueString = () => {
+    return Math.floor(performance.now() * 100) + "";
   };
 
   const addOption = () => {
@@ -61,7 +60,7 @@ export default function CreateQuestion({
       return;
     }
     const newOption = {
-      index: options.length + 1,
+      index: generateUniqueString(),
       value: "",
       status: ANSWER_INCORRECT_STATUS,
     };
@@ -148,12 +147,14 @@ export default function CreateQuestion({
             handleChange={handleTitle}
           />
           <div
-            className="text-sm bg-violet-50 text-violet-500 flex gap-2 items-center px-4 py-2 w-fit rounded-full hover:bg-violet-500 hover:text-white transition-colors cursor-pointer mt-2"
+            className="text-sm bg-violet-50 text-violet-500 flex items-center px-4 py-2 w-fit rounded-full hover:bg-violet-500 hover:text-white transition-colors cursor-pointer mt-2"
             onClick={addOption}
           >
             <AiOutlinePlus />
-            <span>
-              Add Option <span className="font-bold">(Ctrl + N)</span>
+            <span className="flex items-center gap-2">
+              <span> Add Option</span>
+              <span className="font-bold">(Alt + N)</span>
+              <FaRegKeyboard />
             </span>
           </div>
           <div className="h-[220px] overflow-y-auto">

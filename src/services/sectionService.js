@@ -174,7 +174,7 @@ async function addQuizToSection(section_id, title, quizDetails) {
         content_type: QUIZZ_CONTENT_TYPE,
         details: quizDetails,
       })
-      .select("id, order, title, details, section_id");
+      .select("item_id, title, details, section_id");
 
     if (error) {
       console.error("Error adding quiz: ", error.message);

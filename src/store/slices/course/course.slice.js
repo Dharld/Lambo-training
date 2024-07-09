@@ -5,6 +5,7 @@ import {
   createDraftCourse,
   deleteCourse,
   getAllCourses,
+  getAllUserEnrolledCourses,
   getAllUserNonEnrolledCourses,
   getUserCourses,
 } from "./course.actions";
@@ -85,6 +86,12 @@ const courseSlice = createSlice({
       })
       .addCase(getUserCourses.fulfilled, (state, action) => {
         state.courses = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getAllUserEnrolledCourses.fulfilled, (state, action) => {
+        state.courses = action.payload;
+        state.displayedCourses = action.payload;
         state.loading = false;
         state.error = null;
       })
