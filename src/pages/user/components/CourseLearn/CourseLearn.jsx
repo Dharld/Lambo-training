@@ -303,7 +303,11 @@ export default function CourseLearn() {
             )}
           {currentItem &&
             currentItem.content_type === quizzType &&
-            currentItem.details && <Quizz item={currentItem} />}
+            currentItem.details && (
+              <div className="">
+                <Quizz item={currentItem} />
+              </div>
+            )}
         </div>
       </div>
     </div>

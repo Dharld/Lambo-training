@@ -2,7 +2,7 @@ import Button from "../../../../components/Button/Button";
 import { AiOutlineArrowRight, AiOutlinePlayCircle } from "react-icons/ai";
 import { FaRegBookmark } from "react-icons/fa";
 import { useCourses } from "../../../../hooks/courses.hook";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { useToast } from "../../../../hooks/toast.hook";
@@ -72,9 +72,9 @@ export default function Catalog() {
                     <span className="text-zinc-500 text-xs">
                       {course.completion_percentage}%
                     </span>
-                    <div className="bg-gray-100 rounded-full overflow-hidden w-[100px] h-[4px] relative">
+                    <div className="bg-gray-100 rounded-full overflow-hidden w-[100px] h-[4px] relative flex">
                       <div
-                        className={`absolute top-0 left-0 bg-green-400 w-[${course.completion_percentage}px] h-[4px]`}
+                        className={`shrink-0 bg-green-400 w-[${course.completion_percentage}px] h-[4px]`}
                       />
                     </div>
                   </div>
