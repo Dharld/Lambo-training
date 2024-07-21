@@ -209,7 +209,7 @@ const Homepage = () => {
       <div className="h-[50vh] banner-bg">
         <img src={bannerImg} alt="" className="w-full h-full object-none" />
       </div>
-      <div className="w-[1300px] mx-auto relative">
+      <div className="w-full mx-auto relative">
         <div className="py-8">
           <div className="flex justify-between items-baseline">
             <h2 className="text-slate-600 font-bold text-xl mb-4">
@@ -240,7 +240,7 @@ const Homepage = () => {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {products.length > 0
             ? products.map((p) => (
                 <CoursePreview
