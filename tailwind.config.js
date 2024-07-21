@@ -9,6 +9,7 @@ export default {
         inset: "inset 1em 1em currentColor",
       },
       screens: {
+        "-sm": { max: "500px" },
         "-md": { max: "767px" },
         "-960md": { max: "960px" },
       },

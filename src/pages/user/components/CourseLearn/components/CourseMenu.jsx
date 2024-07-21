@@ -1,17 +1,22 @@
 /* eslint-disable react/prop-types */
-import {
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-  AiOutlineLeft,
-  AiOutlineRight,
-} from "react-icons/ai";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { COURSE_ICONS } from "../../../../../utils/utilsComponents";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Overlay from "../../../../../components/Overlay/Overlay";
+import { useWindowSize } from "@uidotdev/usehooks";
+
+const BREAKPOINT = 960;
 
 export default function CourseMenu({ course, handleItemClick }) {
   const navigate = useNavigate();
+  const size = useWindowSize();
+  const [isTablet, setIsTablet] = useState(true);
+
+  useEffect(() => {
+    setIsTablet(size.width > BREAKPOINT);
+  }, [size]);
+
   const [show, setShow] = useState(false);
 
   const goBack = () => {
@@ -28,7 +33,7 @@ export default function CourseMenu({ course, handleItemClick }) {
 
   return (
     <>
-      {!show && (
+      {!isTablet && !show && (
         <div
           className="fixed bg-white hover:bg-gray-100 hover:w-14 border top-[105px] left-0 w-12 h-8 p-2 z-[1100] rounded-tr-full rounded-br-full transition  grid place-items-center  justify-center cursor-pointer hidden-960md:flex"
           onClick={openMenu}
@@ -38,18 +43,20 @@ export default function CourseMenu({ course, handleItemClick }) {
       )}
       <div
         className={`relative border-r bg-white max-w-[300px] h-full flex flex-col transition z-[1100] -960md:fixed ${
-          show ? "translate-x-0" : "-translate-x-full"
+          show || isTablet ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div
-          className="px-8 py-4 gap-2 flex items-center border-b border-b-gray-100 hover:text-violet-500 hover:font-semibold cursor-pointer"
-          onClick={goBack}
-        >
-          <AiOutlineLeft />
-          <span>Back To Course Home</span>
-        </div>
+        {
+          <div
+            className="px-8 py-4 gap-2 flex items-center border-b border-b-gray-100 hover:text-violet-500 hover:font-semibold cursor-pointer"
+            onClick={goBack}
+          >
+            <AiOutlineLeft />
+            <span>Back To Course Home</span>
+          </div>
+        }
 
-        {show && (
+        {!isTablet && show && (
           <div
             className="bg-gray-100 border top-10 -right-4 transition-colors w-8 h-8 grid place-items-center p-2 absolute justify-center rounded-full cursor-pointer z-50 hidden-960md:flex"
             onClick={closeMenu}
@@ -122,7 +129,7 @@ export default function CourseMenu({ course, handleItemClick }) {
             ))}
         </div>
       </div>
-      <Overlay isVisible={show} onClose={closeMenu} />
+      <Overlay isVisible={show && !isTablet} onClose={closeMenu} />
     </>
   );
 }

@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
-import { AiOutlineArrowLeft, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import "./CourseLearn.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { useCourses } from "../../../../hooks/courses.hook";
 import { useToast } from "../../../../hooks/toast.hook";
-import { COURSE_ICONS } from "../../../../utils/utilsComponents";
 import Button from "../../../../components/Button/Button";
 import { pdfType, quizzType, videoType } from "../../../../utils/constants";
 import ReactPlayer from "react-player";
@@ -60,8 +59,6 @@ export default function CourseLearn() {
   const user = useSelector((state) => state.auth.user);
 
   const { getCourseDetails } = useCourses();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -146,10 +143,6 @@ export default function CourseLearn() {
       .then(() => {
         setCurrentItem(item);
       });
-  };
-
-  const goBack = () => {
-    navigate(-1);
   };
 
   const updateCourseProgress = async () => {

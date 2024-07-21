@@ -66,7 +66,7 @@ export default function Home() {
             </li>
           </ul>
         </Sidebar>
-        <main className="flex-1">
+        <main className="flex-1 transition">
           <Outlet />
         </main>
       </div>

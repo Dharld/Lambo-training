@@ -38,7 +38,6 @@ export default function Header({ user, showLogo = true, actions }) {
       {showLogo && <Logo />}
 
       <div className="flex-1"></div>
-      <Searchbar />
       <AiOutlineBell className="flex-shrink-0 text-3xl hover:text-violet-500 cursor-pointer mr-3" />
       {actions && actions()}
       {user && (
