@@ -13,6 +13,7 @@ import {
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { PiStudent } from "react-icons/pi";
+import { useSelector } from "react-redux";
 
 const CardSection = ({ s, order }) => {
   const [isShown, setIsShown] = useState(false);
@@ -84,12 +85,13 @@ export default function CourseDetails() {
 
   const { showError } = useToast();
 
+  const user = useSelector((state) => state.auth.user);
   const { getCourseDetails } = useCourses();
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    getCourseDetails(courseId)
+    getCourseDetails(courseId, user.id)
       .then((res) => {
         if (!res.success) {
           showError(res.error);

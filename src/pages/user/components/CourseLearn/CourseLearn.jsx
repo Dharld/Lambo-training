@@ -13,6 +13,8 @@ import { pdfType, quizzType, videoType } from "../../../../utils/constants";
 import ReactPlayer from "react-player";
 import supabase from "../../../../utils/connectSupabase";
 import Quizz from "./components/Quizz";
+import { useSelector } from "react-redux";
+import CourseMenu from "./components/CourseMenu";
 
 const MarkAsCompletedButton = ({
   toggleItemCompleted,
@@ -44,6 +46,7 @@ const MarkAsCompletedButton = ({
     </Button>
   );
 };
+
 export default function CourseLearn() {
   const params = useParams();
   const courseId = params.courseId;
@@ -53,6 +56,8 @@ export default function CourseLearn() {
   const [currentItem, setCurrentItem] = useState(null);
 
   const { showError, showSuccess } = useToast();
+
+  const user = useSelector((state) => state.auth.user);
 
   const { getCourseDetails } = useCourses();
 
@@ -90,7 +95,7 @@ export default function CourseLearn() {
         const { error, data } = await supabase
           .from("SectionItem")
           .select(
-            "content_type, is_completed, item_id, title, details, last_updated"
+            "content_type, item_id, title, details, last_updated, UserProgress(is_completed)"
           )
           .eq("section_id", sectionId)
           .order("last_updated", {
@@ -109,7 +114,8 @@ export default function CourseLearn() {
         showError(err.message);
       }
     }
-    getCourseDetails(courseId)
+
+    getCourseDetails(courseId, user.id)
       .then((res) => {
         if (!res.success) {
           showError(res.error);
@@ -121,8 +127,10 @@ export default function CourseLearn() {
         getLastUpdatedSectionId(courseId)
           .then(getLastUpdatedSectionItem)
           .then((item) => {
-            console.log(item);
-            setCurrentItem(item);
+            setCurrentItem({
+              ...item,
+              is_completed: !item.UserProgress[0].is_completed,
+            });
           });
       })
       .finally(() => {
@@ -131,7 +139,6 @@ export default function CourseLearn() {
   }, []);
 
   const handleItemClick = (item) => {
-    console.log(item);
     supabase
       .from("SectionItem")
       .update({ last_updated: new Date() })
@@ -145,28 +152,62 @@ export default function CourseLearn() {
     navigate(-1);
   };
 
+  const updateCourseProgress = async () => {
+    await getCourseDetails(courseId, user.id).then((res) => {
+      if (!res.success) {
+        showError(res.error);
+        return;
+      }
+      const updatedCurrentItem = {
+        ...currentItem,
+        is_completed: !currentItem.is_completed,
+      };
+      setCurrentItem(updatedCurrentItem);
+      setCourse(res.data);
+    });
+  };
+
   const toggleItemCompleted = async () => {
     if (currentItem) {
-      const item_id = currentItem.item_id;
+      const userId = user.id;
+      const itemId = currentItem.item_id;
       setLoadingUpload(true);
-      await supabase
-        .from("SectionItem")
-        .update({
-          is_completed: !currentItem.is_completed,
-        })
-        .eq("item_id", item_id);
-      await getCourseDetails(courseId).then((res) => {
-        if (!res.success) {
-          showError(res.error);
-          return;
+
+      if (courseId) {
+        /** Check Record existence */
+        const { data } = await supabase
+          .from("UserProgress")
+          .select("*")
+          .eq("item_id", itemId)
+          .eq("user_id", userId);
+
+        /** Logic of completion */
+        if (data.length == 0) {
+          await supabase
+            .from("UserProgress")
+            .insert({
+              course_id: courseId,
+              user_id: userId,
+              item_id: itemId,
+              is_completed: true,
+            })
+            .eq("item_id", itemId)
+            .eq("user_id", userId);
+        } else {
+          await supabase
+            .from("UserProgress")
+            .update({
+              course_id: courseId,
+              user_id: userId,
+              item_id: itemId,
+              is_completed: !data[0].is_completed,
+            })
+            .eq("item_id", itemId)
+            .eq("user_id", userId);
         }
-        const updatedCurrentItem = {
-          ...currentItem,
-          is_completed: !currentItem.is_completed,
-        };
-        setCurrentItem(updatedCurrentItem);
-        setCourse(res.data);
-      });
+      }
+
+      await updateCourseProgress();
       showSuccess("Successfully updated");
       setLoadingUpload(false);
     }
@@ -182,79 +223,7 @@ export default function CourseLearn() {
 
   return (
     <div className="fixed flex top-[64px] left-0 bg-white w-full h-screen">
-      <div className="max-w-[375px] border-r h-full flex flex-col">
-        <div
-          className="px-8 py-4 gap-2 flex items-center border-b border-b-gray-100 hover:text-violet-500 hover:font-semibold cursor-pointer"
-          onClick={goBack}
-        >
-          <AiOutlineArrowLeft />
-          <span>Back To Course Home</span>
-        </div>
-        <div className="px-8 py-4">
-          <div className="font-bold text-xl text-violet-500">
-            Learn HTML, CSS, and JS from Scratch
-          </div>
-          <div className="mt-2">
-            <div className="text-sm text-violet-500">
-              {course && course.completion_percentage}% completed
-            </div>
-            <div className="mt-1">
-              <div className="w-full h-[4px] rounded-full bg-gray-100 relative flex">
-                <div
-                  style={{
-                    flexBasis: `${
-                      course ? course.completion_percentage : "0"
-                    }%`,
-                  }}
-                  className={`h-[4px] bg-green-400`}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex-1 px-8 pb-20 overflow-auto scroll-hide">
-          {course &&
-            course.sections &&
-            course.sections.map((section) => (
-              <div key={section.id} className="first:mt-0 mt-4">
-                <h2 className="font-bold text-lg text-violet-400">
-                  {section.title}
-                </h2>
-                <div className="mt-1">
-                  {section.items &&
-                    section.items
-                      .sort((i1, i2) => i1.item_id - i2.item_id)
-                      .map((item) => (
-                        <div
-                          key={item.item_id}
-                          className="text-gray-700 first:mt-0 mt-2 flex items-center gap-2 item
-                    "
-                        >
-                          <div
-                            className={`w-4 h-4 border border-gray-500 rounded-full ${
-                              item.is_completed
-                                ? "bg-green-400 border-green-400"
-                                : ""
-                            } circle`}
-                          />
-                          <div
-                            className="flex items-center gap-1 text-zinc-400 hover:text-violet-500 transition-colors"
-                            onClick={() => {
-                              handleItemClick(item);
-                            }}
-                          >
-                            <span>{COURSE_ICONS[item.content_type]}</span>
-                            <span className="cursor-pointer ">
-                              {item.title}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
+      <CourseMenu course={course} handleItemClick={handleItemClick} />
       <div className="flex-1 px-12 bg-gray-50/10">
         <div className="mt-12 max-w-[1000px] mx-auto">
           {currentItem &&
@@ -304,9 +273,10 @@ export default function CourseLearn() {
           {currentItem &&
             currentItem.content_type === quizzType &&
             currentItem.details && (
-              <div className="">
-                <Quizz item={currentItem} />
-              </div>
+              <Quizz
+                item={currentItem}
+                updateCourseProgress={updateCourseProgress}
+              />
             )}
         </div>
       </div>

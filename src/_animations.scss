@@ -178,5 +178,20 @@
 }
 
 .slide-left {
-  animation: smallSlideLeft 300ms ease-out, fadeOut 50ms ease-out;
+  animation: slideLeft 300ms ease-out, fadeOut 50ms ease-out forwards !important;
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(0%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+
+.slide-right {
+  animation: slideRight 300ms ease-out forwards;
 }

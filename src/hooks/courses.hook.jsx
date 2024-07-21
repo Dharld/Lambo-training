@@ -40,8 +40,8 @@ export const useCourses = () => {
     return dispatch(deleteCourseAction(courseId));
   };
 
-  const getCourseDetails = (courseId) => {
-    return courseService.getCourseDetails(courseId);
+  const getCourseDetails = (courseId, userId) => {
+    return courseService.getCourseDetails(courseId, userId);
   };
 
   return {

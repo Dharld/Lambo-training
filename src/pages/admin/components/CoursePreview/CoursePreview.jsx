@@ -15,7 +15,7 @@ import { useToast } from "../../../../hooks/toast.hook";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { addToCart as addToCartAction } from "../../../../store/slices/cart/cart.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // import { useEffect, useRef } from "react";
 
@@ -25,6 +25,8 @@ export default function CoursePreview({ mode = "preview" }) {
   const [course, setCourse] = useState(null);
 
   const params = useParams();
+
+  const user = useSelector((state) => state.auth.user);
   const courseId = params.courseId;
 
   const { showError } = useToast();
@@ -36,7 +38,7 @@ export default function CoursePreview({ mode = "preview" }) {
     if (courseId) {
       setLoading(true);
       courseService
-        .getCourseDetails(courseId)
+        .getCourseDetails(courseId, user.id)
         .then((res) => {
           if (!res.success) {
             showError(res.error);

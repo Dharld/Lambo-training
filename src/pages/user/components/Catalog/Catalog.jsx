@@ -16,6 +16,10 @@ export default function Catalog() {
   const { showError } = useToast();
 
   useEffect(() => {
+    console.log(courses);
+  }, []);
+
+  useEffect(() => {
     if (user) {
       getAllUserEnrolledCourses(user.id).then((res) => {
         if (res.error) {
@@ -74,7 +78,8 @@ export default function Catalog() {
                     </span>
                     <div className="bg-gray-100 rounded-full overflow-hidden w-[100px] h-[4px] relative flex">
                       <div
-                        className={`shrink-0 bg-green-400 w-[${course.completion_percentage}px] h-[4px]`}
+                        className={`shrink-0 bg-green-400  h-[4px]`}
+                        style={{ width: course.completion_percentage + "px" }}
                       />
                     </div>
                   </div>

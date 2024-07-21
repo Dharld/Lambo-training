@@ -10,6 +10,7 @@ export default {
       },
       screens: {
         "-md": { max: "767px" },
+        "-960md": { max: "960px" },
       },
     },
   },

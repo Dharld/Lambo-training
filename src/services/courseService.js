@@ -26,10 +26,11 @@ async function getAllCoursesPreview() {
     return { success: false, error: e.message };
   }
 }
-async function getCourseDetails(courseId) {
+async function getCourseDetails(courseId, userId) {
   try {
     const { data, error } = await supabase.rpc("get_course_details", {
       p_course_id: courseId,
+      p_user_id: userId,
     });
     if (error) {
       console.error("Error getting course details: ", error.message);
